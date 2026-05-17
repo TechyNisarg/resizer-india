@@ -512,51 +512,6 @@ body {
 
 
 /* =========================
-   EMPTY STATE
-========================= */
-
-#emptyState {
-
-  margin-top: 20px;
-
-  padding: 36px 20px;
-
-  border: 1px dashed #dbe3ea;
-
-  border-radius: 16px;
-
-  text-align: center;
-
-  background: #fafafa;
-
-}
-
-.empty-icon {
-
-  width: 42px;
-
-  height: 42px;
-
-  opacity: 0.5;
-
-  margin-bottom: 12px;
-
-}
-
-#emptyState p {
-
-  margin: 0;
-
-  color: #64748b;
-
-  font-size: 14px;
-
-  font-weight: 500;
-
-}
-
-
-/* =========================
    PREVIEW
 ========================= */
 
