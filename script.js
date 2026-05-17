@@ -88,10 +88,6 @@ const presetOptions =
     ".preset-option"
   );
 
-const emptyState =
-  document.getElementById(
-    "emptyState"
-  );
 
 let cropper = null;
 
@@ -432,9 +428,6 @@ function loadImage(file) {
       file.size / 1024
     ).toFixed(2);
 
-  emptyState.style.display =
-    "none";
-
   const imageURL =
     URL.createObjectURL(file);
 
@@ -768,10 +761,7 @@ clearButton.addEventListener(
 
       previewImage.style.display =
         "none";
-
-      emptyState.style.display =
-        "block";
-
+      
       downloadLink.style.display =
         "none";
 
