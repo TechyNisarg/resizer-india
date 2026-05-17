@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        Photo & Signature Resizer India
+    </title>
+
+    <meta name="description" content="Resize RTO photos, signatures and custom images online." />
+
+    <meta name="theme-color" content="#0f766e" />
+
+    <link rel="icon" type="image/svg+xml" href="icons/files.svg" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css" />
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="nav-left">
+
+            <img src="icons/crop.svg" alt="" class="nav-logo" />
+
+            <span>
+                Photo & Signature Resizer India
+            </span>
+
+        </div>
+
+    </nav>
+
+    <div class="container">
+
+        <div class="tool-selector-row">
+
+            <div class="dropdown">
+
+                <button class="dropdown-btn">
+
+                    <span id="selectedPresetText">
+                        RTO Photo
+                    </span>
+
+                    <img src="icons/arrow-down-wide-narrow.svg" alt="" class="dropdown-icon" />
+
+                </button>
+
+                <div class="dropdown-content">
+
+                    <button class="preset-option active" data-preset="photo">
+                        RTO Photo
+                    </button>
+
+                    <button class="preset-option" data-preset="signature">
+                        RTO Signature
+                    </button>
+
+                    <button class="preset-option" data-preset="custom">
+                        Custom Resize
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="instructionBox"></div>
+
+        <div id="customControls">
+
+            <div class="custom-grid">
+
+                <div class="custom-field">
+
+                    <label>
+                        Width (px)
+                    </label>
+
+                    <input type="number" id="customWidth" value="420" />
+
+                </div>
+
+                <div class="custom-field">
+
+                    <label>
+                        Height (px)
+                    </label>
+
+                    <input type="number" id="customHeight" value="525" />
+
+                </div>
+
+                <div class="custom-field full-width">
+
+                    <label>
+                        Target File Size (KB)
+                    </label>
+
+                    <input type="number" id="customKB" value="20" />
+
+                </div>
+
+            </div>
+
+            <button id="resetCustomButton">
+
+                <img src="icons/rotate-ccw.svg" alt="" class="button-icon" />
+
+                Reset Defaults
+
+            </button>
+
+        </div>
+
+        <div id="dropArea">
+
+            <div class="upload-icon">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+
+                    <polyline points="17 8 12 3 7 8" />
+
+                    <line x1="12" y1="3" x2="12" y2="15" />
+
+                </svg>
+
+            </div>
+
+            <p class="upload-title">
+                Drag & Drop Image Here
+            </p>
+
+            <p class="small-text">
+                Supports JPG/JPEG Only
+            </p>
+
+            <input type="file" id="imageInput" accept="image/*" />
+
+        </div>
+
+        <div class="preview-container">
+
+            <div id="emptyState">
+
+                <img src="icons/image.svg" alt="" class="empty-icon" />
+
+                <p>
+                    Upload an image to begin
+                </p>
+
+            </div>
+
+            <img id="previewImage" />
+
+        </div>
+
+        <button id="processButton" disabled>
+
+            <img src="icons/settings-2.svg" alt="" class="button-icon" />
+
+            <span id="processButtonText">
+                Resize
+            </span>
+
+        </button>
+
+        <button id="clearButton">
+
+            <img src="icons/eraser.svg" alt="" class="button-icon" />
+
+            Clear Image
+
+        </button>
+
+        <a id="downloadLink">
+
+            <img src="icons/arrow-down-to-line.svg" alt="" class="button-icon" />
+
+            Download Image
+
+        </a>
+
+        <div id="resultCard"></div>
+
+    </div>
+
+    <div id="toast"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
