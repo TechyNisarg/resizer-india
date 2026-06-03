@@ -82,6 +82,7 @@ let sourceImage = null;
 let sourceFileSizeKB = 0;
 let sourceObjectURL = "";
 let downloadObjectURL = "";
+let rotationRequestId = 0;
 
 function hideDownloadLink() {
   downloadLink.hidden = true;
@@ -228,6 +229,8 @@ function renderPreview() {
 }
 
 function loadImage(file) {
+  rotationRequestId += 1;
+
   if (!file) {
     return;
   }
@@ -261,10 +264,13 @@ function loadImage(file) {
   image.src = sourceObjectURL;
 }
 
-function rotateImage90() {
+async function rotateImage90() {
   if (!sourceImage) {
     return;
   }
+
+  const requestId = ++rotationRequestId;
+  rotateButton.disabled = true;
 
   const width = sourceImage.naturalWidth;
   const height = sourceImage.naturalHeight;
@@ -281,22 +287,57 @@ function rotateImage90() {
   context.rotate(Math.PI / 2);
   context.drawImage(sourceImage, -width / 2, -height / 2);
 
-  const rotated = new Image();
-  rotated.onload = () => {
+  try {
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob((result) => {
+        if (result) {
+          resolve(result);
+        } else {
+          reject(new Error("Could not create rotated image."));
+        }
+      }, "image/jpeg", 0.92);
+    });
+
+    if (requestId !== rotationRequestId) {
+      return;
+    }
+
+    sourceFileSizeKB = blob.size / 1024;
+
+    const rotatedObjectURL = URL.createObjectURL(blob);
+    const rotated = new Image();
+    await new Promise((resolve, reject) => {
+      rotated.onload = resolve;
+      rotated.onerror = reject;
+      rotated.src = rotatedObjectURL;
+    });
+
+    if (requestId !== rotationRequestId) {
+      URL.revokeObjectURL(rotatedObjectURL);
+      return;
+    }
+
+    revokeObjectURL(sourceObjectURL);
+    sourceObjectURL = rotatedObjectURL;
     sourceImage = rotated;
     hideDownloadLink();
     resultCard.style.display = "none";
     resetAdjustments();
     renderPreview();
     showToast("Image rotated.");
-  };
-  rotated.onerror = () => {
-    showToast("Could not rotate this image.");
-  };
-  rotated.src = canvas.toDataURL("image/jpeg", 0.92);
+  } catch {
+    if (requestId === rotationRequestId) {
+      showToast("Could not rotate this image.");
+    }
+  } finally {
+    if (requestId === rotationRequestId) {
+      rotateButton.disabled = !sourceImage;
+    }
+  }
 }
 
 function clearImage() {
+  rotationRequestId += 1;
   sourceImage = null;
   imageInput.value = "";
   previewContainer.hidden = true;
