@@ -1,24 +1,32 @@
 {
   "name": "rto-local-image-tool",
-  "version": "1.0.0",
-  "description": "Browser-based **RTO photo and signature resizer** for Indian driving licence and form uploads. Images are processed locally in your browser (no server upload).",
-  "main": ".eleventy.js",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "start": "eleventy --serve",
-    "build": "eleventy"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TechyNisarg/resizer-india.git"
+  "dependencies": {
+    "lucide-react": "^1.17.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-router-dom": "^7.16.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/TechyNisarg/resizer-india/issues"
-  },
-  "homepage": "https://github.com/TechyNisarg/resizer-india#readme",
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.6"
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.12.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.59.2",
+    "vite": "^8.0.12"
   }
 }

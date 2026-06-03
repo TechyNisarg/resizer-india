@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://resizer-india.vercel.app/sitemap.xml
