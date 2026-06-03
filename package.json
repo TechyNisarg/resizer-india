@@ -1,0 +1,24 @@
+{
+  "name": "rto-local-image-tool",
+  "version": "1.0.0",
+  "description": "Browser-based **RTO photo and signature resizer** for Indian driving licence and form uploads. Images are processed locally in your browser (no server upload).",
+  "main": ".eleventy.js",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TechyNisarg/resizer-india.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TechyNisarg/resizer-india/issues"
+  },
+  "homepage": "https://github.com/TechyNisarg/resizer-india#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6"
+  }
+}
