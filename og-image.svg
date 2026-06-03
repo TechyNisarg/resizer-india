@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Resizer India - RTO photo and signature resizer">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0fdfa" />
+      <stop offset="100%" stop-color="#f6f8fb" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect x="72" y="72" width="1056" height="486" rx="28" fill="#ffffff" stroke="#d8e0ea" stroke-width="2" />
+  <rect x="120" y="120" width="72" height="72" rx="16" fill="#0f766e" />
+  <path d="M144 168h24M156 144v48M168 168h24" stroke="#fff" stroke-width="6" stroke-linecap="round" />
+  <text x="210" y="168" fill="#101828" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700">Resizer India</text>
+  <text x="120" y="248" fill="#101828" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="700">RTO Photo &amp; Signature Resizer</text>
+  <text x="120" y="310" fill="#5b677a" font-family="Arial, Helvetica, sans-serif" font-size="28">420×525 photo · 256×64 signature · 1020 KB JPG</text>
+  <rect x="120" y="350" width="280" height="52" rx="26" fill="#eefbf8" stroke="#cfe7e4" />
+  <text x="150" y="384" fill="#124f4b" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">No server upload</text>
+  <rect x="420" y="350" width="250" height="52" rx="26" fill="#eefbf8" stroke="#cfe7e4" />
+  <text x="450" y="384" fill="#124f4b" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Exact pixels</text>
+  <rect x="690" y="350" width="200" height="52" rx="26" fill="#eefbf8" stroke="#cfe7e4" />
+  <text x="720" y="384" fill="#124f4b" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Free JPG</text>
+  <text x="120" y="470" fill="#0f766e" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700">resizer-india.vercel.app</text>
+</svg>

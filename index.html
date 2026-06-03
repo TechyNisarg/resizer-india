@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>RTO Photo and Signature Resizer - 10KB to 20KB | Resizer India</title>
+  <meta name="description"
+    content="Resize RTO photos and signatures online to exact dimensions and 10KB to 20KB JPG output. Private browser-based image resizer for Indian forms." />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="google-site-verification" content="KPKyugxlKZoZmpAP7klwqRBuD-VMGMUD2KZ8LHSb9e4" />
+  <link rel="canonical" href="https://resizer-india.vercel.app/" />
+
+  <meta property="og:title" content="RTO Photo and Signature Resizer - Resizer India" />
+  <meta property="og:description"
+    content="Resize photos and signatures for RTO and other Indian form uploads. Exact pixels, JPG output and KB control in your browser." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://resizer-india.vercel.app/" />
+  <meta property="og:image" content="https://resizer-india.vercel.app/og-image.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Resizer India RTO photo and signature resizer" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="RTO Photo and Signature Resizer - Resizer India" />
+  <meta name="twitter:description"
+    content="Resize photos and signatures for RTO and other Indian form uploads. Exact pixels, JPG output and KB control in your browser." />
+  <meta name="twitter:image" content="https://resizer-india.vercel.app/og-image.svg" />
+
+  <link rel="icon" type="image/svg+xml" href="icons/crop.svg" />
+  <link rel="stylesheet" href="style.css" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Resizer India",
+      "url": "https://resizer-india.vercel.app/",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "description": "Browser-based photo and signature resizer for Indian forms, RTO uploads and online applications.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      }
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Are my photos uploaded to Resizer India?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The current tool works in your browser using canvas, so the image stays on your device."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What format does the tool download?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The download is JPG because most government and form portals accept JPG or JPEG image uploads."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use it for non-RTO forms?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Use Custom mode to set the width, height and target KB required by another form."
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+
+<body data-default-preset="photo">
+  <header class="navbar">
+    <a class="brand" href="index.html" aria-label="Resizer India home">
+      <img src="icons/crop.svg" alt="" class="nav-logo" />
+      <span>Resizer India</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#tool">Tool</a>
+      <a href="#guides">Guides</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="tool-hero" aria-labelledby="pageTitle">
+      <div>
+        <p class="eyebrow">Private browser-based image tool</p>
+        <h1 id="pageTitle">RTO Photo and Signature Resizer</h1>
+        <p class="hero-copy">
+          Resize photos and signatures to exact pixels and JPG file size limits for driving licence,
+          RTO and other Indian online forms.
+        </p>
+      </div>
+
+      <div class="trust-strip" aria-label="Key benefits">
+        <span>No upload to server</span>
+        <span>Exact pixel output</span>
+        <span>JPG download</span>
+      </div>
+    </section>
+
+    <section class="workspace" id="tool" aria-label="Image resize tool">
+      <div class="tool-panel">
+        <div class="preset-tabs" role="tablist" aria-label="Choose resize preset">
+          <button class="preset-option active" type="button" data-preset="photo" role="tab" aria-selected="true">
+            RTO Photo
+          </button>
+          <button class="preset-option" type="button" data-preset="signature" role="tab" aria-selected="false">
+            RTO Signature
+          </button>
+          <button class="preset-option" type="button" data-preset="custom" role="tab" aria-selected="false">
+            Custom
+          </button>
+        </div>
+
+        <div id="instructionBox" class="requirements" aria-live="polite"></div>
+
+        <div id="customControls" class="custom-controls">
+          <div class="custom-grid">
+            <div class="custom-field">
+              <label for="customWidth">Width (px)</label>
+              <input type="number" id="customWidth" min="1" value="420" inputmode="numeric" />
+            </div>
+
+            <div class="custom-field">
+              <label for="customHeight">Height (px)</label>
+              <input type="number" id="customHeight" min="1" value="525" inputmode="numeric" />
+            </div>
+
+            <div class="custom-field">
+              <label for="customKB">Target max size (KB)</label>
+              <input type="number" id="customKB" min="1" value="20" inputmode="numeric" />
+            </div>
+          </div>
+
+          <button id="resetCustomButton" class="secondary-button" type="button">
+            Reset defaults
+          </button>
+        </div>
+
+        <label id="dropArea" class="drop-area" for="imageInput">
+          <span class="upload-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+          </span>
+          <span class="upload-title">
+            <span class="desktop-copy">Drag and drop image here</span>
+            <span class="mobile-copy">Tap to upload image</span>
+          </span>
+          <span class="small-text">JPG, PNG or WebP input. JPG output.</span>
+          <input type="file" id="imageInput" accept="image/jpeg,image/png,image/webp" />
+        </label>
+
+        <div id="previewContainer" class="preview-container" hidden>
+          <canvas id="previewCanvas" width="420" height="525" aria-label="Image crop preview"></canvas>
+
+          <div class="adjust-grid">
+            <label for="zoomRange">Zoom</label>
+            <input type="range" id="zoomRange" min="1" max="3" value="1" step="0.01" />
+
+            <label for="panXRange">Move left/right</label>
+            <input type="range" id="panXRange" min="-100" max="100" value="0" step="1" />
+
+            <label for="panYRange">Move up/down</label>
+            <input type="range" id="panYRange" min="-100" max="100" value="0" step="1" />
+          </div>
+
+          <button id="rotateButton" class="secondary-button rotate-button" type="button" disabled>
+            <img src="icons/rotate-ccw.svg" alt="" class="button-icon" />
+            Rotate 90°
+          </button>
+        </div>
+
+        <button id="processButton" class="primary-button" type="button" disabled>
+          <img src="icons/settings-2.svg" alt="" class="button-icon" />
+          <span id="processButtonText">Resize RTO Photo</span>
+        </button>
+
+        <button id="clearButton" class="secondary-button" type="button" disabled>
+          <img src="icons/eraser.svg" alt="" class="button-icon" />
+          Clear image
+        </button>
+
+        <a id="downloadLink" class="download-button" hidden aria-hidden="true">
+          <img src="icons/arrow-down-to-line.svg" alt="" class="button-icon" />
+          Download image
+        </a>
+
+        <div id="resultCard" class="result-card" aria-live="polite"></div>
+      </div>
+
+      <aside class="quick-guide" aria-labelledby="quickGuideTitle">
+        <h2 id="quickGuideTitle">Current RTO presets</h2>
+        <dl class="spec-list">
+          <div>
+            <dt>Photo</dt>
+            <dd>420 x 525 px, JPG, 10KB to 20KB</dd>
+          </div>
+          <div>
+            <dt>Signature</dt>
+            <dd>256 x 64 px, JPG, 10KB to 20KB</dd>
+          </div>
+          <div>
+            <dt>Custom</dt>
+            <dd>Set your own width, height and max KB</dd>
+          </div>
+        </dl>
+
+        <p>
+          Use a clear photo with a light background and a clean signature on white paper.
+          The output is made inside your browser, so your image is not uploaded to a server.
+        </p>
+      </aside>
+    </section>
+
+    <section class="content-section" id="guides">
+      <h2>How to resize a photo for driving licence forms</h2>
+      <ol class="steps">
+        <li>Choose RTO Photo or RTO Signature.</li>
+        <li>Upload your image from your phone or computer.</li>
+        <li>Adjust the crop with zoom and position controls.</li>
+        <li>Resize and download the JPG file.</li>
+        <li>Upload the downloaded file on the form portal.</li>
+      </ol>
+    </section>
+
+    <section class="content-section">
+      <h2>Common upload rejection reasons</h2>
+      <div class="reason-grid">
+        <article>
+          <h3>Wrong dimensions</h3>
+          <p>Many portals check exact pixel width and height. Use the preset instead of resizing manually.</p>
+        </article>
+        <article>
+          <h3>File size too high</h3>
+          <p>If the site asks for 20KB, a 21KB file can fail. This tool compresses JPG output under the limit.</p>
+        </article>
+        <article>
+          <h3>Unclear photo or signature</h3>
+          <p>Use a bright, plain background and avoid shadows, ruled paper or blurry camera photos.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>More tools planned for Resizer India</h2>
+      <div class="tool-link-grid">
+        <a href="rto-photo-resizer.html">Driving licence photo resizer</a>
+        <a href="rto-signature-resizer.html">RTO signature resizer</a>
+        <a href="resize-image-to-20kb.html">Resize image to 20KB</a>
+      </div>
+    </section>
+
+    <section class="faq-section" aria-labelledby="faqTitle">
+      <h2 id="faqTitle">FAQs</h2>
+      <details>
+        <summary>Are my photos uploaded to Resizer India?</summary>
+        <p>No. The current tool works in your browser using canvas, so the image stays on your device.</p>
+      </details>
+      <details>
+        <summary>What format does the tool download?</summary>
+        <p>The download is JPG because most government and form portals accept JPG or JPEG image uploads.</p>
+      </details>
+      <details>
+        <summary>Can I use it for non-RTO forms?</summary>
+        <p>Yes. Use Custom mode to set the width, height and target KB required by another form.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>Resizer India</span>
+    <nav aria-label="Footer navigation">
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </footer>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js" defer></script>
+</body>
+
+</html>
