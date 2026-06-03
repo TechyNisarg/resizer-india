@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import type { Preset } from '../utils/presetData';
-import { padJpegToMinimum } from '../utils/jpegPadder';
+import { padJpegToMinimum, setJpegDpi } from '../utils/jpegPadder';
 import ImageWorker from '../utils/worker?worker';
 
 export interface CropRect {
@@ -174,6 +174,9 @@ export function useImageProcessor(preset: Preset) {
           return;
         }
 
+        if (preset.dpi) {
+          finalBlob = await setJpegDpi(finalBlob, preset.dpi);
+        }
         finalBlob = await padJpegToMinimum(finalBlob, preset.minKB);
         const url = URL.createObjectURL(finalBlob);
         if (downloadObjectURL) URL.revokeObjectURL(downloadObjectURL);

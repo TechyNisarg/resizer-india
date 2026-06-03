@@ -12,9 +12,8 @@ function App() {
         <main className="main-container">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/rto-photo-resizer" element={<Home />} />
-            <Route path="/rto-signature-resizer" element={<Home />} />
-            <Route path="/resize-image-to-20kb" element={<Home />} />
+            {/* Catch-all for any resizer path to use the Home logic */}
+            <Route path="/:tool" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy" element={<Privacy />} />

@@ -5,40 +5,71 @@ import { ImagePreview } from '../components/ImagePreview';
 import { Controls } from '../components/Controls';
 import { PresetSelector } from '../components/PresetSelector';
 import { useImageProcessor } from '../hooks/useImageProcessor';
-import type { PRESETS as _P, PresetId, Preset } from '../utils/presetData';
-import { PRESETS } from '../utils/presetData';
+import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
+import { getPresetsByCategory } from '../utils/presetData';
 
 export const Home: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  
-  const getPresetFromPath = (): PresetId => {
-    if (location.pathname.includes('signature')) return 'signature';
-    if (location.pathname.includes('20kb')) return 'custom';
-    return 'photo';
-  };
-
-  const [presetId, setPresetId] = useState<PresetId>(getPresetFromPath());
   
   // Custom Preset State
   const [customWidth, setCustomWidth] = useState(420);
   const [customHeight, setCustomHeight] = useState(525);
   const [customMaxKB, setCustomMaxKB] = useState(20);
 
-  useEffect(() => {
-    setPresetId(getPresetFromPath());
-  }, [location.pathname]);
-
-  const handlePresetSelect = (id: PresetId) => {
-    setPresetId(id);
-    if (id === 'signature') navigate('/rto-signature-resizer');
-    else if (id === 'custom') navigate('/resize-image-to-20kb');
-    else navigate('/rto-photo-resizer');
+  // Deriving category and type from URL, or fallback to RTO Photo
+  const getInitialState = (): { cat: PresetCategory, type: PresetType } => {
+    const path = location.pathname;
+    if (path.includes('pan')) return { cat: 'pan', type: path.includes('signature') ? 'signature' : 'photo' };
+    if (path.includes('ssc')) return { cat: 'ssc', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : 'photo') };
+    if (path.includes('upsc')) return { cat: 'upsc', type: path.includes('signature') ? 'signature' : 'photo' };
+    if (path.includes('passport')) return { cat: 'passport', type: 'photo' };
+    if (path.includes('20kb') || path.includes('custom')) return { cat: 'custom', type: 'custom' };
+    return { cat: 'rto', type: path.includes('signature') ? 'signature' : 'photo' };
   };
 
-  const activePreset: Preset = presetId === 'custom' 
-    ? { ...PRESETS.custom, width: customWidth, height: customHeight, maxKB: customMaxKB }
-    : PRESETS[presetId];
+  const [category, setCategory] = useState<PresetCategory>(getInitialState().cat);
+  const [type, setType] = useState<PresetType>(getInitialState().type);
+
+  useEffect(() => {
+    const st = getInitialState();
+    setCategory(st.cat);
+    setType(st.type);
+  }, [location.pathname]);
+
+  const handleCategorySelect = (cat: PresetCategory) => {
+    setCategory(cat);
+    // default to photo when switching category (except custom)
+    const newType = cat === 'custom' ? 'custom' : 'photo';
+    setType(newType);
+    updateUrl(cat, newType);
+  };
+
+  const handleTypeSelect = (t: PresetType) => {
+    setType(t);
+    updateUrl(category, t);
+  };
+
+  const updateUrl = (cat: PresetCategory, t: PresetType) => {
+    if (cat === 'custom') navigate('/custom-resizer');
+    else if (cat === 'rto') navigate(`/rto-${t}-resizer`);
+    else if (cat === 'pan') navigate(`/pan-card-${t}-resizer`);
+    else if (cat === 'ssc') navigate(`/ssc-${t}-resizer`);
+    else if (cat === 'upsc') navigate(`/upsc-${t}-resizer`);
+    else if (cat === 'passport') navigate(`/passport-photo-resizer`);
+  };
+
+  const availablePresets = getPresetsByCategory(category);
+  const activePresetBase = availablePresets.find(p => p.type === type) || availablePresets[0];
+
+  const activePreset: Preset = category === 'custom' 
+    ? { ...activePresetBase, width: customWidth, height: customHeight, maxKB: customMaxKB }
+    : activePresetBase;
+
+  const availableTypes = availablePresets.map(p => ({
+    type: p.type,
+    label: p.type === 'photo' ? 'Photo' : p.type === 'signature' ? 'Signature' : p.type === 'thumb' ? 'Thumb Impression' : 'Custom'
+  }));
 
   const {
     sourceImage, canvasRef, loadImage, clearImage, rotateImage90, processImage,
@@ -49,15 +80,21 @@ export const Home: React.FC = () => {
   return (
     <div className="home-container">
       <div className="hero-section">
-        <h1>{activePreset.buttonText}</h1>
+        <h1>{activePreset?.buttonText || "Resize Image"}</h1>
         <p>100% Client-side. No images are uploaded to any server.</p>
       </div>
 
       <div className="workspace">
         <div className="sidebar">
-          <PresetSelector currentPreset={presetId} onSelect={handlePresetSelect} />
+          <PresetSelector 
+            currentCategory={category} 
+            onCategorySelect={handleCategorySelect}
+            currentType={type}
+            onTypeSelect={handleTypeSelect}
+            availableTypes={availableTypes}
+          />
           
-          {presetId === 'custom' && (
+          {category === 'custom' && (
             <div className="custom-controls">
               <label>Width (px) <input type="number" value={customWidth} onChange={e => setCustomWidth(Number(e.target.value) || 1)} /></label>
               <label>Height (px) <input type="number" value={customHeight} onChange={e => setCustomHeight(Number(e.target.value) || 1)} /></label>
@@ -67,36 +104,12 @@ export const Home: React.FC = () => {
 
           {!sourceImage ? (
             <div className="instructions card">
-              {presetId === 'photo' && (
-                <>
-                  <h2>Photo Requirements</h2>
-                  <ul>
-                    <li>Output size: 420 x 525 px</li>
-                    <li>Final file size: 10KB to 20KB</li>
-                    <li>Use a light or white background</li>
-                  </ul>
-                </>
-              )}
-              {presetId === 'signature' && (
-                <>
-                  <h2>Signature Requirements</h2>
-                  <ul>
-                    <li>Output size: 256 x 64 px</li>
-                    <li>Final file size: 10KB to 20KB</li>
-                    <li>Use black/blue ink on white paper</li>
-                  </ul>
-                </>
-              )}
-              {presetId === 'custom' && (
-                <>
-                  <h2>Custom Resize</h2>
-                  <ul>
-                    <li>Set exact width and height</li>
-                    <li>Set maximum KB size</li>
-                    <li>Useful for forms and portals</li>
-                  </ul>
-                </>
-              )}
+              <h2>Requirements</h2>
+              <ul>
+                {activePreset?.instructions.map((inst, idx) => (
+                  <li key={idx}>{inst}</li>
+                ))}
+              </ul>
             </div>
           ) : (
             <Controls 
@@ -107,7 +120,7 @@ export const Home: React.FC = () => {
               onClear={clearImage}
               onProcess={processImage}
               isProcessing={isProcessing}
-              buttonText={activePreset.buttonText}
+              buttonText={activePreset?.buttonText || 'Resize'}
             />
           )}
 
@@ -118,7 +131,7 @@ export const Home: React.FC = () => {
               <h3>Success! 🎉</h3>
               <p>Original: <strong>{sourceSizeKB.toFixed(2)} KB</strong></p>
               <p>Compressed: <strong>{finalSizeKB.toFixed(2)} KB</strong></p>
-              <a href={downloadObjectURL} download={`${activePreset.filename}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{marginTop: '1rem', display: 'inline-block', textAlign: 'center', width: '100%'}}>
+              <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{marginTop: '1rem', display: 'inline-block', textAlign: 'center', width: '100%'}}>
                 Download Image
               </a>
             </div>

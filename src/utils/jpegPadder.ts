@@ -4,6 +4,45 @@ export const APP1_MARKER = [0xFF, 0xE1];
 export const COM_MARKER = [0xFF, 0xFE];
 export const PADDING_MARKER = [0xFF, 0xEA];
 
+export async function setJpegDpi(blob: Blob, dpi: number): Promise<Blob> {
+  const buffer = await blob.arrayBuffer();
+  const data = new Uint8Array(buffer);
+  
+  if (data.length < 18 || data[0] !== JPEG_SOI[0] || data[1] !== JPEG_SOI[1]) {
+    return blob; // Not a valid JPEG
+  }
+
+  // Look for APP0 JFIF
+  let offset = 2;
+  while (offset < data.length - 4) {
+    if (data[offset] === 0xFF) {
+      if (data[offset + 1] === 0xE0) {
+        // Found APP0, check if it's JFIF
+        if (data[offset + 4] === 0x4A && data[offset + 5] === 0x46 && data[offset + 6] === 0x49 && data[offset + 7] === 0x46) {
+          // It's JFIF!
+          // Offset 11 is Units. Set to 1 (pixels per inch)
+          data[offset + 11] = 1;
+          // Offset 12,13 is X density
+          data[offset + 12] = (dpi >> 8) & 0xFF;
+          data[offset + 13] = dpi & 0xFF;
+          // Offset 14,15 is Y density
+          data[offset + 14] = (dpi >> 8) & 0xFF;
+          data[offset + 15] = dpi & 0xFF;
+          break;
+        }
+      }
+      
+      // Move to next segment
+      const segmentLength = (data[offset + 2] << 8) | data[offset + 3];
+      offset += 2 + segmentLength;
+    } else {
+      break;
+    }
+  }
+
+  return new Blob([data], { type: 'image/jpeg' });
+}
+
 export async function padJpegToMinimum(blob: Blob, minKB: number): Promise<Blob> {
   const minBytes = minKB * 1024;
   if (blob.size >= minBytes) return blob;
@@ -11,7 +50,7 @@ export async function padJpegToMinimum(blob: Blob, minKB: number): Promise<Blob>
   const data = new Uint8Array(buffer);
   
   if (data.length < 2 || data[0] !== JPEG_SOI[0] || data[1] !== JPEG_SOI[1]) {
-    return blob; // Not a JPEG
+    return blob; 
   }
   
   const bytesNeeded = minBytes - blob.size;
@@ -42,7 +81,6 @@ export async function padJpegToMinimum(blob: Blob, minKB: number): Promise<Blob>
     segmentData[2] = ((segmentSize + 2) >> 8) & 0xFF;
     segmentData[3] = (segmentSize + 2) & 0xFF;
     
-    // Fill with zeroes
     newData.set(segmentData, currentOffset);
     currentOffset += segmentData.length;
     remainingBytes -= segmentSize;

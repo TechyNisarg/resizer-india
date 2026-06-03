@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Maximize } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'system');
@@ -23,24 +23,25 @@ export const Header: React.FC = () => {
   };
 
   const navLinks = [
-    { name: 'Photo Resizer', path: '/rto-photo-resizer' },
-    { name: 'Signature Resizer', path: '/rto-signature-resizer' },
-    { name: '20KB Resizer', path: '/resize-image-to-20kb' },
+    { name: 'Driving Licence', path: '/rto-photo-resizer' },
+    { name: 'PAN Card', path: '/pan-card-photo-resizer' },
+    { name: 'Govt Exams', path: '/ssc-photo-resizer' },
+    { name: 'Passport', path: '/passport-photo-resizer' },
   ];
 
   return (
     <header className="header">
       <div className="header-container">
         <Link to="/" className="logo">
-          <div className="logo-icon">🖼️</div>
-          <span className="logo-text">RTO Resizer India</span>
+          <Maximize size={24} className="logo-icon" />
+          <span className="logo-text">Resizer India</span>
         </Link>
         <nav className="nav-menu">
           {navLinks.map((link) => (
             <Link 
               key={link.path} 
               to={link.path}
-              className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
+              className={`nav-link ${location.pathname.includes(link.path.split('-')[0]) ? 'active' : ''}`}
             >
               {link.name}
             </Link>
