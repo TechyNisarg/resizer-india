@@ -2,29 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dropzone } from '../components/Dropzone';
 import { ImagePreview } from '../components/ImagePreview';
-import { Controls } from '../components/Controls';
 import { PresetSelector } from '../components/PresetSelector';
 import { useImageProcessor } from '../hooks/useImageProcessor';
 import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
 import { getPresetsByCategory } from '../utils/presetData';
+import { Trash2, DownloadCloud } from 'lucide-react';
 
 export const Home: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  // Custom Preset State
   const [customWidth, setCustomWidth] = useState(420);
   const [customHeight, setCustomHeight] = useState(525);
   const [customMaxKB, setCustomMaxKB] = useState(20);
 
-  // Deriving category and type from URL, or fallback to RTO Photo
   const getInitialState = (): { cat: PresetCategory, type: PresetType } => {
     const path = location.pathname;
     if (path.includes('pan')) return { cat: 'pan', type: path.includes('signature') ? 'signature' : 'photo' };
     if (path.includes('ssc')) return { cat: 'ssc', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : 'photo') };
     if (path.includes('upsc')) return { cat: 'upsc', type: path.includes('signature') ? 'signature' : 'photo' };
     if (path.includes('passport')) return { cat: 'passport', type: 'photo' };
-    if (path.includes('20kb') || path.includes('custom')) return { cat: 'custom', type: 'custom' };
+    if (path.includes('custom')) return { cat: 'custom', type: 'custom' };
     return { cat: 'rto', type: path.includes('signature') ? 'signature' : 'photo' };
   };
 
@@ -39,7 +37,6 @@ export const Home: React.FC = () => {
 
   const handleCategorySelect = (cat: PresetCategory) => {
     setCategory(cat);
-    // default to photo when switching category (except custom)
     const newType = cat === 'custom' ? 'custom' : 'photo';
     setType(newType);
     updateUrl(cat, newType);
@@ -57,6 +54,7 @@ export const Home: React.FC = () => {
     else if (cat === 'ssc') navigate(`/ssc-${t}-resizer`);
     else if (cat === 'upsc') navigate(`/upsc-${t}-resizer`);
     else if (cat === 'passport') navigate(`/passport-photo-resizer`);
+    else navigate('/');
   };
 
   const availablePresets = getPresetsByCategory(category);
@@ -72,7 +70,7 @@ export const Home: React.FC = () => {
   }));
 
   const {
-    sourceImage, sourceObjectURL, loadImage, clearImage, rotateImage90, processImage,
+    sourceImage, sourceObjectURL, loadImage, clearImage, processImage,
     isProcessing, error, crop, setCrop, zoom, setZoom, onCropComplete,
     downloadObjectURL, sourceSizeKB, finalSizeKB
   } = useImageProcessor(activePreset);
@@ -81,7 +79,6 @@ export const Home: React.FC = () => {
     <div className="home-container">
       <div className="hero-section">
         <h1>{activePreset?.buttonText || "Resize Image"}</h1>
-        <p>100% Client-side. No images are uploaded to any server.</p>
       </div>
 
       <div className="workspace">
@@ -95,40 +92,62 @@ export const Home: React.FC = () => {
           />
           
           {category === 'custom' && (
-            <div className="custom-controls">
-              <label>Width (px) <input type="number" value={customWidth} onChange={e => setCustomWidth(Number(e.target.value) || 1)} /></label>
-              <label>Height (px) <input type="number" value={customHeight} onChange={e => setCustomHeight(Number(e.target.value) || 1)} /></label>
-              <label>Max Size (KB) <input type="number" value={customMaxKB} onChange={e => setCustomMaxKB(Number(e.target.value) || 1)} /></label>
+            <div className="card">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  Width (px) 
+                  <input type="number" value={customWidth} onChange={e => setCustomWidth(Number(e.target.value) || 1)} style={{ width: '120px', padding: '0 0.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }} />
+                </label>
+                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  Height (px) 
+                  <input type="number" value={customHeight} onChange={e => setCustomHeight(Number(e.target.value) || 1)} style={{ width: '120px', padding: '0 0.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }} />
+                </label>
+                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  Max Size (KB) 
+                  <input type="number" value={customMaxKB} onChange={e => setCustomMaxKB(Number(e.target.value) || 1)} style={{ width: '120px', padding: '0 0.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }} />
+                </label>
+              </div>
             </div>
           )}
 
           {!sourceImage ? (
-            <div className="instructions card">
-              <h2>Requirements</h2>
-              <ul>
+            <div className="card">
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>Requirements</h2>
+              <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {activePreset?.instructions.map((inst, idx) => (
                   <li key={idx}>{inst}</li>
                 ))}
               </ul>
             </div>
           ) : (
-            <Controls 
-              onRotate={rotateImage90}
-              onClear={clearImage}
-              onProcess={processImage}
-              isProcessing={isProcessing}
-              buttonText={activePreset?.buttonText || 'Resize'}
-            />
+            <div className="card controls">
+              <div className="controls-row">
+                <button className="btn-danger" onClick={clearImage} title="Clear Image">
+                  <Trash2 size={20} />
+                  <span>Clear</span>
+                </button>
+              </div>
+
+              <button 
+                className={`btn-primary ${isProcessing ? 'processing' : ''}`}
+                onClick={processImage}
+                disabled={isProcessing}
+              >
+                <DownloadCloud size={24} />
+                <span>{isProcessing ? 'Processing...' : activePreset?.buttonText || 'Resize'}</span>
+              </button>
+            </div>
           )}
 
           {error && <div className="error-toast">{error}</div>}
 
           {downloadObjectURL && (
-            <div className="result-card card">
+            <div className="card result-card">
               <h3>Success! 🎉</h3>
-              <p>Original: <strong>{sourceSizeKB.toFixed(2)} KB</strong></p>
-              <p>Compressed: <strong>{finalSizeKB.toFixed(2)} KB</strong></p>
-              <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{marginTop: '1rem', display: 'inline-block', textAlign: 'center', width: '100%'}}>
+              <p style={{marginBottom: '0.5rem', color: 'var(--text-secondary)'}}>Original: <strong>{sourceSizeKB.toFixed(2)} KB</strong></p>
+              <p style={{marginBottom: '1rem', color: 'var(--text-secondary)'}}>Compressed: <strong>{finalSizeKB.toFixed(2)} KB</strong></p>
+              <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ textDecoration: 'none' }}>
+                <DownloadCloud size={20} />
                 Download Image
               </a>
             </div>
@@ -137,13 +156,14 @@ export const Home: React.FC = () => {
 
         <div className="main-content">
           {!sourceImage ? (
-            <Dropzone onImageLoad={loadImage} />
+            <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
           ) : (
             <ImagePreview 
               imageSrc={sourceObjectURL}
               crop={crop}
               zoom={zoom}
               aspect={activePreset.width / activePreset.height}
+              hasFaceGuide={activePreset.hasFaceGuide}
               onCropChange={setCrop}
               onZoomChange={setZoom}
               onCropComplete={onCropComplete}

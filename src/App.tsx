@@ -1,26 +1,39 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
-import { About, Contact, Privacy, Terms } from './pages/StaticPages';
 
 function App() {
   return (
     <Router>
       <div className="app-wrapper">
-        <Header />
+        <header className="header">
+          <div className="header-container">
+            <div className="logo">
+              <span className="logo-text">Resizer</span> India
+            </div>
+            <nav className="nav-menu">
+              <a href="/" className="nav-link">Home</a>
+              <a href="#" className="nav-link">About</a>
+              <a href="#" className="nav-link">Privacy</a>
+            </nav>
+          </div>
+        </header>
+
         <main className="main-container">
           <Routes>
-            <Route path="/" element={<Home />} />
-            {/* Catch-all for any resizer path to use the Home logic */}
-            <Route path="/:tool" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/terms" element={<Terms />} />
+            <Route path="/*" element={<Home />} />
           </Routes>
         </main>
-        <Footer />
+
+        <footer className="footer">
+          <div className="footer-content">
+            <p>100% Client-side processing. Your images never leave your device.</p>
+            <div className="footer-links">
+              <a href="#">Terms of Service</a>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Contact</a>
+            </div>
+          </div>
+        </footer>
       </div>
     </Router>
   );

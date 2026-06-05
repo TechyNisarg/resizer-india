@@ -1,14 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import type { Preset } from '../utils/presetData';
-import { padJpegToMinimum, setJpegDpi } from '../utils/jpegPadder';
 import ImageWorker from '../utils/worker?worker';
-
-export interface CropRect {
-  sx: number;
-  sy: number;
-  sw: number;
-  sh: number;
-}
+import heic2any from 'heic2any';
 
 export function useImageProcessor(preset: Preset) {
   const [sourceImage, setSourceImage] = useState<HTMLImageElement | null>(null);
@@ -26,81 +19,91 @@ export function useImageProcessor(preset: Preset) {
 
   const workerRef = useRef<Worker | null>(null);
 
-  useEffect(() => {
-    return () => {
-      if (sourceObjectURL) URL.revokeObjectURL(sourceObjectURL);
-      if (downloadObjectURL) URL.revokeObjectURL(downloadObjectURL);
-      if (workerRef.current) workerRef.current.terminate();
-    };
+  const cleanupUrls = useCallback(() => {
+    if (sourceObjectURL) URL.revokeObjectURL(sourceObjectURL);
+    if (downloadObjectURL) URL.revokeObjectURL(downloadObjectURL);
   }, [sourceObjectURL, downloadObjectURL]);
 
-  const loadImage = (file: File) => {
-    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-      setError("Please upload a JPG, PNG or WebP image.");
-      return;
-    }
-    setError('');
-    const url = URL.createObjectURL(file);
-    if (sourceObjectURL) URL.revokeObjectURL(sourceObjectURL);
-    setSourceObjectURL(url);
-    setSourceSizeKB(file.size / 1024);
+  useEffect(() => {
+    return () => {
+      cleanupUrls();
+      if (workerRef.current) workerRef.current.terminate();
+    };
+  }, [cleanupUrls]);
 
-    const img = new Image();
-    img.onload = () => {
-      setSourceImage(img);
-      setCrop({ x: 0, y: 0 });
-      setZoom(1);
-      setDownloadObjectURL('');
-    };
-    img.onerror = () => {
-      setError("Could not read this image.");
-      URL.revokeObjectURL(url);
-    };
-    img.src = url;
+  const loadImage = async (file: File) => {
+    setError('');
+    setIsProcessing(true);
+    let finalBlob: Blob = file;
+
+    try {
+      if (file.type === 'image/heic' || file.type === 'image/heif' || file.name.toLowerCase().endsWith('.heic')) {
+        const converted = await heic2any({ blob: file, toType: 'image/jpeg' });
+        finalBlob = Array.isArray(converted) ? converted[0] : converted;
+      } else if (file.type === 'image/png' || file.type === 'image/webp') {
+        // Convert PNG/WebP to JPEG via canvas
+        finalBlob = await new Promise<Blob>((resolve, reject) => {
+          const img = new Image();
+          const objUrl = URL.createObjectURL(file);
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+              ctx.fillStyle = '#FFFFFF';
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              ctx.drawImage(img, 0, 0);
+              canvas.toBlob((b) => {
+                if (b) resolve(b);
+                else reject(new Error("Canvas toBlob failed"));
+                // Strictly free memory
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.width = 0;
+                canvas.height = 0;
+              }, 'image/jpeg', 1.0);
+            }
+            URL.revokeObjectURL(objUrl);
+          };
+          img.onerror = () => reject(new Error("Image load failed"));
+          img.src = objUrl;
+        });
+      }
+
+      cleanupUrls(); // free old previews
+      
+      const url = URL.createObjectURL(finalBlob);
+      setSourceObjectURL(url);
+      setSourceSizeKB(finalBlob.size / 1024);
+
+      const img = new Image();
+      img.onload = () => {
+        setSourceImage(img);
+        setCrop({ x: 0, y: 0 });
+        setZoom(1);
+        setDownloadObjectURL('');
+        setIsProcessing(false);
+      };
+      img.onerror = () => {
+        setError("Could not read this image.");
+        setIsProcessing(false);
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
+
+    } catch (err: any) {
+      setError("Failed to load and convert image. Ensure it is a valid format.");
+      setIsProcessing(false);
+    }
   };
 
   const clearImage = () => {
+    cleanupUrls();
     setSourceImage(null);
-    if (sourceObjectURL) URL.revokeObjectURL(sourceObjectURL);
-    if (downloadObjectURL) URL.revokeObjectURL(downloadObjectURL);
     setSourceObjectURL('');
     setDownloadObjectURL('');
     setError('');
     setCroppedAreaPixels(null);
-  };
-
-  const rotateImage90 = async () => {
-    if (!sourceImage) return;
-    setIsProcessing(true);
-    try {
-      const canvas = document.createElement("canvas");
-      canvas.width = sourceImage.naturalHeight;
-      canvas.height = sourceImage.naturalWidth;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) throw new Error("No context");
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-      ctx.rotate(90 * Math.PI / 180);
-      ctx.drawImage(sourceImage, -sourceImage.naturalWidth / 2, -sourceImage.naturalHeight / 2);
-      
-      const blob = await new Promise<Blob>((resolve, reject) => {
-        canvas.toBlob((b) => b ? resolve(b) : reject(), "image/png");
-      });
-      
-      const newUrl = URL.createObjectURL(blob);
-      if (sourceObjectURL) URL.revokeObjectURL(sourceObjectURL);
-      setSourceObjectURL(newUrl);
-      setSourceSizeKB(blob.size / 1024);
-      
-      const newImg = new Image();
-      newImg.onload = () => {
-        setSourceImage(newImg);
-        setIsProcessing(false);
-      };
-      newImg.src = newUrl;
-    } catch (e) {
-      setError("Failed to rotate image.");
-      setIsProcessing(false);
-    }
   };
 
   const onCropComplete = useCallback((_croppedArea: any, croppedAreaPixels: any) => {
@@ -111,6 +114,7 @@ export function useImageProcessor(preset: Preset) {
     if (!sourceImage || !croppedAreaPixels) return;
     setIsProcessing(true);
     setError('');
+    setDownloadObjectURL('');
     
     try {
       const bitmap = await createImageBitmap(sourceImage);
@@ -126,21 +130,17 @@ export function useImageProcessor(preset: Preset) {
       workerRef.current = new ImageWorker();
       
       workerRef.current.onmessage = async (e) => {
-        let finalBlob = e.data.blob;
-        if (!e.data.success || !finalBlob) {
-          setError("Could not compress below target size.");
+        const data = e.data;
+        if (!data.success || !data.blob) {
+          setError(data.error || "Failed to compress image.");
           setIsProcessing(false);
           return;
         }
 
-        if (preset.dpi) {
-          finalBlob = await setJpegDpi(finalBlob, preset.dpi);
-        }
-        finalBlob = await padJpegToMinimum(finalBlob, preset.minKB);
-        const url = URL.createObjectURL(finalBlob);
         if (downloadObjectURL) URL.revokeObjectURL(downloadObjectURL);
+        const url = URL.createObjectURL(data.blob);
         setDownloadObjectURL(url);
-        setFinalSizeKB(finalBlob.size / 1024);
+        setFinalSizeKB(data.blob.size / 1024);
         setIsProcessing(false);
       };
 
@@ -161,7 +161,6 @@ export function useImageProcessor(preset: Preset) {
     sourceObjectURL,
     loadImage,
     clearImage,
-    rotateImage90,
     processImage,
     isProcessing,
     error,

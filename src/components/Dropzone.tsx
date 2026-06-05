@@ -3,15 +3,16 @@ import { UploadCloud } from 'lucide-react';
 
 interface DropzoneProps {
   onImageLoad: (file: File) => void;
+  isProcessing?: boolean;
 }
 
-export const Dropzone: React.FC<DropzoneProps> = ({ onImageLoad }) => {
+export const Dropzone: React.FC<DropzoneProps> = ({ onImageLoad, isProcessing }) => {
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
-    setIsDragOver(true);
+    if (!isProcessing) setIsDragOver(true);
   };
 
   const handleDragLeave = (e: React.DragEvent) => {
@@ -22,6 +23,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onImageLoad }) => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
+    if (isProcessing) return;
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       onImageLoad(e.dataTransfer.files[0]);
     }
@@ -39,18 +41,20 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onImageLoad }) => {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      onClick={() => fileInputRef.current?.click()}
+      onClick={() => { if (!isProcessing) fileInputRef.current?.click(); }}
+      style={{ opacity: isProcessing ? 0.6 : 1, cursor: isProcessing ? 'wait' : 'pointer' }}
     >
       <input 
         type="file" 
         ref={fileInputRef} 
         onChange={handleChange} 
-        accept="image/jpeg, image/png, image/webp" 
+        accept="image/jpeg, image/png, image/webp, image/heic, image/heif" 
         hidden 
       />
       <UploadCloud size={48} className="upload-icon" />
-      <h3>Drag & Drop your image here</h3>
-      <p>or click to browse (JPG, PNG, WebP)</p>
+      <h3>Tap to Upload or Drop Image Here</h3>
+      <p>Supports HEIC, JPG, PNG, WebP</p>
+      {isProcessing && <p style={{color: 'var(--primary)', fontWeight: 600}}>Loading & Converting...</p>}
     </div>
   );
 };
