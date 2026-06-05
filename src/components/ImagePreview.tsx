@@ -1,22 +1,31 @@
 import React from 'react';
+import Cropper from 'react-easy-crop';
 
 interface ImagePreviewProps {
-  canvasRef: React.RefObject<HTMLCanvasElement | null>;
-  width: number;
-  height: number;
+  imageSrc: string;
+  crop: { x: number; y: number };
+  zoom: number;
+  aspect: number;
+  onCropChange: (crop: { x: number; y: number }) => void;
+  onCropComplete: (croppedArea: any, croppedAreaPixels: any) => void;
+  onZoomChange: (zoom: number) => void;
 }
 
-export const ImagePreview: React.FC<ImagePreviewProps> = ({ canvasRef, width, height }) => {
+export const ImagePreview: React.FC<ImagePreviewProps> = ({
+  imageSrc, crop, zoom, aspect, onCropChange, onCropComplete, onZoomChange
+}) => {
   return (
-    <div className="preview-wrapper">
-      <div className="preview-inner">
-        <canvas 
-          ref={canvasRef} 
-          width={width} 
-          height={height}
-          style={{ aspectRatio: `${width} / ${height}` }}
-        />
-      </div>
+    <div className="cropper-container">
+      <Cropper
+        image={imageSrc}
+        crop={crop}
+        zoom={zoom}
+        aspect={aspect}
+        onCropChange={onCropChange}
+        onCropComplete={onCropComplete}
+        onZoomChange={onZoomChange}
+        showGrid={true}
+      />
     </div>
   );
 };

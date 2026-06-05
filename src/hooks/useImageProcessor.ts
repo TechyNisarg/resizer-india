@@ -19,11 +19,11 @@ export function useImageProcessor(preset: Preset) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string>('');
 
+  // react-easy-crop states
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [panX, setPanX] = useState(0);
-  const [panY, setPanY] = useState(0);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<{x: number, y: number, width: number, height: number} | null>(null);
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const workerRef = useRef<Worker | null>(null);
 
   useEffect(() => {
@@ -48,9 +48,8 @@ export function useImageProcessor(preset: Preset) {
     const img = new Image();
     img.onload = () => {
       setSourceImage(img);
+      setCrop({ x: 0, y: 0 });
       setZoom(1);
-      setPanX(0);
-      setPanY(0);
       setDownloadObjectURL('');
     };
     img.onerror = () => {
@@ -67,6 +66,7 @@ export function useImageProcessor(preset: Preset) {
     setSourceObjectURL('');
     setDownloadObjectURL('');
     setError('');
+    setCroppedAreaPixels(null);
   };
 
   const rotateImage90 = async () => {
@@ -103,64 +103,23 @@ export function useImageProcessor(preset: Preset) {
     }
   };
 
-  const calculateRect = (): CropRect => {
-    if (!sourceImage) return { sx: 0, sy: 0, sw: 0, sh: 0 };
-    const imageRatio = sourceImage.naturalWidth / sourceImage.naturalHeight;
-    const targetRatio = preset.width / preset.height;
-    let baseWidth = sourceImage.naturalWidth;
-    let baseHeight = sourceImage.naturalHeight;
-
-    if (imageRatio > targetRatio) baseWidth = sourceImage.naturalHeight * targetRatio;
-    else baseHeight = sourceImage.naturalWidth / targetRatio;
-
-    const cropWidth = baseWidth / zoom;
-    const cropHeight = baseHeight / zoom;
-    const maxX = sourceImage.naturalWidth - cropWidth;
-    const maxY = sourceImage.naturalHeight - cropHeight;
-    
-    return {
-      sx: Math.max(0, Math.min(maxX, (maxX / 2) + ((panX / 100) * maxX / 2))),
-      sy: Math.max(0, Math.min(maxY, (maxY / 2) + ((panY / 100) * maxY / 2))),
-      sw: cropWidth,
-      sh: cropHeight
-    };
-  };
-
-  const renderPreview = useCallback(() => {
-    if (!sourceImage || !canvasRef.current) return;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    
-    const rect = calculateRect();
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0, 0, preset.width, preset.height);
-    
-    ctx.drawImage(
-      sourceImage,
-      rect.sx, rect.sy, rect.sw, rect.sh,
-      0, 0, preset.width, preset.height
-    );
-  }, [sourceImage, preset, zoom, panX, panY]);
-
-  useEffect(() => {
-    let animationFrameId: number;
-    const render = () => {
-      renderPreview();
-      animationFrameId = requestAnimationFrame(render);
-    };
-    render();
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [renderPreview]);
+  const onCropComplete = useCallback((_croppedArea: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
 
   const processImage = async () => {
-    if (!sourceImage) return;
+    if (!sourceImage || !croppedAreaPixels) return;
     setIsProcessing(true);
     setError('');
     
     try {
       const bitmap = await createImageBitmap(sourceImage);
-      const rect = calculateRect();
+      const rect = {
+        sx: croppedAreaPixels.x,
+        sy: croppedAreaPixels.y,
+        sw: croppedAreaPixels.width,
+        sh: croppedAreaPixels.height
+      };
       const presetForWorker = { ...preset, rect };
 
       if (workerRef.current) workerRef.current.terminate();
@@ -199,16 +158,16 @@ export function useImageProcessor(preset: Preset) {
 
   return {
     sourceImage,
-    canvasRef,
+    sourceObjectURL,
     loadImage,
     clearImage,
     rotateImage90,
     processImage,
     isProcessing,
     error,
+    crop, setCrop,
     zoom, setZoom,
-    panX, setPanX,
-    panY, setPanY,
+    onCropComplete,
     downloadObjectURL,
     sourceSizeKB,
     finalSizeKB

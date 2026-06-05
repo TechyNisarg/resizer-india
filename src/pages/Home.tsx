@@ -72,8 +72,8 @@ export const Home: React.FC = () => {
   }));
 
   const {
-    sourceImage, canvasRef, loadImage, clearImage, rotateImage90, processImage,
-    isProcessing, error, zoom, setZoom, panX, setPanX, panY, setPanY,
+    sourceImage, sourceObjectURL, loadImage, clearImage, rotateImage90, processImage,
+    isProcessing, error, crop, setCrop, zoom, setZoom, onCropComplete,
     downloadObjectURL, sourceSizeKB, finalSizeKB
   } = useImageProcessor(activePreset);
 
@@ -113,9 +113,6 @@ export const Home: React.FC = () => {
             </div>
           ) : (
             <Controls 
-              zoom={zoom} setZoom={setZoom}
-              panX={panX} setPanX={setPanX}
-              panY={panY} setPanY={setPanY}
               onRotate={rotateImage90}
               onClear={clearImage}
               onProcess={processImage}
@@ -142,7 +139,15 @@ export const Home: React.FC = () => {
           {!sourceImage ? (
             <Dropzone onImageLoad={loadImage} />
           ) : (
-            <ImagePreview canvasRef={canvasRef} width={activePreset.width} height={activePreset.height} />
+            <ImagePreview 
+              imageSrc={sourceObjectURL}
+              crop={crop}
+              zoom={zoom}
+              aspect={activePreset.width / activePreset.height}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              onCropComplete={onCropComplete}
+            />
           )}
         </div>
       </div>
