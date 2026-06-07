@@ -9,7 +9,7 @@ import { getPresetsByCategory } from '../utils/presetData';
 import { Trash2, DownloadCloud } from 'lucide-react';
 
 const StepIndicator = ({ currentStep }: { currentStep: number }) => {
-  const steps = ['Select Format', 'Upload Image', 'Adjust', 'Download'];
+  const steps = ['Upload Image', 'Select Format', 'Adjust', 'Download'];
   return (
     <div className="step-indicator" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', width: '100%', overflowX: 'auto', padding: '0.5rem' }}>
       {steps.map((step, idx) => {
@@ -112,8 +112,8 @@ export const Home: React.FC = () => {
   } = useImageProcessor(activePreset || getPresetsByCategory('rto')[0]);
 
   let currentStep = 1;
-  if (category) currentStep = 2;
-  if (sourceImage && !downloadObjectURL) currentStep = 3;
+  if (sourceImage && !category) currentStep = 2;
+  if (sourceImage && category && !downloadObjectURL) currentStep = 3;
   if (downloadObjectURL) currentStep = 4;
 
   return (
@@ -191,16 +191,21 @@ export const Home: React.FC = () => {
         </div>
 
         <div className="main-content">
-          {!category ? (
-            <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', minHeight: '400px', textAlign: 'center' }}>
-              <div style={{ width: '80px', height: '80px', background: 'rgba(59, 130, 246, 0.1)', color: 'var(--primary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
-                <span style={{ fontSize: '32px', fontWeight: 'bold' }}>1</span>
-              </div>
-              <h2 style={{ fontSize: '1.75rem' }}>Select a Format</h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '400px' }}>Please choose a form category (RTO, PAN, SSC, etc.) from the left menu to start resizing your image.</p>
-            </div>
-          ) : !sourceImage ? (
+          {!sourceImage ? (
             <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
+          ) : !category ? (
+            <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', minHeight: '400px', textAlign: 'center', animation: 'fadeIn 0.5s ease-out' }}>
+              <div style={{ position: 'relative' }}>
+                <div style={{ width: '80px', height: '80px', background: 'rgba(59, 130, 246, 0.1)', color: 'var(--primary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto' }}>
+                  <span style={{ fontSize: '32px', fontWeight: 'bold' }}>2</span>
+                </div>
+                <div style={{ position: 'absolute', left: '-60px', top: '50%', transform: 'translateY(-50%)', animation: 'bounceX 1s infinite' }}>
+                  <span style={{ fontSize: '2rem' }}>👈</span>
+                </div>
+              </div>
+              <h2 style={{ fontSize: '1.75rem', color: 'var(--text-primary)' }}>Select a Format to Crop</h2>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '400px' }}>Your image is uploaded! Now, please choose a form category (RTO, PAN, SSC, etc.) from the left menu to continue.</p>
+            </div>
           ) : downloadObjectURL ? (
             <div className="card result-view" style={{ textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
               <h2 style={{ color: '#10b981', fontSize: '2rem', marginBottom: '1rem' }}>Success! 🎉</h2>
