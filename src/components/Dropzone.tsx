@@ -53,7 +53,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onImageLoad, isProcessing })
       />
       <Upload size={48} className="upload-icon" />
       <h3>Tap to Upload or Drop Image Here</h3>
-      <p>Supports JPEG, JPG, PNG, WebP, HEIC</p>
+      <p>Supports JPG/JPEG, PNG, WebP, HEIC</p>
       {isProcessing && <p style={{color: 'var(--primary)', fontWeight: 600}}>Loading & Converting...</p>}
     </div>
   );
