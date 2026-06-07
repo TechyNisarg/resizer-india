@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Scissors, Home as HomeIcon, Info, Shield, FileText, Mail } from 'lucide-react';
 import { Home } from './pages/Home';
 import { About, Privacy, Terms, Contact } from './pages/StaticPages';
 
@@ -8,13 +9,14 @@ function App() {
       <div className="app-wrapper">
         <header className="header">
           <div className="header-container">
-            <Link to="/" className="logo">
-              <span className="logo-text">Resizer</span> India
+            <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Scissors size={24} />
+              <div><span className="logo-text">Resizer</span> India</div>
             </Link>
             <nav className="nav-menu">
-              <Link to="/" className="nav-link">Home</Link>
-              <Link to="/about" className="nav-link">About</Link>
-              <Link to="/privacy" className="nav-link">Privacy</Link>
+              <Link to="/" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><HomeIcon size={16} /> Home</Link>
+              <Link to="/about" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Info size={16} /> About</Link>
+              <Link to="/privacy" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Shield size={16} /> Privacy</Link>
             </nav>
           </div>
         </header>
@@ -33,9 +35,9 @@ function App() {
           <div className="footer-content">
             <p>100% Client-side processing. Your images never leave your device.</p>
             <div className="footer-links">
-              <Link to="/terms">Terms of Service</Link>
-              <Link to="/privacy">Privacy Policy</Link>
-              <Link to="/contact">Contact</Link>
+              <Link to="/terms" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><FileText size={16} /> Terms of Service</Link>
+              <Link to="/privacy" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Shield size={16} /> Privacy Policy</Link>
+              <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Mail size={16} /> Contact</Link>
             </div>
           </div>
         </footer>

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { PresetCategory, PresetType } from '../utils/presetData';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Car, CreditCard, Plane, BookOpen, Sliders, User, PenTool, Fingerprint } from 'lucide-react';
 
 interface PresetSelectorProps {
   currentCategory: PresetCategory;
@@ -10,14 +10,21 @@ interface PresetSelectorProps {
   availableTypes: { type: PresetType, label: string }[];
 }
 
-const CATEGORIES: { id: PresetCategory, label: string }[] = [
-  { id: 'rto', label: 'RTO / Parivahan' },
-  { id: 'pan', label: 'PAN Card' },
-  { id: 'passport', label: 'Passport Size' },
-  { id: 'ssc', label: 'SSC Exams' },
-  { id: 'upsc', label: 'UPSC Exams' },
-  { id: 'custom', label: 'Custom Size' },
+const CATEGORIES: { id: PresetCategory, label: string, icon: React.ElementType }[] = [
+  { id: 'rto', label: 'RTO / Parivahan', icon: Car },
+  { id: 'pan', label: 'PAN Card', icon: CreditCard },
+  { id: 'passport', label: 'Passport Size', icon: Plane },
+  { id: 'ssc', label: 'SSC Exams', icon: BookOpen },
+  { id: 'upsc', label: 'UPSC Exams', icon: BookOpen },
+  { id: 'custom', label: 'Custom Size', icon: Sliders },
 ];
+
+const TYPE_ICONS: Record<string, React.ElementType> = {
+  photo: User,
+  signature: PenTool,
+  thumb: Fingerprint,
+  custom: Sliders
+};
 
 export const PresetSelector: React.FC<PresetSelectorProps> = ({
   currentCategory, onCategorySelect, currentType, onTypeSelect, availableTypes
@@ -35,7 +42,8 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const currentCategoryLabel = CATEGORIES.find(c => c.id === currentCategory)?.label;
+  const currentCategoryObj = CATEGORIES.find(c => c.id === currentCategory);
+  const CurrentIcon = currentCategoryObj?.icon;
 
   return (
     <div className="preset-selector card">
@@ -54,7 +62,10 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
               transition: 'all 0.2s ease', outline: 'none', height: '48px'
             }}
           >
-            <span>{currentCategoryLabel}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              {CurrentIcon && <CurrentIcon size={18} style={{ color: 'var(--primary)' }} />}
+              <span>{currentCategoryObj?.label}</span>
+            </div>
             <ChevronDown size={20} style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease', color: 'var(--text-secondary)' }} />
           </button>
           
@@ -67,31 +78,35 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
                 boxShadow: '0 8px 32px rgba(0,0,0,0.15)', zIndex: 100, overflow: 'hidden'
               }}
             >
-              {CATEGORIES.map(c => (
-                <button
-                  key={c.id}
-                  onClick={() => {
-                    onCategorySelect(c.id);
-                    setIsOpen(false);
-                  }}
-                  style={{
-                    width: '100%', padding: '0.85rem 1rem', textAlign: 'left', cursor: 'pointer',
-                    background: currentCategory === c.id ? 'rgba(59, 130, 246, 0.1)' : 'transparent',
-                    color: currentCategory === c.id ? 'var(--primary)' : 'var(--text-primary)',
-                    border: 'none', fontWeight: currentCategory === c.id ? 600 : 500,
-                    fontSize: '0.95rem',
-                    transition: 'background 0.2s ease', minHeight: 'auto'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (currentCategory !== c.id) e.currentTarget.style.background = 'rgba(0,0,0,0.03)';
-                  }}
-                  onMouseLeave={(e) => {
-                    if (currentCategory !== c.id) e.currentTarget.style.background = 'transparent';
-                  }}
-                >
-                  {c.label}
-                </button>
-              ))}
+              {CATEGORIES.map(c => {
+                const Icon = c.icon;
+                return (
+                  <button
+                    key={c.id}
+                    onClick={() => {
+                      onCategorySelect(c.id);
+                      setIsOpen(false);
+                    }}
+                    style={{
+                      width: '100%', padding: '0.85rem 1rem', textAlign: 'left', cursor: 'pointer',
+                      background: currentCategory === c.id ? 'rgba(59, 130, 246, 0.1)' : 'transparent',
+                      color: currentCategory === c.id ? 'var(--primary)' : 'var(--text-primary)',
+                      border: 'none', fontWeight: currentCategory === c.id ? 600 : 500,
+                      fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.75rem',
+                      transition: 'background 0.2s ease', minHeight: 'auto'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (currentCategory !== c.id) e.currentTarget.style.background = 'rgba(0,0,0,0.03)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (currentCategory !== c.id) e.currentTarget.style.background = 'transparent';
+                    }}
+                  >
+                    <Icon size={18} style={{ color: currentCategory === c.id ? 'var(--primary)' : 'var(--text-secondary)' }} />
+                    {c.label}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
@@ -101,15 +116,20 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
         <div className="preset-row">
           <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Image Type</label>
           <div className="pills-container">
-            {availableTypes.map(t => (
-              <button
-                key={t.type}
-                className={`pill-btn ${currentType === t.type ? 'active' : ''}`}
-                onClick={() => onTypeSelect(t.type)}
-              >
-                {t.label}
-              </button>
-            ))}
+            {availableTypes.map(t => {
+              const TypeIcon = TYPE_ICONS[t.type as string];
+              return (
+                <button
+                  key={t.type}
+                  className={`pill-btn ${currentType === t.type ? 'active' : ''}`}
+                  onClick={() => onTypeSelect(t.type)}
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                >
+                  {TypeIcon && <TypeIcon size={16} />}
+                  {t.label}
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
