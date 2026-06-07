@@ -3,12 +3,11 @@ import type { PresetCategory, PresetType } from '../utils/presetData';
 import { ChevronDown } from 'lucide-react';
 
 interface PresetSelectorProps {
-  currentCategory: PresetCategory | null;
+  currentCategory: PresetCategory;
   onCategorySelect: (cat: PresetCategory) => void;
-  currentType: PresetType | null;
+  currentType: PresetType;
   onTypeSelect: (type: PresetType) => void;
   availableTypes: { type: PresetType, label: string }[];
-  highlight?: boolean;
 }
 
 const CATEGORIES: { id: PresetCategory, label: string }[] = [
@@ -21,7 +20,7 @@ const CATEGORIES: { id: PresetCategory, label: string }[] = [
 ];
 
 export const PresetSelector: React.FC<PresetSelectorProps> = ({
-  currentCategory, onCategorySelect, currentType, onTypeSelect, availableTypes, highlight
+  currentCategory, onCategorySelect, currentType, onTypeSelect, availableTypes
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -36,10 +35,10 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const currentCategoryLabel = CATEGORIES.find(c => c.id === currentCategory)?.label || 'Choose Category...';
+  const currentCategoryLabel = CATEGORIES.find(c => c.id === currentCategory)?.label;
 
   return (
-    <div className={`preset-selector card ${highlight ? 'highlight-pulse' : ''}`}>
+    <div className="preset-selector card">
       <div className="preset-row">
         <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Select Form Category</label>
         

@@ -310,5 +310,3 @@ input { cursor: text; }
 .footer-links a:hover {
   color: var(--primary);
 }
-@keyframes pulseHighlight { 0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); } 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); } } .highlight-pulse { animation: pulseHighlight 2s infinite; border-color: var(--primary) !important; } 
-@keyframes bounceX { 0%%, 100%% { transform: translateX(0) translateY(-50%%); } 50%% { transform: translateX(-10px) translateY(-50%%); } } 

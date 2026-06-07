@@ -8,41 +8,6 @@ import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
 import { getPresetsByCategory } from '../utils/presetData';
 import { Trash2, DownloadCloud } from 'lucide-react';
 
-const StepIndicator = ({ currentStep }: { currentStep: number }) => {
-  const steps = ['Select Format', 'Upload Image', 'Adjust', 'Download'];
-  return (
-    <div className="step-indicator" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', width: '100%', overflowX: 'auto', padding: '0.5rem' }}>
-      {steps.map((step, idx) => {
-        const stepNum = idx + 1;
-        const isActive = stepNum === currentStep;
-        const isPast = stepNum < currentStep;
-        return (
-          <React.Fragment key={step}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', opacity: isActive || isPast ? 1 : 0.5, minWidth: '60px' }}>
-              <div style={{ 
-                width: '32px', height: '32px', borderRadius: '50%', 
-                display: 'flex', justifyContent: 'center', alignItems: 'center', 
-                background: isActive ? 'var(--primary)' : isPast ? '#10b981' : 'var(--surface-solid)',
-                color: isActive || isPast ? 'white' : 'var(--text-secondary)',
-                border: `2px solid ${isActive ? 'var(--primary)' : isPast ? '#10b981' : 'var(--border-color)'}`,
-                fontWeight: 'bold', transition: 'all 0.3s ease',
-                boxShadow: isActive ? '0 4px 12px rgba(59, 130, 246, 0.3)' : 'none'
-              }}>
-                {isPast ? '✓' : stepNum}
-              </div>
-              <span style={{ fontSize: '0.85rem', fontWeight: isActive ? 600 : 500, color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
-                {step}
-              </span>
-            </div>
-            {idx < steps.length - 1 && (
-              <div style={{ height: '2px', width: '40px', background: isPast ? '#10b981' : 'var(--border-color)', alignSelf: 'flex-start', marginTop: '15px', transition: 'all 0.3s ease', flexShrink: 0 }} />
-            )}
-          </React.Fragment>
-        );
-      })}
-    </div>
-  );
-};
 export const Home: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -51,19 +16,18 @@ export const Home: React.FC = () => {
   const [customHeight, setCustomHeight] = useState(525);
   const [customMaxKB, setCustomMaxKB] = useState(20);
 
-  const getInitialState = (): { cat: PresetCategory | null, type: PresetType | null } => {
+  const getInitialState = (): { cat: PresetCategory, type: PresetType } => {
     const path = location.pathname;
     if (path.includes('pan')) return { cat: 'pan', type: path.includes('signature') ? 'signature' : 'photo' };
     if (path.includes('ssc')) return { cat: 'ssc', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : 'photo') };
     if (path.includes('upsc')) return { cat: 'upsc', type: path.includes('signature') ? 'signature' : 'photo' };
     if (path.includes('passport')) return { cat: 'passport', type: 'photo' };
     if (path.includes('custom')) return { cat: 'custom', type: 'custom' };
-    if (path.includes('rto')) return { cat: 'rto', type: path.includes('signature') ? 'signature' : 'photo' };
-    return { cat: null, type: null };
+    return { cat: 'rto', type: path.includes('signature') ? 'signature' : 'photo' };
   };
 
-  const [category, setCategory] = useState<PresetCategory | null>(getInitialState().cat);
-  const [type, setType] = useState<PresetType | null>(getInitialState().type);
+  const [category, setCategory] = useState<PresetCategory>(getInitialState().cat);
+  const [type, setType] = useState<PresetType>(getInitialState().type);
 
   useEffect(() => {
     const st = getInitialState();
@@ -80,7 +44,7 @@ export const Home: React.FC = () => {
 
   const handleTypeSelect = (t: PresetType) => {
     setType(t);
-    if (category) updateUrl(category, t);
+    updateUrl(category, t);
   };
 
   const updateUrl = (cat: PresetCategory, t: PresetType) => {
@@ -93,10 +57,10 @@ export const Home: React.FC = () => {
     else navigate('/');
   };
 
-  const availablePresets = category ? getPresetsByCategory(category) : [];
-  const activePresetBase = availablePresets.find(p => p.type === type) || availablePresets[0] || null;
+  const availablePresets = getPresetsByCategory(category);
+  const activePresetBase = availablePresets.find(p => p.type === type) || availablePresets[0];
 
-  const activePreset: Preset | null = category === 'custom' && activePresetBase
+  const activePreset: Preset = category === 'custom' 
     ? { ...activePresetBase, width: customWidth, height: customHeight, maxKB: customMaxKB }
     : activePresetBase;
 
@@ -109,12 +73,7 @@ export const Home: React.FC = () => {
     sourceImage, sourceObjectURL, loadImage, clearImage, processImage,
     isProcessing, error, crop, setCrop, zoom, setZoom, onCropComplete,
     downloadObjectURL, sourceSizeKB, finalSizeKB
-  } = useImageProcessor(activePreset || getPresetsByCategory('rto')[0]);
-
-  let currentStep = 1;
-  if (category) currentStep = 2;
-  if (sourceImage && category && !downloadObjectURL) currentStep = 3;
-  if (downloadObjectURL) currentStep = 4;
+  } = useImageProcessor(activePreset);
 
   return (
     <div className="home-container">
@@ -122,24 +81,15 @@ export const Home: React.FC = () => {
         <h1>{activePreset?.buttonText || "Resize Image"}</h1>
       </div>
 
-      <StepIndicator currentStep={currentStep} />
-
       <div className="workspace">
         <div className="sidebar">
-          <div style={{ position: 'relative' }}>
-            {!category && (
-              <div style={{ position: 'absolute', right: '-40px', top: '24px', animation: 'bounceX 1s infinite', zIndex: 10 }}>
-                <span style={{ fontSize: '2rem' }}>👈</span>
-              </div>
-            )}
-            <PresetSelector 
-              currentCategory={category} 
-              onCategorySelect={handleCategorySelect}
-              currentType={type}
-              onTypeSelect={handleTypeSelect}
-              availableTypes={availableTypes}
-            />
-          </div>
+          <PresetSelector 
+            currentCategory={category} 
+            onCategorySelect={handleCategorySelect}
+            currentType={type}
+            onTypeSelect={handleTypeSelect}
+            availableTypes={availableTypes}
+          />
           
           {category === 'custom' && (
             <div className="card">
@@ -160,12 +110,7 @@ export const Home: React.FC = () => {
             </div>
           )}
 
-          {!category ? (
-            <div className="card">
-              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>Welcome to Resizer India</h2>
-              <p style={{ color: 'var(--text-secondary)' }}>Please select a category from the menu above to see requirements.</p>
-            </div>
-          ) : !sourceImage ? (
+          {!sourceImage ? (
             <div className="card">
               <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>Requirements</h2>
               <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -199,7 +144,7 @@ export const Home: React.FC = () => {
 
         <div className="main-content">
           {!sourceImage ? (
-            <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} disabled={!category} />
+            <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
           ) : downloadObjectURL ? (
             <div className="card result-view" style={{ textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
               <h2 style={{ color: '#10b981', fontSize: '2rem', marginBottom: '1rem' }}>Success! 🎉</h2>
