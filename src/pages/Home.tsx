@@ -72,7 +72,7 @@ export const Home: React.FC = () => {
   const {
     sourceImage, sourceObjectURL, loadImage, clearImage, processImage,
     isProcessing, error, crop, setCrop, zoom, setZoom, onCropComplete,
-    downloadObjectURL, sourceSizeKB, finalSizeKB
+    downloadObjectURL, sourceSizeKB, finalSizeKB, clearResult
   } = useImageProcessor(activePreset);
 
   return (
@@ -140,23 +140,37 @@ export const Home: React.FC = () => {
           )}
 
           {error && <div className="error-toast">{error}</div>}
-
-          {downloadObjectURL && (
-            <div className="card result-card">
-              <h3>Success! 🎉</h3>
-              <p style={{marginBottom: '0.5rem', color: 'var(--text-secondary)'}}>Original: <strong>{sourceSizeKB.toFixed(2)} KB</strong></p>
-              <p style={{marginBottom: '1rem', color: 'var(--text-secondary)'}}>Compressed: <strong>{finalSizeKB.toFixed(2)} KB</strong></p>
-              <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ textDecoration: 'none' }}>
-                <DownloadCloud size={20} />
-                Download Image
-              </a>
-            </div>
-          )}
         </div>
 
         <div className="main-content">
           {!sourceImage ? (
             <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
+          ) : downloadObjectURL ? (
+            <div className="card result-view" style={{ textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
+              <h2 style={{ color: '#10b981', fontSize: '2rem', marginBottom: '1rem' }}>Success! 🎉</h2>
+              <img src={downloadObjectURL} alt="Resized" style={{ maxWidth: '100%', maxHeight: '40vh', margin: '0 auto 2rem', borderRadius: '8px', border: '1px solid var(--border-color)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }} />
+              
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+                 <div>
+                   <p style={{ color: 'var(--text-secondary)' }}>Original Size</p>
+                   <p style={{ fontSize: '1.25rem', fontWeight: 600 }}>{sourceSizeKB.toFixed(2)} KB</p>
+                 </div>
+                 <div>
+                   <p style={{ color: 'var(--text-secondary)' }}>Compressed Size</p>
+                   <p style={{ fontSize: '1.25rem', fontWeight: 600, color: '#10b981' }}>{finalSizeKB.toFixed(2)} KB</p>
+                 </div>
+              </div>
+              
+              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%', maxWidth: '450px' }}>
+                <button className="btn-secondary" onClick={clearResult} style={{ flex: 1, background: 'transparent', border: '2px solid var(--border-color)', color: 'var(--text-primary)' }}>
+                  Back to Edit
+                </button>
+                <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ flex: 2, textDecoration: 'none' }}>
+                  <DownloadCloud size={24} />
+                  Download
+                </a>
+              </div>
+            </div>
           ) : (
             <ImagePreview 
               imageSrc={sourceObjectURL}

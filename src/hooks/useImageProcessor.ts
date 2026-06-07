@@ -106,6 +106,11 @@ export function useImageProcessor(preset: Preset) {
     setCroppedAreaPixels(null);
   };
 
+  const clearResult = () => {
+    if (downloadObjectURL) URL.revokeObjectURL(downloadObjectURL);
+    setDownloadObjectURL('');
+  };
+
   const onCropComplete = useCallback((_croppedArea: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
@@ -169,6 +174,7 @@ export function useImageProcessor(preset: Preset) {
     onCropComplete,
     downloadObjectURL,
     sourceSizeKB,
-    finalSizeKB
+    finalSizeKB,
+    clearResult
   };
 }
