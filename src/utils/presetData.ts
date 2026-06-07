@@ -26,7 +26,7 @@ export const PRESETS: Preset[] = [
     maxKB: 20,
     instructions: [
       'Width: 420px, Height: 525px',
-      'Final Output Size: 10-20 KB',
+      'Final Output Size: 10-20KB',
       'Face should cover 70-80% of the photo'
     ],
     filename: 'rto-photo',
@@ -43,7 +43,7 @@ export const PRESETS: Preset[] = [
     maxKB: 20,
     instructions: [
       'Width: 256px, Height: 64px',
-      'Final Output Size: 10-20 KB',
+      'Final Output Size: 10-20KB',
       'Sign with black/blue pen on white paper'
     ],
     filename: 'rto-signature',
@@ -109,7 +109,7 @@ export const PRESETS: Preset[] = [
     maxKB: 50,
     instructions: [
       'Width: 3.5cm, Height: 4.5cm (approx 413x531 px)',
-      'Final Output Size: 20-50 KB',
+      'Final Output Size: 20-50KB',
       'No spectacles, cap, or dark glasses allowed'
     ],
     filename: 'ssc-photo',
@@ -126,7 +126,7 @@ export const PRESETS: Preset[] = [
     maxKB: 20,
     instructions: [
       'Width: 4.0cm, Height: 2.0cm (approx 472x236 px)',
-      'Final Output Size: 10-20 KB',
+      'Final Output Size: 10-20KB',
       'Sign horizontally on white paper with black/blue ink'
     ],
     filename: 'ssc-signature',
@@ -142,7 +142,7 @@ export const PRESETS: Preset[] = [
     maxKB: 30,
     instructions: [
       'Width: 4.0cm, Height: 3.0cm (approx 472x354 px)',
-      'Final Output Size: 10-30 KB',
+      'Final Output Size: 10-30KB',
       'Left thumb impression on white paper'
     ],
     filename: 'ssc-thumb',
@@ -158,7 +158,7 @@ export const PRESETS: Preset[] = [
     maxKB: 300,
     instructions: [
       'Min dimensions: 350x350 px',
-      'Final Output Size: 20-300 KB',
+      'Final Output Size: 20-300KB',
       'At least 3/4th of the photo should be the face'
     ],
     filename: 'upsc-photo',
@@ -175,7 +175,7 @@ export const PRESETS: Preset[] = [
     maxKB: 300,
     instructions: [
       'Min dimensions: 350x350 px',
-      'Final Output Size: 20-300 KB',
+      'Final Output Size: 20-300KB',
       'Sign horizontally on white paper'
     ],
     filename: 'upsc-signature',
