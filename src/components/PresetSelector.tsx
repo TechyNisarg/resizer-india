@@ -62,7 +62,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
               transition: 'all 0.2s ease', outline: 'none', height: '48px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               {CurrentIcon && <CurrentIcon size={18} style={{ color: 'var(--primary)' }} />}
               <span>{currentCategoryObj?.label}</span>
             </div>
@@ -92,7 +92,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
                       background: currentCategory === c.id ? 'rgba(59, 130, 246, 0.1)' : 'transparent',
                       color: currentCategory === c.id ? 'var(--primary)' : 'var(--text-primary)',
                       border: 'none', fontWeight: currentCategory === c.id ? 600 : 500,
-                      fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.75rem',
+                      fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.5rem',
                       transition: 'background 0.2s ease', minHeight: 'auto'
                     }}
                     onMouseEnter={(e) => {

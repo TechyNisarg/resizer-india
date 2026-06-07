@@ -14,9 +14,9 @@ function App() {
               <div><span className="logo-text">Resizer</span> India</div>
             </Link>
             <nav className="nav-menu">
-              <Link to="/" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><HomeIcon size={16} /> Home</Link>
-              <Link to="/about" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Info size={16} /> About</Link>
-              <Link to="/privacy" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Shield size={16} /> Privacy</Link>
+              <Link to="/" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><HomeIcon size={16} /> Home</Link>
+              <Link to="/about" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Info size={16} /> About</Link>
+              <Link to="/privacy" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Shield size={16} /> Privacy</Link>
             </nav>
           </div>
         </header>
@@ -35,9 +35,9 @@ function App() {
           <div className="footer-content">
             <p>100% Client-side processing. Your images never leave your device.</p>
             <div className="footer-links">
-              <Link to="/terms" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><FileText size={16} /> Terms of Service</Link>
-              <Link to="/privacy" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Shield size={16} /> Privacy Policy</Link>
-              <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Mail size={16} /> Contact</Link>
+              <Link to="/terms" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FileText size={16} /> Terms of Service</Link>
+              <Link to="/privacy" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Shield size={16} /> Privacy Policy</Link>
+              <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Mail size={16} /> Contact</Link>
             </div>
           </div>
         </footer>
