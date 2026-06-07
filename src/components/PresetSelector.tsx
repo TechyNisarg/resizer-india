@@ -3,9 +3,9 @@ import type { PresetCategory, PresetType } from '../utils/presetData';
 import { ChevronDown } from 'lucide-react';
 
 interface PresetSelectorProps {
-  currentCategory: PresetCategory;
+  currentCategory: PresetCategory | null;
   onCategorySelect: (cat: PresetCategory) => void;
-  currentType: PresetType;
+  currentType: PresetType | null;
   onTypeSelect: (type: PresetType) => void;
   availableTypes: { type: PresetType, label: string }[];
 }
@@ -35,7 +35,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const currentCategoryLabel = CATEGORIES.find(c => c.id === currentCategory)?.label;
+  const currentCategoryLabel = CATEGORIES.find(c => c.id === currentCategory)?.label || 'Choose Category...';
 
   return (
     <div className="preset-selector card">

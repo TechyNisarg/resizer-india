@@ -51,18 +51,19 @@ export const Home: React.FC = () => {
   const [customHeight, setCustomHeight] = useState(525);
   const [customMaxKB, setCustomMaxKB] = useState(20);
 
-  const getInitialState = (): { cat: PresetCategory, type: PresetType } => {
+  const getInitialState = (): { cat: PresetCategory | null, type: PresetType | null } => {
     const path = location.pathname;
     if (path.includes('pan')) return { cat: 'pan', type: path.includes('signature') ? 'signature' : 'photo' };
     if (path.includes('ssc')) return { cat: 'ssc', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : 'photo') };
     if (path.includes('upsc')) return { cat: 'upsc', type: path.includes('signature') ? 'signature' : 'photo' };
     if (path.includes('passport')) return { cat: 'passport', type: 'photo' };
     if (path.includes('custom')) return { cat: 'custom', type: 'custom' };
-    return { cat: 'rto', type: path.includes('signature') ? 'signature' : 'photo' };
+    if (path.includes('rto')) return { cat: 'rto', type: path.includes('signature') ? 'signature' : 'photo' };
+    return { cat: null, type: null };
   };
 
-  const [category, setCategory] = useState<PresetCategory>(getInitialState().cat);
-  const [type, setType] = useState<PresetType>(getInitialState().type);
+  const [category, setCategory] = useState<PresetCategory | null>(getInitialState().cat);
+  const [type, setType] = useState<PresetType | null>(getInitialState().type);
 
   useEffect(() => {
     const st = getInitialState();
@@ -79,7 +80,7 @@ export const Home: React.FC = () => {
 
   const handleTypeSelect = (t: PresetType) => {
     setType(t);
-    updateUrl(category, t);
+    if (category) updateUrl(category, t);
   };
 
   const updateUrl = (cat: PresetCategory, t: PresetType) => {
@@ -92,10 +93,10 @@ export const Home: React.FC = () => {
     else navigate('/');
   };
 
-  const availablePresets = getPresetsByCategory(category);
-  const activePresetBase = availablePresets.find(p => p.type === type) || availablePresets[0];
+  const availablePresets = category ? getPresetsByCategory(category) : [];
+  const activePresetBase = availablePresets.find(p => p.type === type) || availablePresets[0] || null;
 
-  const activePreset: Preset = category === 'custom' 
+  const activePreset: Preset | null = category === 'custom' && activePresetBase
     ? { ...activePresetBase, width: customWidth, height: customHeight, maxKB: customMaxKB }
     : activePresetBase;
 
@@ -108,9 +109,10 @@ export const Home: React.FC = () => {
     sourceImage, sourceObjectURL, loadImage, clearImage, processImage,
     isProcessing, error, crop, setCrop, zoom, setZoom, onCropComplete,
     downloadObjectURL, sourceSizeKB, finalSizeKB
-  } = useImageProcessor(activePreset);
+  } = useImageProcessor(activePreset || getPresetsByCategory('rto')[0]);
 
-  let currentStep = 2;
+  let currentStep = 1;
+  if (category) currentStep = 2;
   if (sourceImage && !downloadObjectURL) currentStep = 3;
   if (downloadObjectURL) currentStep = 4;
 
@@ -151,7 +153,12 @@ export const Home: React.FC = () => {
             </div>
           )}
 
-          {!sourceImage ? (
+          {!category ? (
+            <div className="card">
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>Welcome to Resizer India</h2>
+              <p style={{ color: 'var(--text-secondary)' }}>Please select a category from the menu above to see requirements.</p>
+            </div>
+          ) : !sourceImage ? (
             <div className="card">
               <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>Requirements</h2>
               <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -184,7 +191,15 @@ export const Home: React.FC = () => {
         </div>
 
         <div className="main-content">
-          {!sourceImage ? (
+          {!category ? (
+            <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', minHeight: '400px', textAlign: 'center' }}>
+              <div style={{ width: '80px', height: '80px', background: 'rgba(59, 130, 246, 0.1)', color: 'var(--primary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
+                <span style={{ fontSize: '32px', fontWeight: 'bold' }}>1</span>
+              </div>
+              <h2 style={{ fontSize: '1.75rem' }}>Select a Format</h2>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '400px' }}>Please choose a form category (RTO, PAN, SSC, etc.) from the left menu to start resizing your image.</p>
+            </div>
+          ) : !sourceImage ? (
             <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
           ) : downloadObjectURL ? (
             <div className="card result-view" style={{ textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
