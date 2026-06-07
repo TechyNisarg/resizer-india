@@ -8,6 +8,7 @@ interface PresetSelectorProps {
   currentType: PresetType | null;
   onTypeSelect: (type: PresetType) => void;
   availableTypes: { type: PresetType, label: string }[];
+  highlight?: boolean;
 }
 
 const CATEGORIES: { id: PresetCategory, label: string }[] = [
@@ -20,7 +21,7 @@ const CATEGORIES: { id: PresetCategory, label: string }[] = [
 ];
 
 export const PresetSelector: React.FC<PresetSelectorProps> = ({
-  currentCategory, onCategorySelect, currentType, onTypeSelect, availableTypes
+  currentCategory, onCategorySelect, currentType, onTypeSelect, availableTypes, highlight
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -38,7 +39,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
   const currentCategoryLabel = CATEGORIES.find(c => c.id === currentCategory)?.label || 'Choose Category...';
 
   return (
-    <div className="preset-selector card">
+    <div className={`preset-selector card ${highlight ? 'highlight-pulse' : ''}`}>
       <div className="preset-row">
         <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Select Form Category</label>
         

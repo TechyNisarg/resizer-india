@@ -9,7 +9,7 @@ import { getPresetsByCategory } from '../utils/presetData';
 import { Trash2, DownloadCloud } from 'lucide-react';
 
 const StepIndicator = ({ currentStep }: { currentStep: number }) => {
-  const steps = ['Upload Image', 'Select Format', 'Adjust', 'Download'];
+  const steps = ['Select Format', 'Upload Image', 'Adjust', 'Download'];
   return (
     <div className="step-indicator" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', width: '100%', overflowX: 'auto', padding: '0.5rem' }}>
       {steps.map((step, idx) => {
@@ -112,7 +112,7 @@ export const Home: React.FC = () => {
   } = useImageProcessor(activePreset || getPresetsByCategory('rto')[0]);
 
   let currentStep = 1;
-  if (sourceImage && !category) currentStep = 2;
+  if (category) currentStep = 2;
   if (sourceImage && category && !downloadObjectURL) currentStep = 3;
   if (downloadObjectURL) currentStep = 4;
 
@@ -126,13 +126,20 @@ export const Home: React.FC = () => {
 
       <div className="workspace">
         <div className="sidebar">
-          <PresetSelector 
-            currentCategory={category} 
-            onCategorySelect={handleCategorySelect}
-            currentType={type}
-            onTypeSelect={handleTypeSelect}
-            availableTypes={availableTypes}
-          />
+          <div style={{ position: 'relative' }}>
+            {!category && (
+              <div style={{ position: 'absolute', right: '-40px', top: '24px', animation: 'bounceX 1s infinite', zIndex: 10 }}>
+                <span style={{ fontSize: '2rem' }}>👈</span>
+              </div>
+            )}
+            <PresetSelector 
+              currentCategory={category} 
+              onCategorySelect={handleCategorySelect}
+              currentType={type}
+              onTypeSelect={handleTypeSelect}
+              availableTypes={availableTypes}
+            />
+          </div>
           
           {category === 'custom' && (
             <div className="card">
@@ -192,20 +199,7 @@ export const Home: React.FC = () => {
 
         <div className="main-content">
           {!sourceImage ? (
-            <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
-          ) : !category ? (
-            <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', minHeight: '400px', textAlign: 'center', animation: 'fadeIn 0.5s ease-out' }}>
-              <div style={{ position: 'relative' }}>
-                <div style={{ width: '80px', height: '80px', background: 'rgba(59, 130, 246, 0.1)', color: 'var(--primary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto' }}>
-                  <span style={{ fontSize: '32px', fontWeight: 'bold' }}>2</span>
-                </div>
-                <div style={{ position: 'absolute', left: '-60px', top: '50%', transform: 'translateY(-50%)', animation: 'bounceX 1s infinite' }}>
-                  <span style={{ fontSize: '2rem' }}>👈</span>
-                </div>
-              </div>
-              <h2 style={{ fontSize: '1.75rem', color: 'var(--text-primary)' }}>Select a Format to Crop</h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '400px' }}>Your image is uploaded! Now, please choose a form category (RTO, PAN, SSC, etc.) from the left menu to continue.</p>
-            </div>
+            <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} disabled={!category} />
           ) : downloadObjectURL ? (
             <div className="card result-view" style={{ textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
               <h2 style={{ color: '#10b981', fontSize: '2rem', marginBottom: '1rem' }}>Success! 🎉</h2>
