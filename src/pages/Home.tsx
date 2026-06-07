@@ -161,9 +161,9 @@ export const Home: React.FC = () => {
                  </div>
               </div>
               
-              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%', maxWidth: '450px' }}>
-                <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ width: '100%', textDecoration: 'none' }}>
-                  <DownloadCloud size={24} />
+              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%', maxWidth: '500px' }}>
+                <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ width: '100%', textDecoration: 'none', padding: '1.25rem', fontSize: '1.2rem', borderRadius: '16px', boxShadow: '0 8px 24px rgba(37,99,235,0.35)' }}>
+                  <DownloadCloud size={28} />
                   Download Image
                 </a>
               </div>
