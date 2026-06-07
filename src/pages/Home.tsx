@@ -8,6 +8,41 @@ import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
 import { getPresetsByCategory } from '../utils/presetData';
 import { Trash2, DownloadCloud } from 'lucide-react';
 
+const StepIndicator = ({ currentStep }: { currentStep: number }) => {
+  const steps = ['Upload', 'Adjust', 'Download'];
+  return (
+    <div className="step-indicator" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', width: '100%', overflowX: 'auto', padding: '0.5rem' }}>
+      {steps.map((step, idx) => {
+        const stepNum = idx + 1;
+        const isActive = stepNum === currentStep;
+        const isPast = stepNum < currentStep;
+        return (
+          <React.Fragment key={step}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', opacity: isActive || isPast ? 1 : 0.5, minWidth: '60px' }}>
+              <div style={{ 
+                width: '32px', height: '32px', borderRadius: '50%', 
+                display: 'flex', justifyContent: 'center', alignItems: 'center', 
+                background: isActive ? 'var(--primary)' : isPast ? '#10b981' : 'var(--surface-solid)',
+                color: isActive || isPast ? 'white' : 'var(--text-secondary)',
+                border: `2px solid ${isActive ? 'var(--primary)' : isPast ? '#10b981' : 'var(--border-color)'}`,
+                fontWeight: 'bold', transition: 'all 0.3s ease',
+                boxShadow: isActive ? '0 4px 12px rgba(59, 130, 246, 0.3)' : 'none'
+              }}>
+                {isPast ? '✓' : stepNum}
+              </div>
+              <span style={{ fontSize: '0.85rem', fontWeight: isActive ? 600 : 500, color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
+                {step}
+              </span>
+            </div>
+            {idx < steps.length - 1 && (
+              <div style={{ height: '2px', width: '40px', background: isPast ? '#10b981' : 'var(--border-color)', alignSelf: 'flex-start', marginTop: '15px', transition: 'all 0.3s ease', flexShrink: 0 }} />
+            )}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+};
 export const Home: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -75,11 +110,17 @@ export const Home: React.FC = () => {
     downloadObjectURL, sourceSizeKB, finalSizeKB
   } = useImageProcessor(activePreset);
 
+  let currentStep = 1;
+  if (sourceImage && !downloadObjectURL) currentStep = 2;
+  if (downloadObjectURL) currentStep = 3;
+
   return (
     <div className="home-container">
       <div className="hero-section">
         <h1>{activePreset?.buttonText || "Resize Image"}</h1>
       </div>
+
+      <StepIndicator currentStep={currentStep} />
 
       <div className="workspace">
         <div className="sidebar">
