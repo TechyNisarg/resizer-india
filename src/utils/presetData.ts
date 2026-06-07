@@ -100,6 +100,88 @@ export const PRESETS: Preset[] = [
     hasFaceGuide: true
   },
   {
+    id: 'ssc-photo',
+    category: 'ssc',
+    type: 'photo',
+    width: 413,
+    height: 531,
+    minKB: 20,
+    maxKB: 50,
+    instructions: [
+      'Width: 3.5cm, Height: 4.5cm (approx 413x531 px)',
+      'Size: strictly between 20KB and 50KB',
+      'No spectacles, cap, or dark glasses allowed'
+    ],
+    filename: 'ssc-photo',
+    buttonText: 'Resize SSC Photo',
+    hasFaceGuide: true
+  },
+  {
+    id: 'ssc-signature',
+    category: 'ssc',
+    type: 'signature',
+    width: 472,
+    height: 236,
+    minKB: 10,
+    maxKB: 20,
+    instructions: [
+      'Width: 4.0cm, Height: 2.0cm (approx 472x236 px)',
+      'Size: strictly between 10KB and 20KB',
+      'Sign horizontally on white paper with black/blue ink'
+    ],
+    filename: 'ssc-signature',
+    buttonText: 'Resize SSC Signature'
+  },
+  {
+    id: 'ssc-thumb',
+    category: 'ssc',
+    type: 'thumb',
+    width: 472,
+    height: 354,
+    minKB: 10,
+    maxKB: 30,
+    instructions: [
+      'Width: 4.0cm, Height: 3.0cm (approx 472x354 px)',
+      'Size: strictly between 10KB and 30KB',
+      'Left thumb impression on white paper'
+    ],
+    filename: 'ssc-thumb',
+    buttonText: 'Resize SSC Thumb'
+  },
+  {
+    id: 'upsc-photo',
+    category: 'upsc',
+    type: 'photo',
+    width: 350,
+    height: 350,
+    minKB: 20,
+    maxKB: 300,
+    instructions: [
+      'Min dimensions: 350x350 px',
+      'Size: strictly between 20KB and 300KB',
+      'At least 3/4th of the photo should be the face'
+    ],
+    filename: 'upsc-photo',
+    buttonText: 'Resize UPSC Photo',
+    hasFaceGuide: true
+  },
+  {
+    id: 'upsc-signature',
+    category: 'upsc',
+    type: 'signature',
+    width: 350,
+    height: 350,
+    minKB: 20,
+    maxKB: 300,
+    instructions: [
+      'Min dimensions: 350x350 px',
+      'Size: strictly between 20KB and 300KB',
+      'Sign horizontally on white paper'
+    ],
+    filename: 'upsc-signature',
+    buttonText: 'Resize UPSC Signature'
+  },
+  {
     id: 'custom-preset',
     category: 'custom',
     type: 'custom',
