@@ -10,13 +10,13 @@ function App() {
         <header className="header">
           <div className="header-container">
             <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Scissors size={24} style={{ marginTop: '-2px' }} />
-              <div><span className="logo-text">Resizer</span> India</div>
+              <Scissors size={24} />
+              <div style={{ position: 'relative', top: '-1px' }}><span className="logo-text">Resizer</span> India</div>
             </Link>
             <nav className="nav-menu">
-              <Link to="/" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><HomeIcon size={16} style={{ marginTop: '-1px' }}/> <span style={{ lineHeight: 1 }}>Home</span></Link>
-              <Link to="/about" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Info size={16} style={{ marginTop: '-1px' }}/> <span style={{ lineHeight: 1 }}>About</span></Link>
-              <Link to="/privacy" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Shield size={16} style={{ marginTop: '-1px' }}/> <span style={{ lineHeight: 1 }}>Privacy</span></Link>
+              <Link to="/" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><HomeIcon size={16} /> <span style={{ position: 'relative', top: '-1px' }}>Home</span></Link>
+              <Link to="/about" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Info size={16} /> <span style={{ position: 'relative', top: '-1px' }}>About</span></Link>
+              <Link to="/privacy" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Shield size={16} /> <span style={{ position: 'relative', top: '-1px' }}>Privacy</span></Link>
             </nav>
           </div>
         </header>
@@ -35,9 +35,9 @@ function App() {
           <div className="footer-content">
             <p>100% Client-side processing. Your images never leave your device.</p>
             <div className="footer-links">
-              <Link to="/terms" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FileText size={16} style={{ marginTop: '-1px' }}/> <span style={{ lineHeight: 1 }}>Terms of Service</span></Link>
-              <Link to="/privacy" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Shield size={16} style={{ marginTop: '-1px' }}/> <span style={{ lineHeight: 1 }}>Privacy Policy</span></Link>
-              <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Mail size={16} style={{ marginTop: '-1px' }}/> <span style={{ lineHeight: 1 }}>Contact</span></Link>
+              <Link to="/terms" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FileText size={16} /> <span style={{ position: 'relative', top: '-1px' }}>Terms of Service</span></Link>
+              <Link to="/privacy" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Shield size={16} /> <span style={{ position: 'relative', top: '-1px' }}>Privacy Policy</span></Link>
+              <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Mail size={16} /> <span style={{ position: 'relative', top: '-1px' }}>Contact</span></Link>
             </div>
           </div>
         </footer>
