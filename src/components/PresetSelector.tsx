@@ -77,8 +77,9 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
                   style={{
                     width: '100%', padding: '0.85rem 1rem', textAlign: 'left', cursor: 'pointer',
                     background: currentCategory === c.id ? 'rgba(59, 130, 246, 0.1)' : 'transparent',
-                    color: currentCategory === c.id ? 'var(--primary)' : 'var(--text-secondary)',
+                    color: currentCategory === c.id ? 'var(--primary)' : 'var(--text-primary)',
                     border: 'none', fontWeight: currentCategory === c.id ? 600 : 500,
+                    fontSize: '0.95rem',
                     transition: 'background 0.2s ease', minHeight: 'auto'
                   }}
                   onMouseEnter={(e) => {
