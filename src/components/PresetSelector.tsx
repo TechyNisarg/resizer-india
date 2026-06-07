@@ -63,8 +63,8 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              {CurrentIcon && <CurrentIcon size={18} style={{ color: 'var(--primary)' }} />}
-              <span>{currentCategoryObj?.label}</span>
+              {CurrentIcon && <CurrentIcon size={18} style={{ color: 'var(--primary)', marginTop: '-1px' }} />}
+              <span style={{ lineHeight: 1 }}>{currentCategoryObj?.label}</span>
             </div>
             <ChevronDown size={20} style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease', color: 'var(--text-secondary)' }} />
           </button>
@@ -102,8 +102,8 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
                       if (currentCategory !== c.id) e.currentTarget.style.background = 'transparent';
                     }}
                   >
-                    <Icon size={18} style={{ color: currentCategory === c.id ? 'var(--primary)' : 'var(--text-secondary)' }} />
-                    {c.label}
+                    <Icon size={18} style={{ color: currentCategory === c.id ? 'var(--primary)' : 'var(--text-secondary)', marginTop: '-1px' }} />
+                    <span style={{ lineHeight: 1 }}>{c.label}</span>
                   </button>
                 );
               })}
@@ -125,8 +125,8 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
                   onClick={() => onTypeSelect(t.type)}
                   style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
-                  {TypeIcon && <TypeIcon size={16} />}
-                  {t.label}
+                  {TypeIcon && <TypeIcon size={16} style={{ marginTop: '-1px' }} />}
+                  <span style={{ lineHeight: 1 }}>{t.label}</span>
                 </button>
               );
             })}
