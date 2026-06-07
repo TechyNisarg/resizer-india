@@ -20,10 +20,15 @@ self.onmessage = async (e) => {
     const minBytes = (preset.minKB || 0) * 1024;
     const maxBytes = preset.maxKB * 1024;
     
+    // Calculate a target minimum to optimize quality.
+    // E.g., if max is 100KB and min is 0KB, we aim for at least 90KB for maximum quality.
+    // If max is 20KB and min is 10KB, target is max(10, 18) = 18KB.
+    const targetMinBytes = Math.max(minBytes, maxBytes * 0.9);
+    
     // Binary Search Algorithm for Quality
     let minQ = 0.01;
     let maxQ = 1.0;
-    let quality = 0.5;
+    let quality = 0.9; // Start searching at high quality
     let finalBlob: Blob | null = null;
     let closestBlob: Blob | null = null;
     
@@ -37,11 +42,11 @@ self.onmessage = async (e) => {
         }
       }
 
-      if (blob.size >= minBytes && blob.size <= maxBytes) {
+      if (blob.size >= targetMinBytes && blob.size <= maxBytes) {
         // Perfect fit
         finalBlob = blob;
         break;
-      } else if (blob.size < minBytes) {
+      } else if (blob.size < targetMinBytes) {
         // Too small, increase quality
         minQ = quality;
         quality = (minQ + maxQ) / 2;
