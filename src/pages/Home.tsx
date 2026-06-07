@@ -75,6 +75,13 @@ export const Home: React.FC = () => {
     downloadObjectURL, sourceSizeKB, finalSizeKB
   } = useImageProcessor(activePreset);
 
+  useEffect(() => {
+    if (sourceImage && category === 'custom') {
+      setCustomWidth(sourceImage.naturalWidth || sourceImage.width);
+      setCustomHeight(sourceImage.naturalHeight || sourceImage.height);
+    }
+  }, [sourceImage, category]);
+
   return (
     <div className="home-container">
       <div className="hero-section">
