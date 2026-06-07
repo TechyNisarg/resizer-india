@@ -72,7 +72,7 @@ export const Home: React.FC = () => {
   const {
     sourceImage, sourceObjectURL, loadImage, clearImage, processImage,
     isProcessing, error, crop, setCrop, zoom, setZoom, onCropComplete,
-    downloadObjectURL, sourceSizeKB, finalSizeKB, clearResult
+    downloadObjectURL, sourceSizeKB, finalSizeKB
   } = useImageProcessor(activePreset);
 
   return (
@@ -162,12 +162,9 @@ export const Home: React.FC = () => {
               </div>
               
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%', maxWidth: '450px' }}>
-                <button className="btn-secondary" onClick={clearResult} style={{ flex: 1, background: 'transparent', border: '2px solid var(--border-color)', color: 'var(--text-primary)' }}>
-                  Back to Edit
-                </button>
-                <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ flex: 2, textDecoration: 'none' }}>
+                <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ width: '100%', textDecoration: 'none' }}>
                   <DownloadCloud size={24} />
-                  Download
+                  Download Image
                 </a>
               </div>
             </div>
