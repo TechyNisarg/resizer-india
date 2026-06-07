@@ -9,7 +9,7 @@ import { getPresetsByCategory } from '../utils/presetData';
 import { Trash2, DownloadCloud } from 'lucide-react';
 
 const StepIndicator = ({ currentStep }: { currentStep: number }) => {
-  const steps = ['Upload', 'Adjust', 'Download'];
+  const steps = ['Select Format', 'Upload Image', 'Adjust', 'Download'];
   return (
     <div className="step-indicator" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', width: '100%', overflowX: 'auto', padding: '0.5rem' }}>
       {steps.map((step, idx) => {
@@ -110,9 +110,9 @@ export const Home: React.FC = () => {
     downloadObjectURL, sourceSizeKB, finalSizeKB
   } = useImageProcessor(activePreset);
 
-  let currentStep = 1;
-  if (sourceImage && !downloadObjectURL) currentStep = 2;
-  if (downloadObjectURL) currentStep = 3;
+  let currentStep = 2;
+  if (sourceImage && !downloadObjectURL) currentStep = 3;
+  if (downloadObjectURL) currentStep = 4;
 
   return (
     <div className="home-container">
