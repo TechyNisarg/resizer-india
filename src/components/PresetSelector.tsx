@@ -13,7 +13,7 @@ interface PresetSelectorProps {
 const CATEGORIES: { id: PresetCategory, label: string, icon: React.ElementType }[] = [
   { id: 'rto', label: 'RTO / Parivahan', icon: Car },
   { id: 'pan', label: 'PAN Card', icon: CreditCard },
-  { id: 'passport', label: 'Passport Size', icon: Plane },
+  { id: 'passport', label: 'Passport (2x2 inch)', icon: Plane },
   { id: 'ssc', label: 'SSC Exams', icon: BookOpen },
   { id: 'upsc', label: 'UPSC Exams', icon: BookOpen },
   { id: 'custom', label: 'Custom Size', icon: Sliders },
