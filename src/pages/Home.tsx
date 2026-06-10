@@ -34,6 +34,7 @@ export const Home: React.FC = () => {
     const st = getInitialState();
     setCategory(st.cat);
     setType(st.type);
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   const handleCategorySelect = (cat: PresetCategory) => {
