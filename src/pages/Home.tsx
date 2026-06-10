@@ -7,7 +7,7 @@ import { LandingPage } from '../components/LandingPage';
 import { useImageProcessor } from '../hooks/useImageProcessor';
 import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
 import { getPresetsByCategory } from '../utils/presetData';
-import { Trash2, DownloadCloud } from 'lucide-react';
+import { Trash2, DownloadCloud, ShieldCheck } from 'lucide-react';
 
 export const Home: React.FC = () => {
   const location = useLocation();
@@ -103,6 +103,10 @@ export const Home: React.FC = () => {
     <div className="home-container">
       <div className="hero-section">
         <h1>{activePreset?.buttonText || "Resize Image"}</h1>
+        <div style={{ marginTop: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.85rem', fontWeight: 600 }}>
+          <ShieldCheck size={16} />
+          <span>100% Secure. Images never leave your device.</span>
+        </div>
       </div>
 
       <div className="workspace">
@@ -211,9 +215,9 @@ export const Home: React.FC = () => {
         <div className="seo-text" style={{ marginTop: '2rem', padding: '1.5rem', background: 'var(--surface)', borderRadius: 'var(--radius)', color: 'var(--text-secondary)' }}>
           <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--primary)' }}>Why use Resizer India?</h2>
           <p style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
-            Whether you are applying for SSC exams, UPSC civil services, or updating your PAN Card and Parivahan documents, strict image size restrictions apply. 
-            Resizer India is a 100% free, browser-based tool that effortlessly crops your photos to exact pixel dimensions and aggressively compresses them to hit 10KB, 20KB, or 50KB limits 
-            without losing visual quality. Perfect for signature uploads and passport size photo making.
+            Whether you are applying for SSC exams, UPSC civil services, IBPS bank exams, NEET, or updating your PAN Card and Parivahan documents, strict image size restrictions apply. 
+            Resizer India is a 100% free, fully secure, client-side browser-based tool. Your images never leave your device. It effortlessly crops your photos to exact pixel dimensions and aggressively compresses them to hit 10KB, 20KB, or 50KB limits 
+            without losing visual quality. Perfect for signature uploads, left thumb impressions, handwritten declarations, and passport size photo making.
           </p>
         </div>
       )}

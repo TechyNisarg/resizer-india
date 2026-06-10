@@ -33,7 +33,6 @@ function App() {
 
         <footer className="footer">
           <div className="footer-content">
-            <p>100% Client-side processing. Your images never leave your device.</p>
             <div className="footer-links">
               <Link to="/terms" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FileText size={16} /> <span style={{ position: 'relative', top: '-1px' }}>Terms of Service</span></Link>
               <Link to="/privacy" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Shield size={16} /> <span style={{ position: 'relative', top: '-1px' }}>Privacy Policy</span></Link>
