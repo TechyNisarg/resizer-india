@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Dropzone } from '../components/Dropzone';
 import { ImagePreview } from '../components/ImagePreview';
 import { PresetSelector } from '../components/PresetSelector';
+import { LandingPage } from '../components/LandingPage';
 import { useImageProcessor } from '../hooks/useImageProcessor';
 import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
 import { getPresetsByCategory } from '../utils/presetData';
@@ -81,6 +82,10 @@ export const Home: React.FC = () => {
       setCustomHeight(sourceImage.naturalHeight || sourceImage.height);
     }
   }, [sourceImage, category]);
+
+  if (location.pathname === '/') {
+    return <LandingPage />;
+  }
 
   return (
     <div className="home-container">
