@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Car, CreditCard, Plane, BookOpen, Sliders } from 'lucide-react';
 
 const CATEGORIES = [
-  { id: 'ssc', label: 'SSC Exams', icon: BookOpen, desc: 'Exact 4.5x3.5cm sizes for SSC photos, signatures, and thumb impressions. 20-50KB limits strictly enforced.', path: '/ssc-photo-resizer' },
+  { id: 'rto', label: 'RTO / Parivahan', icon: Car, desc: 'Quickly adjust photos and signatures to match exact Parivahan / RTO specifications without losing quality.', path: '/rto-photo-resizer' },
   { id: 'pan', label: 'PAN Card', icon: CreditCard, desc: 'Resize for NSDL or UTIITSL PAN card portals. 213x213px at 300DPI for photos, and 2:1 ratio for signatures.', path: '/pan-card-photo-resizer' },
   { id: 'passport', label: 'Passport Photo (2x2 inch)', icon: Plane, desc: 'Standard Indian Passport/Visa sizes (2x2 inch or 51x51mm). Perfect for online OCI or Passport Seva applications.', path: '/passport-photo-resizer' },
-  { id: 'rto', label: 'RTO / Parivahan', icon: Car, desc: 'Quickly adjust photos and signatures to match exact Parivahan / RTO specifications without losing quality.', path: '/rto-photo-resizer' },
+  { id: 'ssc', label: 'SSC Exams', icon: BookOpen, desc: 'Exact 4.5x3.5cm sizes for SSC photos, signatures, and thumb impressions. 20-50KB limits strictly enforced.', path: '/ssc-photo-resizer' },
   { id: 'upsc', label: 'UPSC Exams', icon: BookOpen, desc: 'Meet the strict UPSC 350x350px limits. Crops accurately and compresses within 20KB-300KB as required.', path: '/upsc-photo-resizer' },
   { id: 'custom', label: 'Custom Size', icon: Sliders, desc: 'Need a specific pixel width, height, or KB size? Use the custom tool to manually set your own form requirements.', path: '/custom-resizer' },
 ];
