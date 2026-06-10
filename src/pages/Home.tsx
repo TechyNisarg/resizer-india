@@ -23,6 +23,10 @@ export const Home: React.FC = () => {
     if (path.includes('ssc')) return { cat: 'ssc', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : 'photo') };
     if (path.includes('upsc')) return { cat: 'upsc', type: path.includes('signature') ? 'signature' : 'photo' };
     if (path.includes('passport')) return { cat: 'passport', type: 'photo' };
+    if (path.includes('ibps')) return { cat: 'ibps', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : (path.includes('declaration') ? 'handwritten' : 'photo')) };
+    if (path.includes('rrb')) return { cat: 'rrb', type: path.includes('signature') ? 'signature' : 'photo' };
+    if (path.includes('neet')) return { cat: 'neet', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : (path.includes('postcard') ? 'postcard' : 'photo')) };
+    if (path.includes('acpc')) return { cat: 'acpc', type: path.includes('signature') ? 'signature' : 'photo' };
     if (path.includes('custom')) return { cat: 'custom', type: 'custom' };
     return { cat: 'rto', type: path.includes('signature') ? 'signature' : 'photo' };
   };
@@ -56,6 +60,13 @@ export const Home: React.FC = () => {
     else if (cat === 'ssc') navigate(`/ssc-${t}-resizer`);
     else if (cat === 'upsc') navigate(`/upsc-${t}-resizer`);
     else if (cat === 'passport') navigate(`/passport-photo-resizer`);
+    else if (cat === 'ibps') {
+      if (t === 'handwritten') navigate(`/ibps-declaration-resizer`);
+      else navigate(`/ibps-${t}-resizer`);
+    }
+    else if (cat === 'rrb') navigate(`/rrb-${t}-resizer`);
+    else if (cat === 'neet') navigate(`/neet-${t}-resizer`);
+    else if (cat === 'acpc') navigate(`/acpc-${t}-resizer`);
     else navigate('/');
   };
 
@@ -68,7 +79,7 @@ export const Home: React.FC = () => {
 
   const availableTypes = availablePresets.map(p => ({
     type: p.type,
-    label: p.type === 'photo' ? 'Photo' : p.type === 'signature' ? 'Signature' : p.type === 'thumb' ? 'Thumb Impression' : 'Custom'
+    label: p.type === 'photo' ? 'Photo' : p.type === 'signature' ? 'Signature' : p.type === 'thumb' ? 'Thumb Impression' : p.type === 'handwritten' ? 'Declaration' : p.type === 'postcard' ? 'Postcard Photo' : 'Custom'
   }));
 
   const {

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { PresetCategory, PresetType } from '../utils/presetData';
-import { ChevronDown, Car, CreditCard, Plane, BookOpen, Sliders, User, PenTool, Fingerprint } from 'lucide-react';
+import { ChevronDown, Car, CreditCard, Plane, BookOpen, Sliders, User, PenTool, Fingerprint, Landmark, Train, Stethoscope, GraduationCap, FileText, Image as ImageIcon } from 'lucide-react';
 
 interface PresetSelectorProps {
   currentCategory: PresetCategory;
@@ -16,6 +16,10 @@ const CATEGORIES: { id: PresetCategory, label: string, icon: React.ElementType }
   { id: 'passport', label: 'Passport Photo (2x2 inch)', icon: Plane },
   { id: 'ssc', label: 'SSC Exams', icon: BookOpen },
   { id: 'upsc', label: 'UPSC Exams', icon: BookOpen },
+  { id: 'ibps', label: 'Bank Exams (IBPS/SBI)', icon: Landmark },
+  { id: 'rrb', label: 'Railway Exams (RRB)', icon: Train },
+  { id: 'neet', label: 'NEET / NTA Exams', icon: Stethoscope },
+  { id: 'acpc', label: 'ACPC Admission', icon: GraduationCap },
   { id: 'custom', label: 'Custom Size', icon: Sliders },
 ];
 
@@ -23,6 +27,8 @@ const TYPE_ICONS: Record<string, React.ElementType> = {
   photo: User,
   signature: PenTool,
   thumb: Fingerprint,
+  handwritten: FileText,
+  postcard: ImageIcon,
   custom: Sliders
 };
 

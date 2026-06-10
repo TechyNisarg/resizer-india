@@ -1,5 +1,5 @@
-export type PresetCategory = 'rto' | 'pan' | 'ssc' | 'upsc' | 'passport' | 'custom';
-export type PresetType = 'photo' | 'signature' | 'thumb' | 'custom';
+export type PresetCategory = 'rto' | 'pan' | 'ssc' | 'upsc' | 'passport' | 'ibps' | 'rrb' | 'neet' | 'acpc' | 'custom';
+export type PresetType = 'photo' | 'signature' | 'thumb' | 'handwritten' | 'postcard' | 'custom';
 
 export interface Preset {
   id: string;
@@ -180,6 +180,199 @@ export const PRESETS: Preset[] = [
     ],
     filename: 'upsc-signature',
     buttonText: 'Resize UPSC Signature'
+  },
+  {
+    id: 'ibps-photo',
+    category: 'ibps',
+    type: 'photo',
+    width: 413,
+    height: 531,
+    minKB: 20,
+    maxKB: 50,
+    instructions: [
+      'Dimensions: 4.5cm x 3.5cm (approx 413x531 px)',
+      'Final Output Size: 20-50KB',
+      'Recent passport style colour picture'
+    ],
+    filename: 'ibps-photo',
+    buttonText: 'Resize IBPS Photo',
+    hasFaceGuide: true
+  },
+  {
+    id: 'ibps-signature',
+    category: 'ibps',
+    type: 'signature',
+    width: 140,
+    height: 60,
+    minKB: 10,
+    maxKB: 20,
+    instructions: [
+      'Dimensions: 140x60 pixels',
+      'Final Output Size: 10-20KB',
+      'Sign on white paper with Black Ink pen'
+    ],
+    filename: 'ibps-signature',
+    buttonText: 'Resize IBPS Signature'
+  },
+  {
+    id: 'ibps-thumb',
+    category: 'ibps',
+    type: 'thumb',
+    width: 240,
+    height: 240,
+    minKB: 20,
+    maxKB: 50,
+    instructions: [
+      'Dimensions: 240x240 pixels',
+      'Final Output Size: 20-50KB',
+      'Left thumb impression on white paper with black/blue ink'
+    ],
+    filename: 'ibps-thumb',
+    buttonText: 'Resize IBPS Thumb'
+  },
+  {
+    id: 'ibps-handwritten',
+    category: 'ibps',
+    type: 'handwritten',
+    width: 800,
+    height: 400,
+    minKB: 50,
+    maxKB: 100,
+    instructions: [
+      'Dimensions: 800x400 pixels',
+      'Final Output Size: 50-100KB',
+      'Write on white paper with black ink'
+    ],
+    filename: 'ibps-declaration',
+    buttonText: 'Resize Declaration'
+  },
+  {
+    id: 'rrb-photo',
+    category: 'rrb',
+    type: 'photo',
+    width: 413,
+    height: 531,
+    minKB: 20,
+    maxKB: 50,
+    instructions: [
+      'Dimensions: 35mm x 45mm',
+      'Final Output Size: 20-50KB',
+      'Strict white background, no glasses'
+    ],
+    filename: 'rrb-photo',
+    buttonText: 'Resize RRB Photo',
+    hasFaceGuide: true
+  },
+  {
+    id: 'rrb-signature',
+    category: 'rrb',
+    type: 'signature',
+    width: 590,
+    height: 236,
+    minKB: 10,
+    maxKB: 40,
+    instructions: [
+      'Dimensions: 50mm x 20mm',
+      'Final Output Size: 10-40KB',
+      'Sign on white paper with black ink pen'
+    ],
+    filename: 'rrb-signature',
+    buttonText: 'Resize RRB Signature'
+  },
+  {
+    id: 'neet-photo',
+    category: 'neet',
+    type: 'photo',
+    width: 413,
+    height: 531,
+    minKB: 10,
+    maxKB: 200,
+    instructions: [
+      'Passport size, Final Output Size: 10-200KB',
+      '80% face coverage, ears clearly visible',
+      'White background'
+    ],
+    filename: 'neet-photo',
+    buttonText: 'Resize NEET Photo',
+    hasFaceGuide: true
+  },
+  {
+    id: 'neet-postcard',
+    category: 'neet',
+    type: 'postcard',
+    width: 600,
+    height: 900,
+    minKB: 10,
+    maxKB: 200,
+    instructions: [
+      'Postcard size (4x6 inches)',
+      'Final Output Size: 10-200KB',
+      'White background, 80% face coverage'
+    ],
+    filename: 'neet-postcard',
+    buttonText: 'Resize NEET Postcard',
+    hasFaceGuide: true
+  },
+  {
+    id: 'neet-signature',
+    category: 'neet',
+    type: 'signature',
+    width: 256,
+    height: 64,
+    minKB: 4,
+    maxKB: 30,
+    instructions: [
+      'Final Output Size: 4-30KB',
+      'Sign horizontally on white paper'
+    ],
+    filename: 'neet-signature',
+    buttonText: 'Resize NEET Signature'
+  },
+  {
+    id: 'neet-thumb',
+    category: 'neet',
+    type: 'thumb',
+    width: 600,
+    height: 400,
+    minKB: 10,
+    maxKB: 200,
+    instructions: [
+      'Left and Right hand fingers and thumb impression',
+      'Final Output Size: 10-200KB'
+    ],
+    filename: 'neet-thumb',
+    buttonText: 'Resize NEET Thumb'
+  },
+  {
+    id: 'acpc-photo',
+    category: 'acpc',
+    type: 'photo',
+    width: 413,
+    height: 531,
+    minKB: 10,
+    maxKB: 200,
+    instructions: [
+      'Final Output Size: 10-200KB',
+      'JPG format required'
+    ],
+    filename: 'acpc-photo',
+    buttonText: 'Resize ACPC Photo',
+    hasFaceGuide: true
+  },
+  {
+    id: 'acpc-signature',
+    category: 'acpc',
+    type: 'signature',
+    width: 400,
+    height: 200,
+    minKB: 10,
+    maxKB: 200,
+    instructions: [
+      'Final Output Size: 10-200KB',
+      'JPG format required'
+    ],
+    filename: 'acpc-signature',
+    buttonText: 'Resize ACPC Signature'
   },
   {
     id: 'custom-preset',
