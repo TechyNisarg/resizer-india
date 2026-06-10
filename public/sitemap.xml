@@ -6,6 +6,56 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://resizer-india.vercel.app/rto-photo-resizer</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://resizer-india.vercel.app/pan-card-photo-resizer</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://resizer-india.vercel.app/passport-photo-resizer</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://resizer-india.vercel.app/ssc-photo-resizer</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://resizer-india.vercel.app/upsc-photo-resizer</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://resizer-india.vercel.app/ibps-photo-resizer</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://resizer-india.vercel.app/rrb-photo-resizer</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://resizer-india.vercel.app/neet-photo-resizer</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://resizer-india.vercel.app/acpc-photo-resizer</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://resizer-india.vercel.app/custom-resizer</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://resizer-india.vercel.app/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -17,11 +67,6 @@
   </url>
   <url>
     <loc>https://resizer-india.vercel.app/terms</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://resizer-india.vercel.app/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
