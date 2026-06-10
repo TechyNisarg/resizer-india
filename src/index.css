@@ -116,12 +116,10 @@ input { cursor: text; }
 
 .pills-container {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  overflow-x: auto;
   padding-bottom: 0.5rem;
-  scrollbar-width: none; /* Firefox */
 }
-.pills-container::-webkit-scrollbar { display: none; }
 
 .pill-btn {
   background: var(--surface-solid);
