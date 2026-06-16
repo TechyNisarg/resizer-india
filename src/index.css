@@ -272,23 +272,17 @@ html.dark .header {
 }
 .nav-link:hover { color: var(--primary); }
 
-.nav-icon-btn {
+.clean-icon-link {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: transparent;
   color: var(--text-secondary);
   transition: var(--transition);
-  text-decoration: none;
-  margin-right: -10px;
+  margin-right: -12px; /* Optical alignment with grid cards below */
 }
 
-.nav-icon-btn:hover {
+.clean-icon-link:hover {
   color: var(--primary);
-  background: rgba(148, 163, 184, 0.1);
+  transform: scale(1.05);
 }
 
 /* Main Container */
