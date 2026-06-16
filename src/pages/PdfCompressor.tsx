@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { Upload, FileText, DownloadCloud, Trash2, ShieldCheck, AlertCircle } from 'lucide-react';
 
 export const PdfCompressor: React.FC = () => {
@@ -9,6 +9,7 @@ export const PdfCompressor: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
   const [targetMaxKB, setTargetMaxKB] = useState<100 | 200 | 300>(300);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -134,28 +135,32 @@ export const PdfCompressor: React.FC = () => {
         </div>
       </header>
 
-      <main className="main-grid" style={{ gridTemplateColumns: '1fr', maxWidth: '800px', margin: '0 auto' }}>
-        <div className="card">
+      <main className="main-grid" style={{ gridTemplateColumns: '1fr', maxWidth: '640px', margin: '0 auto' }}>
+        <div className="card" style={{ padding: '1.5rem' }}>
           {!sourceFile ? (
             <div 
               className="dropzone"
               onDrop={handleDrop}
               onDragOver={(e) => e.preventDefault()}
+              onClick={() => fileInputRef.current?.click()}
             >
               <input
                 type="file"
-                id="file-upload"
+                ref={fileInputRef}
                 className="hidden"
                 accept="image/jpeg, image/png, image/webp"
                 onChange={(e) => e.target.files && handleFile(e.target.files[0])}
+                style={{ display: 'none' }}
               />
-              <label htmlFor="file-upload" className="upload-label">
-                <Upload size={48} color="var(--primary)" />
-                <p style={{ marginTop: '1rem', fontWeight: 600 }}>Drop an Image document here</p>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-                  Supports JPG, PNG, WEBP
-                </p>
-              </label>
+              <Upload size={48} className="upload-icon" />
+              <p style={{ marginTop: '1rem', fontWeight: 600 }}>Tap to Upload or Drop Image Here</p>
+              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
+                Supports JPG, PNG, WEBP
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500, marginTop: '0.5rem' }}>
+                <ShieldCheck size={18} />
+                <span>100% Secure & Private</span>
+              </div>
             </div>
           ) : (
             <div className="controls">
