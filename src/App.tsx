@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Scissors, Home as HomeIcon, Info, Shield, FileText, Mail, ShieldCheck } from 'lucide-react';
+import { Scissors, LayoutGrid, Info, Shield, FileText, Mail, ShieldCheck } from 'lucide-react';
 import { Home } from './pages/Home';
 import { About, Privacy, Terms, Contact } from './pages/StaticPages';
 
@@ -18,8 +18,8 @@ function App() {
                 <ShieldCheck size={18} />
                 <span className="hide-on-mobile" style={{ position: 'relative', top: '-1px' }}>100% Client-Side. No Server Uploads.</span>
               </div>
-              <Link to="/" className="nav-icon-btn" title="Home">
-                <HomeIcon size={20} />
+              <Link to="/" className="nav-icon-btn" title="All Tools (Home)">
+                <LayoutGrid size={22} />
               </Link>
             </nav>
           </div>
