@@ -1,5 +1,18 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Scissors, Info, Shield, FileText, Mail, ShieldCheck } from 'lucide-react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Scissors, Info, Shield, FileText, Mail, ShieldCheck, ArrowLeft } from 'lucide-react';
+
+const GlobalBackButton = () => {
+  const location = useLocation();
+  if (location.pathname === '/') return null;
+  
+  return (
+    <div style={{ maxWidth: '1440px', margin: '0 auto', width: '100%', padding: '1rem 1rem 0', display: 'flex' }}>
+      <Link to="/" className="back-icon-btn" title="Back to All Tools">
+         <ArrowLeft size={24} />
+      </Link>
+    </div>
+  );
+};
 import { Home } from './pages/Home';
 import { About, Privacy, Terms, Contact } from './pages/StaticPages';
 
@@ -23,6 +36,7 @@ function App() {
         </header>
 
         <main className="main-container">
+          <GlobalBackButton />
           <Routes>
             <Route path="/about" element={<About />} />
             <Route path="/privacy" element={<Privacy />} />

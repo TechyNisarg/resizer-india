@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Dropzone } from '../components/Dropzone';
 import { ImagePreview } from '../components/ImagePreview';
 import { PresetSelector } from '../components/PresetSelector';
@@ -7,7 +7,7 @@ import { LandingPage } from '../components/LandingPage';
 import { useImageProcessor } from '../hooks/useImageProcessor';
 import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
 import { getPresetsByCategory } from '../utils/presetData';
-import { Trash2, DownloadCloud, ShieldCheck, ArrowLeft } from 'lucide-react';
+import { Trash2, DownloadCloud, ShieldCheck } from 'lucide-react';
 
 export const Home: React.FC = () => {
   const location = useLocation();
@@ -101,11 +101,6 @@ export const Home: React.FC = () => {
 
   return (
     <div className="home-container">
-      <div style={{ maxWidth: '1440px', margin: '0 auto', width: '100%', marginBottom: '1.5rem', display: 'flex' }}>
-        <Link to="/" className="back-icon-btn" title="Back to All Tools">
-           <ArrowLeft size={24} />
-        </Link>
-      </div>
       <div className="hero-section">
         <h1>{activePreset?.buttonText || "Resize Image"}</h1>
         <div style={{ marginTop: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.85rem', fontWeight: 600 }}>
