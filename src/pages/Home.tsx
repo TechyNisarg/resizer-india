@@ -7,6 +7,7 @@ import { LandingPage } from '../components/LandingPage';
 import { useImageProcessor } from '../hooks/useImageProcessor';
 import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
 import { getPresetsByCategory } from '../utils/presetData';
+import { SEO_CONTENT } from '../utils/seoContent';
 import { Trash2, DownloadCloud, ShieldCheck } from 'lucide-react';
 
 export const Home: React.FC = () => {
@@ -23,10 +24,12 @@ export const Home: React.FC = () => {
     if (path.includes('ssc')) return { cat: 'ssc', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : 'photo') };
     if (path.includes('upsc')) return { cat: 'upsc', type: path.includes('signature') ? 'signature' : 'photo' };
     if (path.includes('passport')) return { cat: 'passport', type: 'photo' };
-    if (path.includes('ibps')) return { cat: 'ibps', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : (path.includes('declaration') ? 'handwritten' : 'photo')) };
+    if (path.includes('ibps')) return { cat: 'ibps', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : (path.includes('handwritten') ? 'handwritten' : 'photo')) };
     if (path.includes('rrb')) return { cat: 'rrb', type: path.includes('signature') ? 'signature' : 'photo' };
     if (path.includes('neet')) return { cat: 'neet', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : (path.includes('postcard') ? 'postcard' : 'photo')) };
     if (path.includes('acpc')) return { cat: 'acpc', type: path.includes('signature') ? 'signature' : 'photo' };
+    if (path.includes('state-psc')) return { cat: 'state-psc', type: path.includes('signature') ? 'signature' : 'photo' };
+    if (path.includes('defence')) return { cat: 'defence', type: path.includes('signature') ? 'signature' : 'photo' };
     if (path.includes('custom')) return { cat: 'custom', type: 'custom' };
     return { cat: 'rto', type: path.includes('signature') ? 'signature' : 'photo' };
   };
@@ -211,14 +214,14 @@ export const Home: React.FC = () => {
         </div>
       </div>
       
-      {!sourceImage && (
+      {!sourceImage && SEO_CONTENT[category] && (
         <div className="seo-text" style={{ marginTop: '2rem', padding: '1.5rem', background: 'var(--surface)', borderRadius: 'var(--radius)', color: 'var(--text-secondary)' }}>
-          <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--primary)' }}>Why use Resizer India?</h2>
-          <p style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
-            Whether you are applying for SSC exams, UPSC civil services, IBPS bank exams, NEET, or updating your PAN Card and Parivahan documents, strict image size restrictions apply. 
-            Resizer India is a 100% free, fully secure, client-side browser-based tool. Your images never leave your device. It effortlessly crops your photos to exact pixel dimensions and aggressively compresses them to hit 10KB, 20KB, or 50KB limits 
-            without losing visual quality. Perfect for signature uploads, left thumb impressions, handwritten declarations, and passport size photo making.
-          </p>
+          <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>{SEO_CONTENT[category].title}</h2>
+          {SEO_CONTENT[category].content.map((paragraph, idx) => (
+            <p key={idx} style={{ fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '0.75rem' }}>
+              {paragraph}
+            </p>
+          ))}
         </div>
       )}
     </div>

@@ -1,4 +1,4 @@
-export type PresetCategory = 'rto' | 'pan' | 'ssc' | 'upsc' | 'passport' | 'ibps' | 'rrb' | 'neet' | 'acpc' | 'custom';
+export type PresetCategory = 'rto' | 'pan' | 'ssc' | 'upsc' | 'passport' | 'ibps' | 'rrb' | 'neet' | 'acpc' | 'state-psc' | 'defence' | 'custom';
 export type PresetType = 'photo' | 'signature' | 'thumb' | 'handwritten' | 'postcard' | 'custom';
 
 export interface Preset {
@@ -33,6 +33,7 @@ export const PRESETS: Preset[] = [
     buttonText: 'Resize RTO Photo',
     hasFaceGuide: true
   },
+
   {
     id: 'rto-signature',
     category: 'rto',
@@ -373,6 +374,70 @@ export const PRESETS: Preset[] = [
     ],
     filename: 'acpc-signature',
     buttonText: 'Resize ACPC Signature'
+  },
+  {
+    id: 'state-psc-photo',
+    category: 'state-psc',
+    type: 'photo',
+    width: 350,
+    height: 450,
+    minKB: 20,
+    maxKB: 50,
+    instructions: [
+      'Width: 3.5cm, Height: 4.5cm',
+      'Final Output Size: 20-50KB',
+      'Plain white background, no glasses'
+    ],
+    filename: 'state-psc-photo',
+    buttonText: 'Resize PSC Photo',
+    hasFaceGuide: true
+  },
+  {
+    id: 'state-psc-signature',
+    category: 'state-psc',
+    type: 'signature',
+    width: 256,
+    height: 64,
+    minKB: 10,
+    maxKB: 20,
+    instructions: [
+      'Final Output Size: 10-20KB',
+      'Sign with black pen on white paper'
+    ],
+    filename: 'state-psc-signature',
+    buttonText: 'Resize PSC Signature'
+  },
+  {
+    id: 'defence-photo',
+    category: 'defence',
+    type: 'photo',
+    width: 350,
+    height: 450,
+    minKB: 10,
+    maxKB: 40,
+    instructions: [
+      'Width: 3.5cm, Height: 4.5cm',
+      'Final Output Size: 10-40KB',
+      'Light background, formal attire'
+    ],
+    filename: 'defence-photo',
+    buttonText: 'Resize Defence Photo',
+    hasFaceGuide: true
+  },
+  {
+    id: 'defence-signature',
+    category: 'defence',
+    type: 'signature',
+    width: 256,
+    height: 64,
+    minKB: 5,
+    maxKB: 10,
+    instructions: [
+      'Final Output Size: 5-10KB',
+      'Sign with black pen on white paper'
+    ],
+    filename: 'defence-signature',
+    buttonText: 'Resize Defence Signature'
   },
   {
     id: 'custom-preset',

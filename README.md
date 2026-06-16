@@ -1,73 +1,38 @@
-# React + TypeScript + Vite
+# Resizer India
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A 100% secure, fully client-side image resizing and compression utility designed specifically for Indian government forms and exams.
 
-Currently, two official plugins are available:
+[![Live Demo](https://img.shields.io/badge/Live-Demo-success)](https://resizer-india.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **100% Client-Side**: All cropping, resizing, and compression happens entirely in the browser using Web Workers. Images never leave your device.
+- **Precision Compression**: Intelligently compresses images to hit strict file size limits (e.g., 10KB - 50KB) often required by government portals.
+- **Exam & Document Presets**: 1-click presets with exact pixel dimensions and KB requirements for:
+  - PAN Card
+  - RTO / Parivahan
+  - SSC, UPSC, IBPS, RRB, NEET
+  - State PSCs and more
+- **Modern UI**: Clean, responsive interface built with React, Vite, and Framer Motion.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework**: React 19 + TypeScript + Vite
+- **Styling**: Vanilla CSS with CSS Variables
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+- **Image Processing**: `react-easy-crop` (Cropping) + HTML5 Canvas API (Resizing & Compression)
+- **Deployment**: Vercel (Static Export + Prerendering)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Local Development
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```bash
+# Install dependencies
+npm install
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+# Start local dev server
+npm run dev
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Build for production (includes static prerendering)
+npm run build
 ```

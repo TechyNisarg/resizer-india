@@ -42,6 +42,14 @@ const routes = {
     title: 'ACPC Admission Photo Resizer - Resizer India',
     description: 'Fast resize for Gujarat ACPC engineering and diploma admission portals. Prepare your photos and signatures accurately.',
   },
+  '/state-psc-photo-resizer': {
+    title: 'State PSC Photo & Signature Resizer - Resizer India',
+    description: 'Instantly resize photos and signatures to match exact State Public Service Commission (MPSC, WBCS, KPSC) specifications.',
+  },
+  '/defence-photo-resizer': {
+    title: 'Defence & Army Exams Photo Resizer - Resizer India',
+    description: 'Prepare your photos and signatures for Agniveer, NDA, CDS, and other defence exams safely on your own device.',
+  },
   '/custom-resizer': {
     title: 'Custom Image Resizer & Compressor - Resizer India',
     description: 'Need a specific pixel width, height, or KB size? Use the custom tool to manually set your own form requirements.',

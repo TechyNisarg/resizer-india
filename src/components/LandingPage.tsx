@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Car, CreditCard, Plane, BookOpen, Sliders, Landmark, Train, Stethoscope, GraduationCap } from 'lucide-react';
+import { Car, CreditCard, Plane, BookOpen, Sliders, Landmark, Train, Stethoscope, GraduationCap, Shield } from 'lucide-react';
 
 const CATEGORIES = [
   { id: 'rto', label: 'RTO / Parivahan', icon: Car, color: '#eab308', bg: 'rgba(234, 179, 8, 0.1)', desc: '• Photo: 3.5x4.5 cm\n• Sign: 256x64 px\n• Size: 10KB - 20KB\n• Portals: Vahan, Sarathi', path: '/rto-photo-resizer' },
@@ -13,6 +13,8 @@ const CATEGORIES = [
   { id: 'rrb', label: 'Railway (RRB)', icon: Train, color: '#f97316', bg: 'rgba(249, 115, 22, 0.1)', desc: '• Photo: 35x45 mm (20-50KB)\n• Background: White only\n• Sign: 50x20 mm (10-40KB)\n• Format: JPG/JPEG', path: '/rrb-photo-resizer' },
   { id: 'neet', label: 'NEET / NTA', icon: Stethoscope, color: '#06b6d4', bg: 'rgba(6, 182, 212, 0.1)', desc: '• Passport: 10-200KB\n• Postcard: 4x6 inch (10-200KB)\n• Sign: 4-30KB\n• Thumb: 10-200KB', path: '/neet-photo-resizer' },
   { id: 'acpc', label: 'ACPC Admission', icon: GraduationCap, color: '#ec4899', bg: 'rgba(236, 72, 153, 0.1)', desc: '• Photo: 10-50KB\n• Sign: 10-50KB\n• Format: JPG/JPEG\n• Uses: GUJCET, Engineering', path: '/acpc-photo-resizer' },
+  { id: 'state-psc', label: 'State PSCs', icon: Landmark, color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.1)', desc: '• Photo: 3.5x4.5 cm (20-50KB)\n• Sign: 10-20KB\n• Portals: MPSC, WBCS, KPSC, etc.', path: '/state-psc-photo-resizer' },
+  { id: 'defence', label: 'Defence / Army', icon: Shield, color: '#4d7c0f', bg: 'rgba(77, 124, 15, 0.1)', desc: '• Photo: 10-40KB\n• Sign: 5-10KB\n• Uses: Agniveer, NDA, CDS', path: '/defence-photo-resizer' },
   { id: 'custom', label: 'Custom Tool', icon: Sliders, color: '#64748b', bg: 'rgba(100, 116, 139, 0.1)', desc: '• Custom Width & Height\n• Exact KB Compression\n• Ratio Preserving\n• Manual Cropping', path: '/custom-resizer' },
 ];
 
