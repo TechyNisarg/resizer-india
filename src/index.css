@@ -441,7 +441,7 @@ html.dark .header {
 
 @media (min-width: 1280px) {
   .category-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
