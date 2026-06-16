@@ -149,7 +149,7 @@ export const Home: React.FC = () => {
       )}
 
       <div className="workspace">
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '0.5rem', maxWidth: '900px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '1rem', maxWidth: '900px' }}>
           <PresetSelector 
             currentCategory={category} 
             onCategorySelect={handleCategorySelect}
