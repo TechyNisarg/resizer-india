@@ -7,7 +7,7 @@ const GlobalBackButton = () => {
   if (location.pathname === '/') return null;
   
   return (
-    <div style={{ maxWidth: '932px', margin: '0 auto', width: '100%', padding: '1rem 1rem 0', display: 'flex' }}>
+    <div style={{ maxWidth: '1440px', margin: '0 auto', width: '100%', padding: '1rem 1rem 0', display: 'flex' }}>
       <Link to="/" className="back-icon-btn" title="Back to All Tools">
          <ArrowLeft size={24} />
       </Link>
