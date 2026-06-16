@@ -238,15 +238,15 @@ export const Home: React.FC = () => {
           {error && <div className="error-toast">{error}</div>}
         </div>
 
-        <div className="main-content" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', height: '100%', maxWidth: '640px', width: '100%', margin: '0' }}>
+        <div className="main-content" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', height: '100%', maxWidth: '1100px', width: '100%', margin: '0' }}>
           {!sourceImage ? (
-            <>
-              <div style={{ flex: 1, display: 'flex' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', width: '100%', alignItems: 'stretch' }}>
+              <div style={{ flex: '1 1 500px', minWidth: '280px', maxWidth: '700px' }}>
                 <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
               </div>
               {userRequirements.length > 0 && (
-                <div className="card">
-                  <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>Requirements (From You)</h2>
+                <div className="card" style={{ flex: '1 1 300px', minWidth: '280px', maxWidth: '400px' }}>
+                  <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Requirements (From You)</h2>
                   <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     {userRequirements.map((inst, idx) => (
                       <li key={idx}>{inst}</li>
@@ -254,9 +254,9 @@ export const Home: React.FC = () => {
                   </ul>
                 </div>
               )}
-            </>
+            </div>
           ) : downloadObjectURL ? (
-            <div className="card result-view" style={{ textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
+            <div className="card result-view" style={{ maxWidth: '800px', textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
               <h2 style={{ color: '#10b981', fontSize: '2rem', marginBottom: '1rem' }}>Success! 🎉</h2>
               <img src={downloadObjectURL} alt="Resized" style={{ maxWidth: '100%', maxHeight: '40vh', margin: '0 auto 2rem', borderRadius: '8px', border: '1px solid var(--border-color)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }} />
               
@@ -279,16 +279,18 @@ export const Home: React.FC = () => {
               </div>
             </div>
           ) : (
-            <ImagePreview 
-              imageSrc={sourceObjectURL}
-              crop={crop}
-              zoom={zoom}
-              aspect={activePreset.width / activePreset.height}
-              hasFaceGuide={activePreset.hasFaceGuide}
-              onCropChange={setCrop}
-              onZoomChange={setZoom}
-              onCropComplete={onCropComplete}
-            />
+            <div style={{ maxWidth: '800px', width: '100%' }}>
+              <ImagePreview 
+                imageSrc={sourceObjectURL}
+                crop={crop}
+                zoom={zoom}
+                aspect={activePreset.width / activePreset.height}
+                hasFaceGuide={activePreset.hasFaceGuide}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
+              />
+            </div>
           )}
         </div>
       </div>
