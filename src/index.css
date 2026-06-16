@@ -408,7 +408,6 @@ html.dark .header {
 }
 
 .category-card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(59, 130, 246, 0.15);
   border-color: rgba(59, 130, 246, 0.4);
 }

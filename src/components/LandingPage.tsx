@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Car, CreditCard, Plane, BookOpen, Sliders, Landmark, Train, Stethoscope, GraduationCap } from 'lucide-react';
 
 const CATEGORIES = [
@@ -22,30 +23,59 @@ export const LandingPage: React.FC = () => {
     <div className="landing-page">
 
 
-      <div className="category-grid">
+      <motion.div 
+        className="category-grid"
+        initial="hidden"
+        animate="show"
+        variants={{
+          hidden: { opacity: 0 },
+          show: { opacity: 1, transition: { staggerChildren: 0.05 } }
+        }}
+      >
         {CATEGORIES.map(cat => {
           const Icon = cat.icon;
           return (
-            <button key={cat.id} className="category-card" onClick={() => navigate(cat.path)}>
+            <motion.button 
+              key={cat.id} 
+              className="category-card" 
+              onClick={() => navigate(cat.path)}
+              variants={{
+                hidden: { opacity: 0, y: 30, scale: 0.95 },
+                show: { 
+                  opacity: 1, 
+                  y: 0, 
+                  scale: 1, 
+                  transition: { type: 'spring', stiffness: 300, damping: 24 } 
+                }
+              }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              whileTap={{ scale: 0.98 }}
+            >
               <div className="category-icon-wrapper" style={{ color: cat.color, backgroundColor: cat.bg }}>
                 <Icon size={32} />
               </div>
               <h2 className="category-title">{cat.label}</h2>
               <p className="category-desc">{cat.desc}</p>
               <div className="category-action">Open Tool</div>
-            </button>
+            </motion.button>
           );
         })}
-      </div>
+      </motion.div>
 
-      <div className="seo-text" style={{ marginTop: '4rem', padding: '1.5rem', background: 'var(--surface)', borderRadius: 'var(--radius)', color: 'var(--text-secondary)' }}>
+      <motion.div 
+        className="seo-text" 
+        style={{ marginTop: '4rem', padding: '1.5rem', background: 'var(--surface)', borderRadius: 'var(--radius)', color: 'var(--text-secondary)' }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6, duration: 0.8 }}
+      >
         <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--primary)' }}>Why use Resizer India?</h2>
         <p style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
           Whether you are applying for SSC exams, UPSC civil services, IBPS bank exams, NEET, or updating your PAN Card and Parivahan documents, strict image size restrictions apply. 
           Resizer India is a 100% free, fully secure, client-side browser-based tool. Your images never leave your device. It effortlessly crops your photos to exact pixel dimensions and aggressively compresses them to hit 10KB, 20KB, or 50KB limits 
           without losing visual quality. Perfect for signature uploads, left thumb impressions, handwritten declarations, and passport size photo making.
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 };

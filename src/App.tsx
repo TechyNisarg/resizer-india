@@ -13,8 +13,36 @@ const GlobalBackButton = () => {
     </div>
   );
 };
+import { AnimatePresence, motion } from 'framer-motion';
 import { Home } from './pages/Home';
 import { About, Privacy, Terms, Contact } from './pages/StaticPages';
+
+const PageWrapper = ({ children }: { children: React.ReactNode }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
+    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+    exit={{ opacity: 0, y: -12, filter: 'blur(4px)' }}
+    transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+    style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}
+  >
+    {children}
+  </motion.div>
+);
+
+const AppRoutes = () => {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
+        <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
+        <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
+        <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+        <Route path="/*" element={<PageWrapper><Home /></PageWrapper>} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
 
 function App() {
   return (
@@ -37,13 +65,7 @@ function App() {
 
         <main className="main-container">
           <GlobalBackButton />
-          <Routes>
-            <Route path="/about" element={<About />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/*" element={<Home />} />
-          </Routes>
+          <AppRoutes />
         </main>
 
         <footer className="footer">
