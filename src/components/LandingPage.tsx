@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Car, CreditCard, Plane, BookOpen, Sliders, Landmark, Train, Stethoscope, GraduationCap, ShieldCheck } from 'lucide-react';
+import { Car, CreditCard, Plane, BookOpen, Sliders, Landmark, Train, Stethoscope, GraduationCap } from 'lucide-react';
 
 const CATEGORIES = [
   { id: 'rto', label: 'RTO / Parivahan', icon: Car, color: '#eab308', bg: 'rgba(234, 179, 8, 0.1)', desc: '• Photo: 3.5x4.5 cm\n• Sign: 256x64 px\n• Size: 10KB - 20KB\n• Portals: Vahan, Sarathi', path: '/rto-photo-resizer' },
@@ -20,12 +20,7 @@ export const LandingPage: React.FC = () => {
 
   return (
     <div className="landing-page">
-      <div className="landing-hero">
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.5rem 1rem', borderRadius: '99px', fontSize: '0.9rem', fontWeight: 600 }}>
-          <ShieldCheck size={18} />
-          <span>100% Client-Side Processing. No Server Uploads.</span>
-        </div>
-      </div>
+
 
       <div className="category-grid">
         {CATEGORIES.map(cat => {
