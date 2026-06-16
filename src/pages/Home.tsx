@@ -8,7 +8,7 @@ import { useImageProcessor } from '../hooks/useImageProcessor';
 import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
 import { getPresetsByCategory } from '../utils/presetData';
 import { SEO_CONTENT } from '../utils/seoContent';
-import { Trash2, DownloadCloud, ShieldCheck } from 'lucide-react';
+import { Trash2, DownloadCloud } from 'lucide-react';
 
 export const Home: React.FC = () => {
   const location = useLocation();
@@ -242,14 +242,6 @@ export const Home: React.FC = () => {
                   <li key={idx}>{inst}</li>
                 ))}
               </ul>
-            </div>
-          )}
-
-          {!sourceImage && (
-            <div className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '2rem' }}>
-              <ShieldCheck size={48} color="#10b981" style={{ marginBottom: '1rem' }} />
-              <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>100% Secure & Private</h2>
-              <p style={{ color: 'var(--text-secondary)' }}>All processing happens locally on your device. Your files are never uploaded to any server, guaranteeing complete privacy and blazing fast speeds.</p>
             </div>
           )}
 

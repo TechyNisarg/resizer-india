@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Upload, FileText, DownloadCloud, Trash2, ArrowLeft, ArrowRight, X, ShieldCheck, AlertCircle } from 'lucide-react';
+import { Upload, FileText, DownloadCloud, Trash2, ArrowLeft, ArrowRight, X, AlertCircle } from 'lucide-react';
 
 type PageEntry = {
   id: string;
@@ -544,13 +544,6 @@ export const PdfCompressor: React.FC = () => {
       )}
 
       <div className="info-grid" style={{ margin: '0 auto' }}>
-        {pages.length === 0 && (
-          <div className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '2rem' }}>
-            <ShieldCheck size={48} color="#10b981" style={{ marginBottom: '1rem' }} />
-            <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>100% Secure & Private</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>All processing happens locally on your device. Your files are never uploaded to any server, guaranteeing complete privacy and blazing fast speeds.</p>
-          </div>
-        )}
 
         {pages.length === 0 && (
           <div className="card">

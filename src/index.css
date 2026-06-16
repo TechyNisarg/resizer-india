@@ -88,20 +88,17 @@ input { cursor: text; }
 }
 
 .info-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1rem;
   width: 100%;
   max-width: 950px;
 }
 
-@media (max-width: 768px) {
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 .info-grid .card {
+  flex: 1 1 300px;
+  max-width: 450px;
   display: flex;
   flex-direction: column;
   height: 100%;
