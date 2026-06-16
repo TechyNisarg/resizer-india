@@ -190,18 +190,7 @@ export const Home: React.FC = () => {
             </div>
           )}
 
-          {!sourceImage ? (
-            userRequirements.length > 0 && (
-              <div className="card">
-                <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>Requirements (From You)</h2>
-                <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  {userRequirements.map((inst, idx) => (
-                    <li key={idx}>{inst}</li>
-                  ))}
-                </ul>
-              </div>
-            )
-          ) : (
+          {!sourceImage ? null : (
             <div className="card controls">
               <div className="controls-row">
                 <button className="btn-danger" onClick={clearImage} title="Clear Image">
@@ -251,9 +240,21 @@ export const Home: React.FC = () => {
 
         <div className="main-content" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', height: '100%' }}>
           {!sourceImage ? (
-            <div style={{ flex: 1, display: 'flex' }}>
-              <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
-            </div>
+            <>
+              <div style={{ flex: 1, display: 'flex' }}>
+                <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
+              </div>
+              {userRequirements.length > 0 && (
+                <div className="card">
+                  <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>Requirements (From You)</h2>
+                  <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {userRequirements.map((inst, idx) => (
+                      <li key={idx}>{inst}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </>
           ) : downloadObjectURL ? (
             <div className="card result-view" style={{ textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
               <h2 style={{ color: '#10b981', fontSize: '2rem', marginBottom: '1rem' }}>Success! 🎉</h2>
