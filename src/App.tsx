@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Scissors, Info, Shield, FileText, Mail, ShieldCheck, ArrowLeft } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 
 const GlobalBackButton = () => {
   const location = useLocation();
@@ -49,6 +50,7 @@ const AppRoutes = () => {
 function App() {
   return (
     <Router>
+      <Analytics />
       <div className="app-wrapper">
         <header className="header">
           <div className="header-container">

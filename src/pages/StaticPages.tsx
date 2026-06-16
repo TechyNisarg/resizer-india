@@ -13,7 +13,7 @@ export const Privacy: React.FC = () => (
     <h1 style={{ color: 'var(--primary)' }}>Privacy Policy</h1>
     <p><strong>100% Client-Side Processing</strong></p>
     <p>Your privacy is our utmost priority. All image cropping, resizing, and compression happens entirely within your web browser. <strong>Your images never leave your device.</strong></p>
-    <p>We do not have any servers that store or process your personal data. We do not use cookies for tracking.</p>
+    <p>We do not run servers that store or process your image data. To help us understand website traffic and improve the tool, we use privacy-friendly Vercel Web Analytics. This service gathers anonymous visitor statistics (such as page views and browser types) without using any cookies, storing personal data, or tracking you across different websites.</p>
   </div>
 );
 
