@@ -250,16 +250,18 @@ export const PdfCompressor: React.FC = () => {
 
   return (
     <div className="home-container" style={{ maxWidth: '960px', margin: '0 auto', padding: '2rem 1rem' }}>
-      <header className="hero-section" style={{ marginBottom: '2rem', textAlign: 'center' }}>
-        <h1 style={{ color: 'var(--primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-          <FileText size={32} /> PDF Compressor & Merger
-        </h1>
-        <p style={{ color: 'var(--text-secondary)' }}>Combine multiple images and PDFs into a single optimized PDF file.</p>
-        <div style={{ marginTop: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.85rem', fontWeight: 600 }}>
-          <ShieldCheck size={16} />
-          <span>100% Client-Side. Files never leave your device.</span>
-        </div>
-      </header>
+      {pages.length === 0 && (
+        <header className="hero-section" style={{ marginBottom: '2rem', textAlign: 'center' }}>
+          <h1 style={{ color: 'var(--primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+            <FileText size={32} /> PDF Compressor & Merger
+          </h1>
+          <p style={{ color: 'var(--text-secondary)' }}>Combine multiple images and PDFs into a single optimized PDF file.</p>
+          <div style={{ marginTop: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.85rem', fontWeight: 600 }}>
+            <ShieldCheck size={16} />
+            <span>100% Client-Side. Files never leave your device.</span>
+          </div>
+        </header>
+      )}
 
       {error && (
         <div className="error-toast" style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -356,8 +358,8 @@ export const PdfCompressor: React.FC = () => {
                     disabled={isProcessing}
                     style={{
                       position: 'absolute',
-                      top: '4px',
-                      right: '4px',
+                      top: '8px',
+                      right: '8px',
                       background: 'rgba(239, 68, 68, 0.1)',
                       color: 'var(--danger)',
                       border: 'none',
@@ -367,6 +369,8 @@ export const PdfCompressor: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
+                      padding: 0,
+                      zIndex: 10,
                       cursor: 'pointer'
                     }}
                     title="Remove Page"
