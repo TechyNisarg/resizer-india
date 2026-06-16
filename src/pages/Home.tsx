@@ -297,10 +297,10 @@ export const Home: React.FC = () => {
       </div>
       
       {!sourceImage && SEO_CONTENT[category] && (
-        <div className="seo-text" style={{ marginTop: '2rem', padding: '1.5rem', background: 'var(--surface)', borderRadius: 'var(--radius)', color: 'var(--text-secondary)' }}>
+        <div className="seo-text" style={{ width: '100%', maxWidth: '700px', margin: '2rem auto 0 auto', color: 'var(--text-secondary)', textAlign: 'left' }}>
           <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>{SEO_CONTENT[category].title}</h2>
           {SEO_CONTENT[category].content.map((paragraph, idx) => (
-            <p key={idx} style={{ fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '0.75rem' }}>
+            <p key={idx} style={{ fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1rem' }}>
               {paragraph}
             </p>
           ))}
