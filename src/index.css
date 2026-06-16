@@ -161,7 +161,7 @@ input { cursor: text; }
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  min-height: 400px;
+  min-height: 240px;
 }
 .dropzone:hover {
   border-color: var(--primary);

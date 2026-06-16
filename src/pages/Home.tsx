@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Dropzone } from '../components/Dropzone';
 import { ImagePreview } from '../components/ImagePreview';
 import { PresetSelector } from '../components/PresetSelector';
@@ -7,7 +7,7 @@ import { LandingPage } from '../components/LandingPage';
 import { useImageProcessor } from '../hooks/useImageProcessor';
 import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
 import { getPresetsByCategory } from '../utils/presetData';
-import { Trash2, DownloadCloud, ShieldCheck } from 'lucide-react';
+import { Trash2, DownloadCloud, ShieldCheck, Home as HomeIcon } from 'lucide-react';
 
 export const Home: React.FC = () => {
   const location = useLocation();
@@ -101,6 +101,11 @@ export const Home: React.FC = () => {
 
   return (
     <div className="home-container">
+      <div style={{ maxWidth: '1440px', margin: '0 auto', width: '100%', marginBottom: '1.5rem', display: 'flex' }}>
+        <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: 500, fontSize: '0.95rem', transition: 'var(--transition)', padding: '0.5rem 1rem', borderRadius: '8px', background: 'var(--surface-solid)', border: '1px solid var(--border-color)', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }} onMouseEnter={e => { e.currentTarget.style.color = 'var(--primary)'; e.currentTarget.style.borderColor = 'var(--primary)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}>
+           <HomeIcon size={18} /> Back to All Tools
+        </Link>
+      </div>
       <div className="hero-section">
         <h1>{activePreset?.buttonText || "Resize Image"}</h1>
         <div style={{ marginTop: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.85rem', fontWeight: 600 }}>

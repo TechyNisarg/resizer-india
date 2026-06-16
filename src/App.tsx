@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Scissors, Home as HomeIcon, Info, Shield, FileText, Mail, ShieldCheck } from 'lucide-react';
+import { Scissors, Info, Shield, FileText, Mail, ShieldCheck } from 'lucide-react';
 import { Home } from './pages/Home';
 import { About, Privacy, Terms, Contact } from './pages/StaticPages';
 
@@ -14,13 +14,10 @@ function App() {
               <div style={{ position: 'relative', top: '-1px' }}><span className="logo-text">Resizer</span> India</div>
             </Link>
             <nav className="nav-menu" style={{ alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500, marginRight: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
                 <ShieldCheck size={18} />
                 <span className="hide-on-mobile" style={{ position: 'relative', top: '-1px' }}>100% Client-Side. No Server Uploads.</span>
               </div>
-              <Link to="/" className="clean-icon-link" title="Home">
-                <HomeIcon size={22} strokeWidth={1.75} />
-              </Link>
             </nav>
           </div>
         </header>
