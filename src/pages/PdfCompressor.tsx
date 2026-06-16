@@ -1,13 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { Upload, FileText, DownloadCloud, Trash2, ShieldCheck, AlertCircle } from 'lucide-react';
-import jsPDF from 'jspdf';
-import * as pdfjsLib from 'pdfjs-dist';
-
-// Define the worker src for pdfjs (required for Vite)
-pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url
-).toString();
 
 export const PdfCompressor: React.FC = () => {
   const [sourceFile, setSourceFile] = useState<File | null>(null);
@@ -16,7 +8,7 @@ export const PdfCompressor: React.FC = () => {
   const [finalSizeKB, setFinalSizeKB] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
-  const [targetMaxKB, setTargetMaxKB] = useState(100);
+  const [targetMaxKB, setTargetMaxKB] = useState<100 | 200 | 300>(300);
 
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -28,8 +20,8 @@ export const PdfCompressor: React.FC = () => {
   const handleFile = (file: File) => {
     setError('');
     setDownloadObjectURL('');
-    if (!file.type.startsWith('image/') && file.type !== 'application/pdf') {
-      setError('Please upload an image (JPG/PNG) or a PDF file.');
+    if (!file.type.startsWith('image/')) {
+      setError('Please upload an image (JPG/PNG/WEBP).');
       return;
     }
     setSourceFile(file);
@@ -42,23 +34,6 @@ export const PdfCompressor: React.FC = () => {
     setDownloadObjectURL('');
     setFinalSizeKB(0);
     setError('');
-  };
-
-  const renderPDFPageToCanvas = async (file: File): Promise<HTMLCanvasElement> => {
-    const arrayBuffer = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-    const page = await pdf.getPage(1); // just grab first page for now
-    
-    const viewport = page.getViewport({ scale: 1.5 });
-    const canvas = document.createElement('canvas');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    
-    const context = canvas.getContext('2d');
-    if (!context) throw new Error("Could not get 2D context");
-    
-    await page.render({ canvasContext: context, viewport } as any).promise;
-    return canvas;
   };
 
   const renderImageToCanvas = async (file: File): Promise<HTMLCanvasElement> => {
@@ -92,13 +67,10 @@ export const PdfCompressor: React.FC = () => {
     setDownloadObjectURL('');
 
     try {
-      let canvas: HTMLCanvasElement;
-      
-      if (sourceFile.type === 'application/pdf') {
-        canvas = await renderPDFPageToCanvas(sourceFile);
-      } else {
-        canvas = await renderImageToCanvas(sourceFile);
-      }
+      // Lazily import jspdf to keep it out of the main bundle
+      const { jsPDF } = await import('jspdf');
+
+      const canvas = await renderImageToCanvas(sourceFile);
 
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
@@ -140,7 +112,7 @@ export const PdfCompressor: React.FC = () => {
         setDownloadObjectURL(url);
         setFinalSizeKB(bestPdfSize);
       } else {
-        setError('Could not compress the file enough to meet the target KB. Please increase the limit.');
+        setError('Could not compress the file enough to meet the target KB. Please try a higher limit.');
       }
     } catch (e: any) {
       console.error(e);
@@ -154,9 +126,12 @@ export const PdfCompressor: React.FC = () => {
     <div className="container" style={{ padding: '2rem 1rem' }}>
       <header className="header" style={{ marginBottom: '2rem', textAlign: 'center' }}>
         <h1 style={{ color: 'var(--primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-          <FileText size={32} /> PDF & Document Compressor
+          <FileText size={32} /> Document to PDF Converter
         </h1>
-        <p style={{ color: 'var(--text-secondary)' }}>Compress PDFs or convert Images to lightweight PDFs for portals.</p>
+        <p style={{ color: 'var(--text-secondary)' }}>Convert scanned images to strict KB limit PDFs for government portals.</p>
+        <div style={{ marginTop: '0.75rem', fontSize: '0.875rem', background: 'rgba(59, 130, 246, 0.1)', color: 'var(--primary)', display: 'inline-block', padding: '0.5rem 1rem', borderRadius: '8px' }}>
+          <strong>Note:</strong> Supports single-page documents. For multi-page PDFs, upload each page separately.
+        </div>
       </header>
 
       <main className="main-grid" style={{ gridTemplateColumns: '1fr', maxWidth: '800px', margin: '0 auto' }}>
@@ -171,14 +146,14 @@ export const PdfCompressor: React.FC = () => {
                 type="file"
                 id="file-upload"
                 className="hidden"
-                accept="image/jpeg, image/png, application/pdf"
+                accept="image/jpeg, image/png, image/webp"
                 onChange={(e) => e.target.files && handleFile(e.target.files[0])}
               />
               <label htmlFor="file-upload" className="upload-label">
                 <Upload size={48} color="var(--primary)" />
-                <p style={{ marginTop: '1rem', fontWeight: 600 }}>Drop an Image or PDF here</p>
+                <p style={{ marginTop: '1rem', fontWeight: 600 }}>Drop an Image document here</p>
                 <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-                  Supports JPG, PNG, and PDF
+                  Supports JPG, PNG, WEBP
                 </p>
               </label>
             </div>
@@ -192,22 +167,33 @@ export const PdfCompressor: React.FC = () => {
                     <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>{sourceSizeKB.toFixed(1)} KB</p>
                   </div>
                 </div>
-                <button className="btn-danger" onClick={clearFile} style={{ padding: '0.5rem 1rem' }}>
+                <button className="btn-danger" onClick={clearFile} style={{ padding: '0.5rem 1rem', width: 'auto' }}>
                   <Trash2 size={16} /> Clear
                 </button>
               </div>
 
-              <div className="input-group" style={{ marginBottom: '1rem' }}>
-                <label>Target Maximum File Size (KB)</label>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <input 
-                    type="range" 
-                    min="10" max="500" step="10" 
-                    value={targetMaxKB} 
-                    onChange={(e) => setTargetMaxKB(Number(e.target.value))} 
-                    style={{ flex: 1 }}
-                  />
-                  <span style={{ fontWeight: 600, minWidth: '60px' }}>{targetMaxKB} KB</span>
+              <div className="input-group" style={{ marginBottom: '1.5rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: 600 }}>Target Maximum File Size</label>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  {[100, 200, 300].map((size) => (
+                    <button
+                      key={size}
+                      className="pill-btn"
+                      onClick={() => setTargetMaxKB(size as 100 | 200 | 300)}
+                      style={{
+                        flex: 1,
+                        padding: '0.75rem',
+                        backgroundColor: targetMaxKB === size ? 'var(--primary)' : 'var(--surface)',
+                        color: targetMaxKB === size ? 'white' : 'var(--text-primary)',
+                        border: `1px solid ${targetMaxKB === size ? 'var(--primary)' : 'var(--border-color)'}`,
+                        borderRadius: '8px',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Under {size} KB
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -225,25 +211,25 @@ export const PdfCompressor: React.FC = () => {
                 style={{ width: '100%' }}
               >
                 <FileText size={24} />
-                <span>{isProcessing ? 'Compressing...' : 'Compress Document'}</span>
+                <span>{isProcessing ? 'Converting to PDF...' : 'Convert to PDF'}</span>
               </button>
 
               {downloadObjectURL && (
-                <div className="result-card" style={{ marginTop: '2rem' }}>
-                  <div className="success-badge" style={{ marginBottom: '1rem' }}>
+                <div className="result-card" style={{ marginTop: '2rem', padding: '1.5rem', backgroundColor: 'var(--surface-solid)', borderRadius: '12px' }}>
+                  <div className="success-badge" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--success)', fontWeight: 600, marginBottom: '1rem' }}>
                     <ShieldCheck size={20} />
                     <span>Success!</span>
                   </div>
-                  <h3 style={{ marginBottom: '1rem' }}>Document Compressed</h3>
+                  <h3 style={{ marginBottom: '1rem', fontSize: '1.25rem' }}>PDF Ready</h3>
                   
-                  <div className="size-comparison" style={{ marginBottom: '1.5rem' }}>
-                    <div className="size-box">
-                      <span className="size-label">Original</span>
-                      <span className="size-value">{sourceSizeKB.toFixed(1)} KB</span>
+                  <div className="size-comparison" style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem' }}>
+                    <div className="size-box" style={{ flex: 1, padding: '1rem', backgroundColor: 'var(--surface)', borderRadius: '8px', textAlign: 'center' }}>
+                      <span className="size-label" style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>Original Image</span>
+                      <span className="size-value" style={{ fontWeight: 600 }}>{sourceSizeKB.toFixed(1)} KB</span>
                     </div>
-                    <div className="size-box highlight">
-                      <span className="size-label">Final Size</span>
-                      <span className="size-value" style={{ color: finalSizeKB > targetMaxKB ? 'var(--danger)' : 'var(--success)' }}>
+                    <div className="size-box highlight" style={{ flex: 1, padding: '1rem', backgroundColor: 'rgba(59,130,246,0.05)', border: '1px solid var(--primary)', borderRadius: '8px', textAlign: 'center' }}>
+                      <span className="size-label" style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>Final PDF Size</span>
+                      <span className="size-value" style={{ fontWeight: 600, color: finalSizeKB > targetMaxKB ? 'var(--danger)' : 'var(--success)' }}>
                         {finalSizeKB.toFixed(1)} KB
                       </span>
                     </div>
@@ -251,12 +237,24 @@ export const PdfCompressor: React.FC = () => {
 
                   <a 
                     href={downloadObjectURL} 
-                    download="compressed-document.pdf"
+                    download="document.pdf"
                     className="btn-success"
-                    style={{ display: 'flex', textDecoration: 'none', justifyContent: 'center' }}
+                    style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      gap: '0.5rem', 
+                      textDecoration: 'none',
+                      backgroundColor: 'var(--success)',
+                      color: 'white',
+                      padding: '1rem',
+                      borderRadius: '12px',
+                      fontWeight: 600,
+                      width: '100%'
+                    }}
                   >
                     <DownloadCloud size={24} />
-                    Download PDF
+                    Download document.pdf
                   </a>
                 </div>
               )}

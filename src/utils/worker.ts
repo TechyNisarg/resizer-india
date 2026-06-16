@@ -6,25 +6,26 @@ self.onmessage = async (e) => {
     const ctx = canvas.getContext('2d');
     if (!ctx) throw new Error("No 2d context");
     
+    let stripHeight = 0;
+    if (preset.overlayName || preset.overlayDate) {
+      stripHeight = Math.floor(preset.height * 0.18);
+    }
+    const imgDrawHeight = preset.height - stripHeight;
+
     // Draw white background
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, preset.width, preset.height);
     
-    // Draw the cropped portion
+    // Draw the cropped portion only into the non-strip area
     ctx.drawImage(
       imageBitmap,
       preset.rect.sx, preset.rect.sy, preset.rect.sw, preset.rect.sh,
-      0, 0, preset.width, preset.height
+      0, 0, preset.width, imgDrawHeight
     );
 
     // Draw Overlay Text (Name & Date)
     if (preset.overlayName || preset.overlayDate) {
-      // Create a white strip at the bottom. Typical height for strip is 15-20% of image height.
-      const stripHeight = preset.height * 0.18;
-      const stripY = preset.height - stripHeight;
-      
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(0, stripY, preset.width, stripHeight);
+      const stripY = imgDrawHeight;
       
       ctx.fillStyle = '#000000';
       ctx.textAlign = 'center';
