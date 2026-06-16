@@ -10,6 +10,7 @@
   --primary: #3b82f6;
   --primary-hover: #2563eb;
   --danger: #ef4444;
+  --success: #10b981;
   --shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
   --radius: 16px;
   --font-sans: 'Inter', system-ui, sans-serif;
@@ -24,6 +25,7 @@ html.dark {
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --border-color: rgba(51, 65, 85, 0.6);
+  --success: #059669;
   --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
