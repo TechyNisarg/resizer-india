@@ -366,6 +366,8 @@ export const PdfCompressor: React.FC = () => {
                       borderRadius: '50%',
                       width: '24px',
                       height: '24px',
+                      minHeight: '24px',
+                      minWidth: '24px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -417,7 +419,11 @@ export const PdfCompressor: React.FC = () => {
                         borderRadius: '6px',
                         border: '1px solid var(--border-color)',
                         background: 'var(--surface)',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        minHeight: '28px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                       }}
                       title="Move Left"
                     >
@@ -431,7 +437,11 @@ export const PdfCompressor: React.FC = () => {
                         borderRadius: '6px',
                         border: '1px solid var(--border-color)',
                         background: 'var(--surface)',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        minHeight: '28px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                       }}
                       title="Move Right"
                     >
