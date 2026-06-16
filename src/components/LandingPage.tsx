@@ -21,13 +21,25 @@ const CATEGORIES = [
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
 
+  const hasVisited = React.useMemo(() => {
+    try {
+      const visited = sessionStorage.getItem('hasVisitedLanding') === 'true';
+      if (!visited) {
+        sessionStorage.setItem('hasVisitedLanding', 'true');
+      }
+      return visited;
+    } catch {
+      return false;
+    }
+  }, []);
+
   return (
     <div className="landing-page">
 
 
       <motion.div 
         className="category-grid"
-        initial="hidden"
+        initial={hasVisited ? false : "hidden"}
         animate="show"
         variants={{
           hidden: { opacity: 0 },
@@ -64,7 +76,7 @@ export const LandingPage: React.FC = () => {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={hasVisited ? false : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
         style={{ marginTop: '4rem' }}
@@ -95,7 +107,7 @@ export const LandingPage: React.FC = () => {
       <motion.div 
         className="seo-text" 
         style={{ marginTop: '4rem', padding: '1.5rem', background: 'var(--surface)', borderRadius: 'var(--radius)', color: 'var(--text-secondary)' }}
-        initial={{ opacity: 0 }}
+        initial={hasVisited ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.8 }}
       >
