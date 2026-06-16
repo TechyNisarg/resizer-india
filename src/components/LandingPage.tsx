@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Car, CreditCard, Plane, BookOpen, Sliders, Landmark, Train, Stethoscope, GraduationCap, Medal } from 'lucide-react';
+import { Car, CreditCard, Plane, BookOpen, Sliders, Landmark, Train, Stethoscope, GraduationCap, Medal, FileText } from 'lucide-react';
 
 const CATEGORIES = [
   { id: 'rto', label: 'RTO / Parivahan', icon: Car, color: '#eab308', bg: 'rgba(234, 179, 8, 0.1)', desc: '• Photo: 3.5x4.5 cm\n• Sign: 256x64 px\n• Size: 10KB - 20KB\n• Portals: Vahan, Sarathi', path: '/rto-photo-resizer' },
@@ -61,6 +61,35 @@ export const LandingPage: React.FC = () => {
             </motion.button>
           );
         })}
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        style={{ marginTop: '4rem' }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+          <div style={{ padding: '0.5rem', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', borderRadius: '8px' }}>
+            <FileText size={24} />
+          </div>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--primary)' }}>PDF Tools</h2>
+        </div>
+        <div className="category-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+          <motion.button 
+            className="category-card" 
+            onClick={() => navigate('/pdf-compressor')}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <div className="category-icon-wrapper" style={{ color: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)' }}>
+              <FileText size={32} />
+            </div>
+            <h2 className="category-title">PDF / Doc Compressor</h2>
+            <p className="category-desc">{'• Compress existing PDFs\n• Convert JPG/PNG to PDF\n• Set exact KB limits\n• 100% secure in-browser'}</p>
+            <div className="category-action">Open Tool</div>
+          </motion.button>
+        </div>
       </motion.div>
 
       <motion.div 

@@ -47,8 +47,12 @@ const routes = {
     description: 'Instantly resize photos and signatures to match exact State Public Service Commission (MPSC, WBCS, KPSC) specifications.',
   },
   '/defence-photo-resizer': {
-    title: 'Defence & Army Exams Photo Resizer - Resizer India',
-    description: 'Prepare your photos and signatures for Agniveer, NDA, CDS, and other defence exams safely on your own device.',
+    title: 'Defence & Army Photo Resizer - Resizer India',
+    description: 'Perfectly resize photos and signatures for Agniveer, NDA, CDS and other Indian Defence recruitment portals.',
+  },
+  '/pdf-compressor': {
+    title: 'PDF Document Compressor - Resizer India',
+    description: 'Compress PDF documents to exact KB limits for government exam portals. Secure, fast, and works 100% in your browser.',
   },
   '/custom-resizer': {
     title: 'Custom Image Resizer & Compressor - Resizer India',

@@ -16,6 +16,7 @@ const GlobalBackButton = () => {
 import { AnimatePresence, motion } from 'framer-motion';
 import { Home } from './pages/Home';
 import { About, Privacy, Terms, Contact } from './pages/StaticPages';
+import { PdfCompressor } from './pages/PdfCompressor';
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => (
   <motion.div
@@ -38,6 +39,7 @@ const AppRoutes = () => {
         <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
         <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+        <Route path="/pdf-compressor" element={<PageWrapper><PdfCompressor /></PageWrapper>} />
         <Route path="/*" element={<PageWrapper><Home /></PageWrapper>} />
       </Routes>
     </AnimatePresence>

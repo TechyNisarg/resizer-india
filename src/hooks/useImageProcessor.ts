@@ -3,7 +3,7 @@ import type { Preset } from '../utils/presetData';
 import ImageWorker from '../utils/worker?worker';
 import heic2any from 'heic2any';
 
-export function useImageProcessor(preset: Preset) {
+export function useImageProcessor() {
   const [sourceImage, setSourceImage] = useState<HTMLImageElement | null>(null);
   const [sourceObjectURL, setSourceObjectURL] = useState<string>('');
   const [downloadObjectURL, setDownloadObjectURL] = useState<string>('');
@@ -115,7 +115,7 @@ export function useImageProcessor(preset: Preset) {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
-  const processImage = async () => {
+  const processImage = async (activePreset: Preset, overlayName?: string, overlayDate?: string) => {
     if (!sourceImage || !croppedAreaPixels) return;
     setIsProcessing(true);
     setError('');
@@ -129,7 +129,12 @@ export function useImageProcessor(preset: Preset) {
         sw: croppedAreaPixels.width,
         sh: croppedAreaPixels.height
       };
-      const presetForWorker = { ...preset, rect };
+      const presetForWorker = { 
+        ...activePreset, 
+        rect, 
+        overlayName, 
+        overlayDate 
+      };
 
       if (workerRef.current) workerRef.current.terminate();
       workerRef.current = new ImageWorker();

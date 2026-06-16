@@ -18,6 +18,9 @@ export const Home: React.FC = () => {
   const [customHeight, setCustomHeight] = useState(525);
   const [customMaxKB, setCustomMaxKB] = useState(20);
 
+  const [overlayName, setOverlayName] = useState('');
+  const [overlayDate, setOverlayDate] = useState('');
+
   const getInitialState = (): { cat: PresetCategory, type: PresetType } => {
     const path = location.pathname;
     if (path.includes('pan')) return { cat: 'pan', type: path.includes('signature') ? 'signature' : 'photo' };
@@ -86,10 +89,14 @@ export const Home: React.FC = () => {
   }));
 
   const {
-    sourceImage, sourceObjectURL, loadImage, clearImage, processImage,
+    sourceImage, sourceObjectURL, loadImage, clearImage, processImage: _processImage,
     isProcessing, error, crop, setCrop, zoom, setZoom, onCropComplete,
     downloadObjectURL, sourceSizeKB, finalSizeKB
-  } = useImageProcessor(activePreset);
+  } = useImageProcessor();
+
+  const processImage = () => {
+    _processImage(activePreset, overlayName, overlayDate);
+  };
 
   useEffect(() => {
     if (sourceImage && category === 'custom') {
@@ -159,10 +166,35 @@ export const Home: React.FC = () => {
                 </button>
               </div>
 
+              {activePreset?.hasOverlayOption && (
+                <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                  <div className="input-group" style={{ flex: 1 }}>
+                    <label>Name on Photo (Optional)</label>
+                    <input 
+                      type="text" 
+                      value={overlayName} 
+                      onChange={(e) => setOverlayName(e.target.value)} 
+                      placeholder="YOUR NAME" 
+                      style={{ textTransform: 'uppercase' }}
+                    />
+                  </div>
+                  <div className="input-group" style={{ flex: 1 }}>
+                    <label>Date of Photo (Optional)</label>
+                    <input 
+                      type="text" 
+                      value={overlayDate} 
+                      onChange={(e) => setOverlayDate(e.target.value)} 
+                      placeholder="DD/MM/YYYY" 
+                    />
+                  </div>
+                </div>
+              )}
+
               <button 
                 className={`btn-primary ${isProcessing ? 'processing' : ''}`}
                 onClick={processImage}
                 disabled={isProcessing}
+                style={{ marginTop: '1rem' }}
               >
                 <DownloadCloud size={24} />
                 <span>{isProcessing ? 'Processing...' : activePreset?.buttonText || 'Resize'}</span>

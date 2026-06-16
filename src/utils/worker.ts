@@ -16,6 +16,31 @@ self.onmessage = async (e) => {
       preset.rect.sx, preset.rect.sy, preset.rect.sw, preset.rect.sh,
       0, 0, preset.width, preset.height
     );
+
+    // Draw Overlay Text (Name & Date)
+    if (preset.overlayName || preset.overlayDate) {
+      // Create a white strip at the bottom. Typical height for strip is 15-20% of image height.
+      const stripHeight = preset.height * 0.18;
+      const stripY = preset.height - stripHeight;
+      
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, stripY, preset.width, stripHeight);
+      
+      ctx.fillStyle = '#000000';
+      ctx.textAlign = 'center';
+      
+      // Calculate font size
+      const fontSize = Math.max(12, Math.floor(stripHeight * 0.35));
+      ctx.font = `bold ${fontSize}px sans-serif`;
+      
+      if (preset.overlayName && preset.overlayDate) {
+        ctx.fillText(preset.overlayName.toUpperCase(), preset.width / 2, stripY + (stripHeight * 0.45));
+        ctx.fillText(preset.overlayDate, preset.width / 2, stripY + (stripHeight * 0.85));
+      } else {
+        const text = preset.overlayName ? preset.overlayName.toUpperCase() : preset.overlayDate;
+        ctx.fillText(text, preset.width / 2, stripY + (stripHeight * 0.65));
+      }
+    }
     
     const minBytes = (preset.minKB || 0) * 1024;
     const maxBytes = preset.maxKB * 1024;

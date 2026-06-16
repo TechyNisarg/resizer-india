@@ -13,6 +13,7 @@ export interface Preset {
   filename: string;
   buttonText: string;
   hasFaceGuide?: boolean;
+  hasOverlayOption?: boolean;
 }
 
 export const PRESETS: Preset[] = [
@@ -115,7 +116,8 @@ export const PRESETS: Preset[] = [
     ],
     filename: 'ssc-photo',
     buttonText: 'Resize SSC Photo',
-    hasFaceGuide: true
+    hasFaceGuide: true,
+    hasOverlayOption: true
   },
   {
     id: 'ssc-signature',
@@ -390,7 +392,8 @@ export const PRESETS: Preset[] = [
     ],
     filename: 'state-psc-photo',
     buttonText: 'Resize PSC Photo',
-    hasFaceGuide: true
+    hasFaceGuide: true,
+    hasOverlayOption: true
   },
   {
     id: 'state-psc-signature',
@@ -422,7 +425,8 @@ export const PRESETS: Preset[] = [
     ],
     filename: 'defence-photo',
     buttonText: 'Resize Defence Photo',
-    hasFaceGuide: true
+    hasFaceGuide: true,
+    hasOverlayOption: true
   },
   {
     id: 'defence-signature',
