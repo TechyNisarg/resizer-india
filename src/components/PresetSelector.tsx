@@ -27,7 +27,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
   }
 
   return (
-    <div className="preset-selector" style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '-0.5rem' }}>
+    <div className="preset-selector" style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '0' }}>
       <div className="pills-container" style={{ 
         display: 'inline-flex', 
         background: 'var(--surface-solid)', 
