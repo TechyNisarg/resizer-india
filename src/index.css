@@ -419,8 +419,8 @@ html.dark .header {
 
 .category-action {
   font-weight: 600;
-  background-color: var(--text-primary);
-  color: var(--surface-solid);
+  background-color: rgba(148, 163, 184, 0.15);
+  color: var(--text-primary);
   font-size: 0.95rem;
   display: flex;
   align-items: center;
@@ -430,11 +430,14 @@ html.dark .header {
   padding: 0.75rem;
   border-radius: 12px;
   transition: var(--transition);
+  border: 1px solid transparent;
 }
 
 .category-card:hover .category-action {
+  background-color: var(--surface-solid);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 640px) {
