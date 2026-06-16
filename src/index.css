@@ -379,8 +379,7 @@ html.dark .header {
   transition: var(--transition);
   cursor: pointer;
   text-decoration: none;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
+  height: 100%;
 }
 
 .category-card:hover {
@@ -390,8 +389,6 @@ html.dark .header {
 }
 
 .category-icon-wrapper {
-  background: rgba(59, 130, 246, 0.1);
-  color: var(--primary);
   padding: 1rem;
   border-radius: 16px;
   margin-bottom: 1.5rem;
@@ -411,18 +408,13 @@ html.dark .header {
   line-height: 1.5;
   margin-bottom: 1rem;
   flex-grow: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: pre-line;
 }
 
 .category-action {
   font-weight: 600;
-  background-color: rgba(59, 130, 246, 0.1);
-  color: var(--primary);
+  background-color: var(--text-primary);
+  color: var(--surface-solid);
   font-size: 0.95rem;
   display: flex;
   align-items: center;
@@ -435,7 +427,7 @@ html.dark .header {
 }
 
 .category-card:hover .category-action {
-  background-color: var(--primary);
-  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
