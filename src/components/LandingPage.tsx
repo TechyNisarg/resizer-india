@@ -40,11 +40,10 @@ export const LandingPage: React.FC = () => {
               className="category-card" 
               onClick={() => navigate(cat.path)}
               variants={{
-                hidden: { opacity: 0, y: 30, scale: 0.95 },
+                hidden: { opacity: 0, y: 30 },
                 show: { 
                   opacity: 1, 
                   y: 0, 
-                  scale: 1, 
                   transition: { type: 'spring', stiffness: 300, damping: 24 } 
                 }
               }}
