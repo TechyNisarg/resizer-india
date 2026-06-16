@@ -32,7 +32,7 @@ export const LandingPage: React.FC = () => {
               </div>
               <h2 className="category-title">{cat.label}</h2>
               <p className="category-desc">{cat.desc}</p>
-              <div className="category-action">Open Tool &rarr;</div>
+              <div className="category-action">Open Tool</div>
             </button>
           );
         })}
