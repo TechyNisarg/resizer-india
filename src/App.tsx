@@ -13,12 +13,12 @@ function App() {
               <Scissors size={24} />
               <div style={{ position: 'relative', top: '-1px' }}><span className="logo-text">Resizer</span> India</div>
             </Link>
-            <nav className="nav-menu">
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.4rem 0.8rem', borderRadius: '99px', fontSize: '0.85rem', fontWeight: 600, marginRight: '0.5rem' }}>
-                <ShieldCheck size={16} />
+            <nav className="nav-menu" style={{ alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500, marginRight: '1rem' }}>
+                <ShieldCheck size={18} />
                 <span className="hide-on-mobile">100% Client-Side. No Server Uploads.</span>
               </div>
-              <Link to="/" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><HomeIcon size={16} /> <span style={{ position: 'relative', top: '-1px' }}>Home</span></Link>
+              <Link to="/" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><HomeIcon size={18} /> <span>Home</span></Link>
             </nav>
           </div>
         </header>
