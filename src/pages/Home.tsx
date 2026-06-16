@@ -142,13 +142,15 @@ export const Home: React.FC = () => {
 
   return (
     <div className="home-container">
-      <div className="hero-section">
-        <h1>{activePreset?.buttonText || "Resize Image"}</h1>
-        <div style={{ marginTop: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.85rem', fontWeight: 600 }}>
-          <ShieldCheck size={16} />
-          <span>100% Secure. Images never leave your device.</span>
+      {!sourceImage && (
+        <div className="hero-section">
+          <h1>{activePreset?.buttonText || "Resize Image"}</h1>
+          <div style={{ marginTop: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.85rem', fontWeight: 600 }}>
+            <ShieldCheck size={16} />
+            <span>100% Secure. Images never leave your device.</span>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="workspace">
         <div className="sidebar">
@@ -176,6 +178,17 @@ export const Home: React.FC = () => {
                   <input type="number" value={customMaxKB} onChange={e => setCustomMaxKB(Number(e.target.value) || 1)} style={{ width: '120px', padding: '0 0.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }} />
                 </label>
               </div>
+            </div>
+          )}
+
+          {userRequirements.length > 0 && (
+            <div className="card">
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Requirements (From You)</h2>
+              <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {userRequirements.map((inst, idx) => (
+                  <li key={idx}>{inst}</li>
+                ))}
+              </ul>
             </div>
           )}
 
@@ -240,20 +253,10 @@ export const Home: React.FC = () => {
 
         <div className="main-content" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', height: '100%', maxWidth: '1100px', width: '100%', margin: '0' }}>
           {!sourceImage ? (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', width: '100%', alignItems: 'flex-start' }}>
-              <div style={{ flex: '1 1 400px', minWidth: '280px', maxWidth: '700px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <div style={{ flex: '1 1 100%', maxWidth: '700px' }}>
                 <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
               </div>
-              {userRequirements.length > 0 && (
-                <div className="card" style={{ flex: '0 1 auto', minWidth: '280px', maxWidth: '400px', width: 'fit-content' }}>
-                  <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Requirements (From You)</h2>
-                  <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    {userRequirements.map((inst, idx) => (
-                      <li key={idx}>{inst}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
           ) : downloadObjectURL ? (
             <div className="card result-view" style={{ maxWidth: '800px', textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
