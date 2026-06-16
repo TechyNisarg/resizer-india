@@ -89,11 +89,22 @@ input { cursor: text; }
 
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   width: 100%;
-  max-width: 900px;
-  align-items: start;
+  max-width: 950px;
+}
+
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info-grid .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .pill-btn {
@@ -125,7 +136,7 @@ input { cursor: text; }
 .dropzone {
   border: 2px dashed #cbd5e1;
   border-radius: var(--radius);
-  padding: 2rem 1.5rem;
+  padding: 1.5rem 1rem;
   text-align: center;
   cursor: pointer;
   background: #f8fafc;
@@ -135,7 +146,7 @@ input { cursor: text; }
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  min-height: 220px;
+  min-height: 180px;
   width: 100%;
   margin: 0;
   position: relative;

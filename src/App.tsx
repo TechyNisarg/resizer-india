@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Scissors, Info, Shield, FileText, Mail, ShieldCheck, ArrowLeft } from 'lucide-react';
+import { Scissors, Info, Shield, FileText, Mail, ArrowLeft } from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
 
 const GlobalBackButton = () => {
@@ -59,10 +59,6 @@ function App() {
               <div style={{ position: 'relative', top: '-1px' }}><span className="logo-text">Resizer</span> India</div>
             </Link>
             <nav className="nav-menu" style={{ alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
-                <ShieldCheck size={18} />
-                <span className="hide-on-mobile" style={{ position: 'relative', top: '-1px' }}>100% Client-Side. No Server Uploads.</span>
-              </div>
             </nav>
           </div>
         </header>
