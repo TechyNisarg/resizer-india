@@ -18,7 +18,9 @@ function App() {
                 <ShieldCheck size={18} />
                 <span className="hide-on-mobile" style={{ position: 'relative', top: '-1px' }}>100% Client-Side. No Server Uploads.</span>
               </div>
-              <Link to="/" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><HomeIcon size={18} /> <span style={{ position: 'relative', top: '-1px' }}>Home</span></Link>
+              <Link to="/" className="nav-icon-btn" title="Home">
+                <HomeIcon size={20} />
+              </Link>
             </nav>
           </div>
         </header>
