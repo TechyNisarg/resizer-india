@@ -544,6 +544,7 @@ export const PdfCompressor: React.FC = () => {
           </div>
         </div>
         </div>
+        </div>
       )}
 
       <div className="info-grid" style={{ margin: '0 auto' }}>
@@ -570,3 +571,5 @@ export const PdfCompressor: React.FC = () => {
     </div>
   );
 };
+
+export default PdfCompressor;
