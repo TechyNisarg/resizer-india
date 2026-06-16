@@ -249,9 +249,11 @@ export const Home: React.FC = () => {
           {error && <div className="error-toast">{error}</div>}
         </div>
 
-        <div className="main-content">
+        <div className="main-content" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', height: '100%' }}>
           {!sourceImage ? (
-            <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
+            <div style={{ flex: 1, display: 'flex' }}>
+              <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
+            </div>
           ) : downloadObjectURL ? (
             <div className="card result-view" style={{ textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
               <h2 style={{ color: '#10b981', fontSize: '2rem', marginBottom: '1rem' }}>Success! 🎉</h2>
