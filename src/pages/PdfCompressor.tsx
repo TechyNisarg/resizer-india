@@ -256,10 +256,6 @@ export const PdfCompressor: React.FC = () => {
             <FileText size={32} /> PDF Compressor & Merger
           </h1>
           <p style={{ color: 'var(--text-secondary)' }}>Combine multiple images and PDFs into a single optimized PDF file.</p>
-          <div style={{ marginTop: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.85rem', fontWeight: 600 }}>
-            <ShieldCheck size={16} />
-            <span>100% Client-Side. Files never leave your device.</span>
-          </div>
         </header>
       )}
 

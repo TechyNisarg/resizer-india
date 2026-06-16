@@ -145,10 +145,6 @@ export const Home: React.FC = () => {
       {!sourceImage && (
         <div className="hero-section">
           <h1>{activePreset?.buttonText || "Resize Image"}</h1>
-          <div style={{ marginTop: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.85rem', fontWeight: 600 }}>
-            <ShieldCheck size={16} />
-            <span>100% Secure. Images never leave your device.</span>
-          </div>
         </div>
       )}
 
