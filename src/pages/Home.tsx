@@ -206,6 +206,7 @@ export const Home: React.FC = () => {
         <div className="info-grid">
           {category === 'custom' && (
             <div className="card">
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Output Specifications (Manual)</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 600, color: 'var(--text-secondary)' }}>
                   Width (px) 
@@ -234,7 +235,7 @@ export const Home: React.FC = () => {
             </div>
           )}
 
-          {outputSpecs.length > 0 && (
+          {category !== 'custom' && outputSpecs.length > 0 && (
             <div className="card">
               <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Output Specifications (By Tool)</h2>
               <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
