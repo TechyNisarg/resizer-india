@@ -21,8 +21,7 @@ export const LandingPage: React.FC = () => {
   return (
     <div className="landing-page">
       <div className="landing-hero">
-        <h1 className="landing-title">Select Your Form Type</h1>
-        <div style={{ marginTop: '1.5rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.5rem 1rem', borderRadius: '99px', fontSize: '0.9rem', fontWeight: 600 }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '0.5rem 1rem', borderRadius: '99px', fontSize: '0.9rem', fontWeight: 600 }}>
           <ShieldCheck size={18} />
           <span>100% Client-Side Processing. No Server Uploads.</span>
         </div>

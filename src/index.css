@@ -360,7 +360,7 @@ html.dark .header {
 
 @media (min-width: 1024px) {
   .category-grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -369,7 +369,7 @@ html.dark .header {
   backdrop-filter: var(--blur);
   -webkit-backdrop-filter: var(--blur);
   border-radius: var(--radius);
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
   display: flex;
@@ -379,7 +379,8 @@ html.dark .header {
   transition: var(--transition);
   cursor: pointer;
   text-decoration: none;
-  height: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
 }
 
 .category-card:hover {
@@ -405,11 +406,16 @@ html.dark .header {
 }
 
 .category-desc {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
   flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .category-action {
