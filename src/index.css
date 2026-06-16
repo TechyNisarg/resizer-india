@@ -69,45 +69,31 @@ input { cursor: text; }
 .home-container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   width: 100%;
 }
 
-.hero-section { text-align: center; margin-bottom: 1rem; }
-.hero-section h1 { font-size: 1.75rem; color: var(--text-primary); }
+.hero-section { text-align: center; margin-bottom: 0.5rem; }
+.hero-section h1 { font-size: 1.5rem; color: var(--text-primary); }
 
 .workspace {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   width: 100%;
 }
 
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
   width: 100%;
   max-width: 900px;
   align-items: start;
-}
-
-/* Preset Selector - Swipeable row of pills */
-.preset-selector {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.pills-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding-bottom: 0.5rem;
 }
 
 .pill-btn {
@@ -139,7 +125,7 @@ input { cursor: text; }
 .dropzone {
   border: 2px dashed #cbd5e1;
   border-radius: var(--radius);
-  padding: 3rem 2rem;
+  padding: 2rem 1.5rem;
   text-align: center;
   cursor: pointer;
   background: #f8fafc;
@@ -149,7 +135,7 @@ input { cursor: text; }
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  min-height: 280px;
+  min-height: 220px;
   width: 100%;
   margin: 0;
   position: relative;
