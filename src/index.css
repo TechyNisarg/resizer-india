@@ -272,17 +272,23 @@ html.dark .header {
 }
 .nav-link:hover { color: var(--primary); }
 
-.clean-icon-link {
+.back-icon-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   color: var(--text-secondary);
   transition: var(--transition);
-  margin-right: -12px; /* Optical alignment with grid cards below */
+  text-decoration: none;
+  background: transparent;
 }
 
-.clean-icon-link:hover {
-  color: var(--primary);
-  transform: scale(1.05);
+.back-icon-btn:hover {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-primary);
+  transform: translateX(-4px);
 }
 
 /* Main Container */

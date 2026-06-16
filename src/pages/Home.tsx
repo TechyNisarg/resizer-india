@@ -7,7 +7,7 @@ import { LandingPage } from '../components/LandingPage';
 import { useImageProcessor } from '../hooks/useImageProcessor';
 import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
 import { getPresetsByCategory } from '../utils/presetData';
-import { Trash2, DownloadCloud, ShieldCheck, Home as HomeIcon } from 'lucide-react';
+import { Trash2, DownloadCloud, ShieldCheck, ArrowLeft } from 'lucide-react';
 
 export const Home: React.FC = () => {
   const location = useLocation();
@@ -102,8 +102,8 @@ export const Home: React.FC = () => {
   return (
     <div className="home-container">
       <div style={{ maxWidth: '1440px', margin: '0 auto', width: '100%', marginBottom: '1.5rem', display: 'flex' }}>
-        <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: 500, fontSize: '0.95rem', transition: 'var(--transition)', padding: '0.5rem 1rem', borderRadius: '8px', background: 'var(--surface-solid)', border: '1px solid var(--border-color)', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }} onMouseEnter={e => { e.currentTarget.style.color = 'var(--primary)'; e.currentTarget.style.borderColor = 'var(--primary)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}>
-           <HomeIcon size={18} /> Back to All Tools
+        <Link to="/" className="back-icon-btn" title="Back to All Tools">
+           <ArrowLeft size={24} />
         </Link>
       </div>
       <div className="hero-section">
