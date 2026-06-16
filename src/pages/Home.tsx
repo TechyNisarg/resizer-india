@@ -181,7 +181,7 @@ export const Home: React.FC = () => {
 
           {outputSpecs.length > 0 && (
             <div className="card">
-              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>Output Specifications (By Tool)</h2>
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Output Specifications (By Tool)</h2>
               <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {outputSpecs.map((inst, idx) => (
                   <li key={idx}>{inst}</li>
@@ -297,7 +297,7 @@ export const Home: React.FC = () => {
       
       {!sourceImage && SEO_CONTENT[category] && (
         <div className="seo-text" style={{ marginTop: '2rem', padding: '1.5rem', background: 'var(--surface)', borderRadius: 'var(--radius)', color: 'var(--text-secondary)' }}>
-          <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>{SEO_CONTENT[category].title}</h2>
+          <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>{SEO_CONTENT[category].title}</h2>
           {SEO_CONTENT[category].content.map((paragraph, idx) => (
             <p key={idx} style={{ fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '0.75rem' }}>
               {paragraph}

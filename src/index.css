@@ -131,10 +131,10 @@ input { cursor: text; }
 }
 .pill-btn:hover { background: var(--border-color); color: var(--text-primary); }
 .pill-btn.active {
-  background-color: var(--text-primary);
-  color: var(--surface-solid);
-  border-color: var(--text-primary);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
 }
 
 /* Dropzone */

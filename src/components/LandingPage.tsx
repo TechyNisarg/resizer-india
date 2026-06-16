@@ -73,7 +73,7 @@ export const LandingPage: React.FC = () => {
           <div style={{ padding: '0.5rem', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', borderRadius: '8px' }}>
             <FileText size={24} />
           </div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--primary)' }}>PDF Tools</h2>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>PDF Tools</h2>
         </div>
         <div className="category-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
           <motion.button 
@@ -99,7 +99,7 @@ export const LandingPage: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.8 }}
       >
-        <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--primary)' }}>Why use Resizer India?</h2>
+        <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Why use Resizer India?</h2>
         <p style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
           Whether you are applying for SSC exams, UPSC civil services, IBPS bank exams, NEET, or updating your PAN Card and Parivahan documents, strict image size restrictions apply. 
           Resizer India is a 100% free, fully secure, client-side browser-based tool. Your images never leave your device. It effortlessly crops your photos to exact pixel dimensions and aggressively compresses them to hit 10KB, 20KB, or 50KB limits 

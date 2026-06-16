@@ -252,7 +252,7 @@ export const PdfCompressor: React.FC = () => {
     <div className="home-container" style={{ maxWidth: '960px', margin: '0 auto', padding: '2rem 1rem' }}>
       {pages.length === 0 && (
         <header className="hero-section" style={{ marginBottom: '2rem', textAlign: 'center' }}>
-          <h1 style={{ color: 'var(--primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+          <h1 style={{ color: 'var(--text-primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
             <FileText size={32} /> PDF Compressor & Merger
           </h1>
           <p style={{ color: 'var(--text-secondary)' }}>Combine multiple images and PDFs into a single optimized PDF file.</p>
