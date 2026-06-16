@@ -238,7 +238,7 @@ export const Home: React.FC = () => {
           {error && <div className="error-toast">{error}</div>}
         </div>
 
-        <div className="main-content" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', height: '100%', maxWidth: '640px', width: '100%', margin: '0 auto' }}>
+        <div className="main-content" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', height: '100%', maxWidth: '640px', width: '100%', margin: '0' }}>
           {!sourceImage ? (
             <>
               <div style={{ flex: 1, display: 'flex' }}>
