@@ -7,7 +7,7 @@ const GlobalBackButton = () => {
   if (location.pathname === '/') return null;
   
   return (
-    <div style={{ maxWidth: '1440px', margin: '0 auto', width: '100%', padding: '1rem 1rem 0', display: 'flex' }}>
+    <div style={{ maxWidth: '932px', margin: '0 auto', width: '100%', padding: '1rem 1rem 0', display: 'flex' }}>
       <Link to="/" className="back-icon-btn" title="Back to All Tools">
          <ArrowLeft size={24} />
       </Link>
@@ -60,14 +60,14 @@ function App() {
               <div style={{ position: 'relative', top: '-1px' }}><span className="logo-text">Resizer</span> India</div>
             </Link>
             <nav className="nav-menu" style={{ alignItems: 'center', display: 'flex', gap: '1.25rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
+                <ShieldCheck size={18} />
+                <span className="hide-on-mobile">100% Client-Side. No Server Uploads.</span>
+              </div>
               <Link to="/faq" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}>
                 <HelpCircle size={18} />
                 <span className="hide-on-mobile">FAQs</span>
               </Link>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
-                <ShieldCheck size={18} />
-                <span className="hide-on-mobile" style={{ position: 'relative', top: '-1px' }}>100% Client-Side. No Server Uploads.</span>
-              </div>
             </nav>
           </div>
         </header>
