@@ -98,6 +98,37 @@ export const Home: React.FC = () => {
     _processImage(activePreset, overlayName, overlayDate);
   };
 
+  const instructions = activePreset?.instructions || [];
+
+  const isOutputSpec = (inst: string) => {
+    const lowercaseInst = inst.toLowerCase();
+    return (
+      lowercaseInst.startsWith('width:') ||
+      lowercaseInst.startsWith('height:') ||
+      lowercaseInst.startsWith('dimensions:') ||
+      lowercaseInst.startsWith('min dimensions:') ||
+      lowercaseInst.startsWith('aspect ratio:') ||
+      lowercaseInst.startsWith('final output size:') ||
+      lowercaseInst.includes('px') ||
+      lowercaseInst.includes('kb') ||
+      lowercaseInst.includes('cm') ||
+      lowercaseInst.includes('mm') ||
+      lowercaseInst.includes('inch')
+    );
+  };
+
+  const userRequirements = category === 'custom'
+    ? ['Upload any image of your choice', 'Manually adjust the crop box to frame the image']
+    : instructions.filter(inst => !isOutputSpec(inst));
+
+  const outputSpecs = category === 'custom'
+    ? [
+        `Width: ${customWidth}px`,
+        `Height: ${customHeight}px`,
+        `Final Output Size: Max ${customMaxKB}KB`
+      ]
+    : instructions.filter(inst => isOutputSpec(inst));
+
   useEffect(() => {
     if (sourceImage && category === 'custom') {
       setCustomWidth(sourceImage.naturalWidth || sourceImage.width);
@@ -148,15 +179,28 @@ export const Home: React.FC = () => {
             </div>
           )}
 
-          {!sourceImage ? (
+          {outputSpecs.length > 0 && (
             <div className="card">
-              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>Requirements</h2>
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>Output Specifications (By Tool)</h2>
               <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {activePreset?.instructions.map((inst, idx) => (
+                {outputSpecs.map((inst, idx) => (
                   <li key={idx}>{inst}</li>
                 ))}
               </ul>
             </div>
+          )}
+
+          {!sourceImage ? (
+            userRequirements.length > 0 && (
+              <div className="card">
+                <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--primary)' }}>Requirements (From You)</h2>
+                <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  {userRequirements.map((inst, idx) => (
+                    <li key={idx}>{inst}</li>
+                  ))}
+                </ul>
+              </div>
+            )
           ) : (
             <div className="card controls">
               <div className="controls-row">
