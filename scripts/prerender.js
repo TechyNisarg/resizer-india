@@ -73,6 +73,10 @@ const routes = {
   '/contact': {
     title: 'Contact Us - Resizer India',
     description: 'Get in touch with the Resizer India team.',
+  },
+  '/faq': {
+    title: 'Frequently Asked Questions - Resizer India',
+    description: 'Find answers to common questions about Resizer India, the 100% free and secure browser-based image resizing tool.',
   }
 };
 

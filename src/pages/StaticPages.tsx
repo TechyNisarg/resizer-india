@@ -31,3 +31,24 @@ export const Contact: React.FC = () => (
     <p>Email: <strong>support@resizerindia.example.com</strong></p>
   </div>
 );
+
+export const FAQ: React.FC = () => (
+  <div className="card" style={{ maxWidth: '800px', margin: '2rem auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <h1 style={{ color: 'var(--text-primary)' }}>Frequently Asked Questions</h1>
+    
+    <div>
+      <h3 style={{ color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Are my images secure?</h3>
+      <p style={{ color: 'var(--text-secondary)' }}>Yes. Resizer India is a 100% client-side tool. This means all processing happens directly in your browser. Your images are never uploaded to any server or stored anywhere.</p>
+    </div>
+
+    <div>
+      <h3 style={{ color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Is this tool free?</h3>
+      <p style={{ color: 'var(--text-secondary)' }}>Yes, absolutely free with no hidden charges or watermarks.</p>
+    </div>
+
+    <div>
+      <h3 style={{ color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Will it reduce image quality?</h3>
+      <p style={{ color: 'var(--text-secondary)' }}>We use smart compression algorithms to hit strict file size limits (like 20KB or 50KB) while maintaining the highest possible visual fidelity. The quality is perfect for portal uploads.</p>
+    </div>
+  </div>
+);

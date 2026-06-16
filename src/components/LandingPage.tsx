@@ -104,20 +104,6 @@ export const LandingPage: React.FC = () => {
         </div>
       </motion.div>
 
-      <motion.div 
-        className="seo-text" 
-        style={{ marginTop: '4rem', padding: '1.5rem', background: 'var(--surface)', borderRadius: 'var(--radius)', color: 'var(--text-secondary)' }}
-        initial={hasVisited ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6, duration: 0.8 }}
-      >
-        <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Why use Resizer India?</h2>
-        <p style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
-          Whether you are applying for SSC exams, UPSC civil services, IBPS bank exams, NEET, or updating your PAN Card and Parivahan documents, strict image size restrictions apply. 
-          Resizer India is a 100% free, fully secure, client-side browser-based tool. Your images never leave your device. It effortlessly crops your photos to exact pixel dimensions and aggressively compresses them to hit 10KB, 20KB, or 50KB limits 
-          without losing visual quality. Perfect for signature uploads, left thumb impressions, handwritten declarations, and passport size photo making.
-        </p>
-      </motion.div>
     </div>
   );
 };
