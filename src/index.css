@@ -73,7 +73,7 @@ input { cursor: text; }
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 1rem;
   width: 100%;
@@ -239,7 +239,7 @@ html.dark .header {
 }
 
 .header-container {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 1rem;
   display: flex;
@@ -288,7 +288,7 @@ html.dark .header {
   text-align: center;
 }
 .footer-content {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -316,7 +316,7 @@ html.dark .header {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 2rem 1rem;
   width: 100%;
@@ -360,7 +360,13 @@ html.dark .header {
 
 @media (min-width: 1024px) {
   .category-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .category-grid {
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
