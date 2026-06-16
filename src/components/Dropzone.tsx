@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Upload, ShieldCheck } from 'lucide-react';
+import { Upload } from 'lucide-react';
 
 interface DropzoneProps {
   onImageLoad: (file: File) => void;
@@ -54,10 +54,6 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onImageLoad, isProcessing })
       <Upload size={48} className="upload-icon" />
       <h3>Tap to Upload or Drop Image Here</h3>
       <p>Supports JPG/JPEG, PNG, WebP, HEIC</p>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500, marginTop: '0.5rem' }}>
-        <ShieldCheck size={18} />
-        <span>100% Secure & Private. No server uploads.</span>
-      </div>
       {isProcessing && <p style={{color: 'var(--primary)', fontWeight: 600}}>Loading & Converting...</p>}
     </div>
   );
