@@ -40,7 +40,7 @@ const AppRoutes = () => {
         <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
         <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
-        <Route path="/pdf-compressor" element={<PageWrapper><PdfCompressor /></PageWrapper>} />
+        <Route path="/pdf" element={<PageWrapper><PdfCompressor /></PageWrapper>} />
         <Route path="/*" element={<PageWrapper><Home /></PageWrapper>} />
       </Routes>
     </AnimatePresence>

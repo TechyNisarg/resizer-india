@@ -78,15 +78,15 @@ export const LandingPage: React.FC = () => {
         <div className="category-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
           <motion.button 
             className="category-card" 
-            onClick={() => navigate('/pdf-compressor')}
+            onClick={() => navigate('/pdf')}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             whileTap={{ scale: 0.98 }}
           >
             <div className="category-icon-wrapper" style={{ color: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)' }}>
               <FileText size={32} />
             </div>
-            <h2 className="category-title">PDF / Doc Compressor</h2>
-            <p className="category-desc">{'• Compress existing PDFs\n• Convert JPG/PNG to PDF\n• Set exact KB limits\n• 100% secure in-browser'}</p>
+            <h2 className="category-title">PDF Compressor & Merger</h2>
+            <p className="category-desc">{'• Combine images and PDFs into one optimized file.\n• Compress to strict KB limits.\n• Reorder and delete pages.\n• 100% secure client-side.'}</p>
             <div className="category-action">Open Tool</div>
           </motion.button>
         </div>

@@ -50,9 +50,9 @@ const routes = {
     title: 'Defence & Army Photo Resizer - Resizer India',
     description: 'Perfectly resize photos and signatures for Agniveer, NDA, CDS and other Indian Defence recruitment portals.',
   },
-  '/pdf-compressor': {
-    title: 'PDF Document Compressor - Resizer India',
-    description: 'Compress PDF documents to exact KB limits for government exam portals. Secure, fast, and works 100% in your browser.',
+  '/pdf': {
+    title: 'PDF Compressor & Merger - Resizer India',
+    description: 'Combine images and PDFs into a single optimized PDF file under exact KB limits. Secure, fast, and works 100% in your browser.',
   },
   '/custom-resizer': {
     title: 'Custom Image Resizer & Compressor - Resizer India',
