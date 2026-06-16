@@ -153,7 +153,7 @@ export const Home: React.FC = () => {
       )}
 
       <div className="workspace">
-        <div className="sidebar">
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '1.5rem', maxWidth: '900px' }}>
           <PresetSelector 
             currentCategory={category} 
             onCategorySelect={handleCategorySelect}
@@ -161,7 +161,53 @@ export const Home: React.FC = () => {
             onTypeSelect={handleTypeSelect}
             availableTypes={availableTypes}
           />
-          
+
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            {!sourceImage ? (
+              <div style={{ width: '100%', maxWidth: '700px' }}>
+                <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
+              </div>
+            ) : downloadObjectURL ? (
+              <div className="card result-view" style={{ width: '100%', maxWidth: '800px', textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
+                <h2 style={{ color: '#10b981', fontSize: '2rem', marginBottom: '1rem' }}>Success! 🎉</h2>
+                <img src={downloadObjectURL} alt="Resized" style={{ maxWidth: '100%', maxHeight: '40vh', margin: '0 auto 2rem', borderRadius: '8px', border: '1px solid var(--border-color)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }} />
+                
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+                   <div>
+                     <p style={{ color: 'var(--text-secondary)' }}>Original Size</p>
+                     <p style={{ fontSize: '1.25rem', fontWeight: 600 }}>{sourceSizeKB.toFixed(2)} KB</p>
+                   </div>
+                   <div>
+                     <p style={{ color: 'var(--text-secondary)' }}>Compressed Size</p>
+                     <p style={{ fontSize: '1.25rem', fontWeight: 600, color: '#10b981' }}>{finalSizeKB.toFixed(2)} KB</p>
+                   </div>
+                </div>
+                
+                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%', maxWidth: '500px' }}>
+                  <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ width: '100%', textDecoration: 'none', padding: '1.25rem', fontSize: '1.2rem', borderRadius: '16px', boxShadow: '0 8px 24px rgba(37,99,235,0.35)' }}>
+                    <DownloadCloud size={28} />
+                    Download Image
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div style={{ width: '100%', maxWidth: '800px' }}>
+                <ImagePreview 
+                  imageSrc={sourceObjectURL}
+                  crop={crop}
+                  zoom={zoom}
+                  aspect={activePreset.width / activePreset.height}
+                  hasFaceGuide={activePreset.hasFaceGuide}
+                  onCropChange={setCrop}
+                  onZoomChange={setZoom}
+                  onCropComplete={onCropComplete}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="info-grid">
           {category === 'custom' && (
             <div className="card">
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -181,7 +227,7 @@ export const Home: React.FC = () => {
             </div>
           )}
 
-          {userRequirements.length > 0 && (
+          {!sourceImage && userRequirements.length > 0 && (
             <div className="card">
               <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Requirements (From You)</h2>
               <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -203,16 +249,24 @@ export const Home: React.FC = () => {
             </div>
           )}
 
-          {!sourceImage ? null : (
+          {!sourceImage && (
+            <div className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '2rem' }}>
+              <ShieldCheck size={48} color="#10b981" style={{ marginBottom: '1rem' }} />
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>100% Secure & Private</h2>
+              <p style={{ color: 'var(--text-secondary)' }}>All processing happens locally on your device. Your files are never uploaded to any server, guaranteeing complete privacy and blazing fast speeds.</p>
+            </div>
+          )}
+
+          {sourceImage && (
             <div className="card controls">
               <div className="controls-row">
                 <button className="btn-danger" onClick={clearImage} title="Clear Image">
                   <Trash2 size={20} />
-                  <span>Clear</span>
+                  <span>Clear Image</span>
                 </button>
               </div>
 
-              {activePreset?.hasOverlayOption && (
+              {!downloadObjectURL && activePreset?.hasOverlayOption && (
                 <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
                   <div className="input-group" style={{ flex: 1 }}>
                     <label>Name on Photo (Optional)</label>
@@ -236,65 +290,21 @@ export const Home: React.FC = () => {
                 </div>
               )}
 
-              <button 
-                className={`btn-primary ${isProcessing ? 'processing' : ''}`}
-                onClick={processImage}
-                disabled={isProcessing}
-                style={{ marginTop: '1rem' }}
-              >
-                <DownloadCloud size={24} />
-                <span>{isProcessing ? 'Processing...' : activePreset?.buttonText || 'Resize'}</span>
-              </button>
+              {!downloadObjectURL && (
+                <button 
+                  className={`btn-primary ${isProcessing ? 'processing' : ''}`}
+                  onClick={processImage}
+                  disabled={isProcessing}
+                  style={{ marginTop: '1rem' }}
+                >
+                  <DownloadCloud size={24} />
+                  <span>{isProcessing ? 'Processing...' : activePreset?.buttonText || 'Resize'}</span>
+                </button>
+              )}
             </div>
           )}
 
           {error && <div className="error-toast">{error}</div>}
-        </div>
-
-        <div className="main-content" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', height: '100%', maxWidth: '1100px', width: '100%', margin: '0' }}>
-          {!sourceImage ? (
-            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-              <div style={{ flex: '1 1 100%', maxWidth: '700px' }}>
-                <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
-              </div>
-            </div>
-          ) : downloadObjectURL ? (
-            <div className="card result-view" style={{ maxWidth: '800px', textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
-              <h2 style={{ color: '#10b981', fontSize: '2rem', marginBottom: '1rem' }}>Success! 🎉</h2>
-              <img src={downloadObjectURL} alt="Resized" style={{ maxWidth: '100%', maxHeight: '40vh', margin: '0 auto 2rem', borderRadius: '8px', border: '1px solid var(--border-color)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }} />
-              
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-                 <div>
-                   <p style={{ color: 'var(--text-secondary)' }}>Original Size</p>
-                   <p style={{ fontSize: '1.25rem', fontWeight: 600 }}>{sourceSizeKB.toFixed(2)} KB</p>
-                 </div>
-                 <div>
-                   <p style={{ color: 'var(--text-secondary)' }}>Compressed Size</p>
-                   <p style={{ fontSize: '1.25rem', fontWeight: 600, color: '#10b981' }}>{finalSizeKB.toFixed(2)} KB</p>
-                 </div>
-              </div>
-              
-              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%', maxWidth: '500px' }}>
-                <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ width: '100%', textDecoration: 'none', padding: '1.25rem', fontSize: '1.2rem', borderRadius: '16px', boxShadow: '0 8px 24px rgba(37,99,235,0.35)' }}>
-                  <DownloadCloud size={28} />
-                  Download Image
-                </a>
-              </div>
-            </div>
-          ) : (
-            <div style={{ maxWidth: '800px', width: '100%' }}>
-              <ImagePreview 
-                imageSrc={sourceObjectURL}
-                crop={crop}
-                zoom={zoom}
-                aspect={activePreset.width / activePreset.height}
-                hasFaceGuide={activePreset.hasFaceGuide}
-                onCropChange={setCrop}
-                onZoomChange={setZoom}
-                onCropComplete={onCropComplete}
-              />
-            </div>
-          )}
         </div>
       </div>
       

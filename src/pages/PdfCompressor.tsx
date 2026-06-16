@@ -271,13 +271,16 @@ export const PdfCompressor: React.FC = () => {
       )}
 
       {pages.length === 0 ? (
-        <div 
-          className="dropzone"
-          onDrop={handleDrop}
-          onDragOver={(e) => e.preventDefault()}
-          onClick={() => !isProcessing && fileInputRef.current?.click()}
-          style={{ cursor: isProcessing ? 'wait' : 'pointer' }}
-        >
+        <div className="workspace">
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '1.5rem', maxWidth: '900px', margin: '0 auto' }}>
+            <div style={{ width: '100%', maxWidth: '700px' }}>
+              <div 
+                className="dropzone"
+                onDrop={handleDrop}
+                onDragOver={(e) => e.preventDefault()}
+                onClick={() => !isProcessing && fileInputRef.current?.click()}
+                style={{ cursor: isProcessing ? 'wait' : 'pointer' }}
+              >
           <input
             type="file"
             ref={fileInputRef}
@@ -291,9 +294,14 @@ export const PdfCompressor: React.FC = () => {
           <h3>Tap to Upload or Drop Files Here</h3>
           <p>Supports PDFs and images (JPG, PNG, WebP)</p>
         </div>
+            </div>
+          </div>
+        </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-          <div className="card" style={{ padding: '1.5rem' }}>
+        <div className="workspace">
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '1.5rem', maxWidth: '900px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', width: '100%' }}>
+              <div className="card" style={{ padding: '1.5rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
               <div>
                 <h2 style={{ fontSize: '1.25rem', color: 'var(--text-primary)' }}>Document Pages ({pages.length})</h2>
@@ -535,7 +543,30 @@ export const PdfCompressor: React.FC = () => {
             )}
           </div>
         </div>
+        </div>
       )}
+
+      <div className="info-grid" style={{ margin: '0 auto' }}>
+        {pages.length === 0 && (
+          <div className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '2rem' }}>
+            <ShieldCheck size={48} color="#10b981" style={{ marginBottom: '1rem' }} />
+            <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>100% Secure & Private</h2>
+            <p style={{ color: 'var(--text-secondary)' }}>All processing happens locally on your device. Your files are never uploaded to any server, guaranteeing complete privacy and blazing fast speeds.</p>
+          </div>
+        )}
+
+        {pages.length === 0 && (
+          <div className="card">
+            <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Tool Features</h2>
+            <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <li>Combine multiple images and PDFs</li>
+              <li>Drag and drop to seamlessly reorder pages</li>
+              <li>Target a specific file size limit (e.g. under 300KB)</li>
+              <li>High-quality PDF compression algorithm</li>
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
