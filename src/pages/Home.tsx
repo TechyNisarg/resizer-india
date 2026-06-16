@@ -240,12 +240,12 @@ export const Home: React.FC = () => {
 
         <div className="main-content" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', height: '100%', maxWidth: '1100px', width: '100%', margin: '0' }}>
           {!sourceImage ? (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', width: '100%', alignItems: 'stretch' }}>
-              <div style={{ flex: '1 1 500px', minWidth: '280px', maxWidth: '700px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', width: '100%', alignItems: 'flex-start' }}>
+              <div style={{ flex: '1 1 400px', minWidth: '280px', maxWidth: '700px' }}>
                 <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
               </div>
               {userRequirements.length > 0 && (
-                <div className="card" style={{ flex: '1 1 300px', minWidth: '280px', maxWidth: '400px' }}>
+                <div className="card" style={{ flex: '0 1 auto', minWidth: '280px', maxWidth: '400px', width: 'fit-content' }}>
                   <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Requirements (From You)</h2>
                   <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     {userRequirements.map((inst, idx) => (
