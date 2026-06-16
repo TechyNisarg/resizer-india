@@ -3,16 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { Car, CreditCard, Plane, BookOpen, Sliders, Landmark, Train, Stethoscope, GraduationCap, ShieldCheck } from 'lucide-react';
 
 const CATEGORIES = [
-  { id: 'rto', label: 'RTO / Parivahan', icon: Car, desc: 'Quickly adjust photos and signatures to match exact Parivahan / RTO specifications without losing quality.', path: '/rto-photo-resizer' },
-  { id: 'pan', label: 'PAN Card', icon: CreditCard, desc: 'Resize for NSDL or UTIITSL PAN card portals. 213x213px at 300DPI for photos, and 2:1 ratio for signatures.', path: '/pan-card-photo-resizer' },
-  { id: 'passport', label: 'Passport Photo (2x2 inch)', icon: Plane, desc: 'Standard Indian Passport/Visa sizes (2x2 inch or 51x51mm). Perfect for online OCI or Passport Seva applications.', path: '/passport-photo-resizer' },
-  { id: 'ssc', label: 'SSC Exams', icon: BookOpen, desc: 'Exact 4.5x3.5cm sizes for SSC photos, signatures, and thumb impressions. 20-50KB limits strictly enforced.', path: '/ssc-photo-resizer' },
-  { id: 'upsc', label: 'UPSC Exams', icon: BookOpen, desc: 'Meet the strict UPSC 350x350px limits. Crops accurately and compresses within 20KB-300KB as required.', path: '/upsc-photo-resizer' },
-  { id: 'ibps', label: 'Bank Exams (IBPS/SBI)', icon: Landmark, desc: 'Instantly resize photos, signatures, left thumb impressions, and handwritten declarations to meet strict IBPS/SBI limits.', path: '/ibps-photo-resizer' },
-  { id: 'rrb', label: 'Railway Exams (RRB)', icon: Train, desc: 'Ensure your RRB application is not rejected. Perfectly crops to 35x45mm on a strict white background.', path: '/rrb-photo-resizer' },
-  { id: 'neet', label: 'NEET / NTA Exams', icon: Stethoscope, desc: 'Resize NEET passport, postcard photos, and finger impressions according to the latest NTA brochure guidelines.', path: '/neet-photo-resizer' },
-  { id: 'acpc', label: 'ACPC Admission', icon: GraduationCap, desc: 'Fast resize for Gujarat ACPC engineering and diploma admission portals. Prepare your photos and signatures accurately.', path: '/acpc-photo-resizer' },
-  { id: 'custom', label: 'Custom Size', icon: Sliders, desc: 'Need a specific pixel width, height, or KB size? Use the custom tool to manually set your own form requirements.', path: '/custom-resizer' },
+  { id: 'rto', label: 'RTO / Parivahan', icon: Car, desc: '• Photo: 3.5x4.5 cm\n• Sign: 256x64 px\n• Size: 10KB - 20KB\n• Portals: Vahan, Sarathi', path: '/rto-photo-resizer' },
+  { id: 'pan', label: 'PAN Card', icon: CreditCard, desc: '• Photo: 213x213 px\n• Sign: 400x200 px\n• Size: Max 50KB\n• Portals: NSDL, UTIITSL', path: '/pan-card-photo-resizer' },
+  { id: 'passport', label: 'Passport Photo', icon: Plane, desc: '• Size: 2x2 inch (51x51mm)\n• Background: White\n• Format: JPEG\n• Uses: OCI, Passport Seva', path: '/passport-photo-resizer' },
+  { id: 'ssc', label: 'SSC Exams', icon: BookOpen, desc: '• Photo: 3.5x4.5 cm (20-50KB)\n• Sign: 4.0x2.0 cm (10-20KB)\n• Thumb: 10-30KB\n• Strict format enforced', path: '/ssc-photo-resizer' },
+  { id: 'upsc', label: 'UPSC Exams', icon: BookOpen, desc: '• Photo & Sign: 350x350 px (Min)\n• Max Size: 1000x1000 px\n• File Size: 20KB - 300KB\n• Bit Depth: 24-bit', path: '/upsc-photo-resizer' },
+  { id: 'ibps', label: 'IBPS/SBI Exams', icon: Landmark, desc: '• Photo: 4.5x3.5 cm (20-50KB)\n• Sign: 140x60 px (10-20KB)\n• Thumb: 20-50KB\n• Declaration: 50-100KB', path: '/ibps-photo-resizer' },
+  { id: 'rrb', label: 'Railway (RRB)', icon: Train, desc: '• Photo: 35x45 mm (20-50KB)\n• Background: White only\n• Sign: 50x20 mm (10-40KB)\n• Format: JPG/JPEG', path: '/rrb-photo-resizer' },
+  { id: 'neet', label: 'NEET / NTA', icon: Stethoscope, desc: '• Passport: 10-200KB\n• Postcard: 4x6 inch (10-200KB)\n• Sign: 4-30KB\n• Thumb: 10-200KB', path: '/neet-photo-resizer' },
+  { id: 'acpc', label: 'ACPC Admission', icon: GraduationCap, desc: '• Photo: 10-50KB\n• Sign: 10-50KB\n• Format: JPG/JPEG\n• Uses: GUJCET, Engineering', path: '/acpc-photo-resizer' },
+  { id: 'custom', label: 'Custom Tool', icon: Sliders, desc: '• Custom Width & Height\n• Exact KB Compression\n• Ratio Preserving\n• Manual Cropping', path: '/custom-resizer' },
 ];
 
 export const LandingPage: React.FC = () => {
