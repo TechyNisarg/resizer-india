@@ -546,15 +546,24 @@ export const PdfCompressor: React.FC = () => {
       <div className="info-grid" style={{ margin: '0 auto' }}>
 
         {pages.length === 0 && (
-          <div className="card">
-            <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Tool Features</h2>
-            <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <li>Combine multiple images and PDFs</li>
-              <li>Drag and drop to seamlessly reorder pages</li>
-              <li>Target a specific file size limit (e.g. under 300KB)</li>
-              <li>High-quality PDF compression algorithm</li>
-            </ul>
-          </div>
+          <>
+            <div className="card">
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Requirements (From You)</h2>
+              <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <li>Upload single or multiple PDFs/Images</li>
+                <li>Set your desired maximum output file size</li>
+                <li>Drag & drop to seamlessly reorder pages</li>
+              </ul>
+            </div>
+            <div className="card">
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Output Specifications (By Tool)</h2>
+              <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <li>100% Client-side processing (Secure)</li>
+                <li>Single merged & optimized PDF document</li>
+                <li>High-quality smart compression algorithm</li>
+              </ul>
+            </div>
+          </>
         )}
       </div>
     </div>
