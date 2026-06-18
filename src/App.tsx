@@ -18,6 +18,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Home } from './pages/Home';
 import { About, Privacy, Terms, Contact, FAQ } from './pages/StaticPages';
 import { PdfCompressor } from './pages/PdfCompressor';
+import { ImageCompressor } from './pages/ImageCompressor';
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => (
   <motion.div
@@ -42,6 +43,7 @@ const AppRoutes = () => {
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
         <Route path="/faq" element={<PageWrapper><FAQ /></PageWrapper>} />
         <Route path="/pdf" element={<PageWrapper><PdfCompressor /></PageWrapper>} />
+        <Route path="/image-compressor" element={<PageWrapper><ImageCompressor /></PageWrapper>} />
         <Route path="/*" element={<PageWrapper><Home /></PageWrapper>} />
       </Routes>
     </AnimatePresence>

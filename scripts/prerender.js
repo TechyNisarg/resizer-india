@@ -58,6 +58,10 @@ const routes = {
     title: 'IBPS Thumb Impression Resizer - Resizer India',
     description: 'Resize left thumb impressions for IBPS and SBI applications to 240x240 pixels and 20KB-50KB.',
   },
+  '/image-compressor': {
+    title: 'Image Compressor - Reduce File Size in KB - Resizer India',
+    description: 'Easily compress any image file size (KB) without changing its dimensions. Simple, fast, and 100% secure client-side compression.',
+  },
   '/ibps-declaration-resizer': {
     title: 'IBPS Handwritten Declaration Resizer - Resizer India',
     description: 'Resize handwritten declarations for IBPS and SBI applications to 800x400 pixels and 50KB-100KB.',
