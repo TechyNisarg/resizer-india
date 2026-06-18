@@ -158,6 +158,26 @@ export const Home: React.FC = () => {
             availableTypes={availableTypes}
           />
 
+          {category === 'custom' && !downloadObjectURL && (
+            <div className="card" style={{ width: '100%', maxWidth: '700px', marginBottom: '1rem' }}>
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Output Specifications (Manual)</h2>
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1, fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  Width (px) 
+                  <input type="number" value={customWidth} onChange={e => setCustomWidth(Number(e.target.value) || 1)} style={{ padding: '0.75rem', borderRadius: '12px', border: '1px solid var(--border-color)', fontSize: '1rem' }} />
+                </label>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1, fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  Height (px) 
+                  <input type="number" value={customHeight} onChange={e => setCustomHeight(Number(e.target.value) || 1)} style={{ padding: '0.75rem', borderRadius: '12px', border: '1px solid var(--border-color)', fontSize: '1rem' }} />
+                </label>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1, fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  Max Size (KB) 
+                  <input type="number" value={customMaxKB} onChange={e => setCustomMaxKB(Number(e.target.value) || 1)} style={{ padding: '0.75rem', borderRadius: '12px', border: '1px solid var(--border-color)', fontSize: '1rem' }} />
+                </label>
+              </div>
+            </div>
+          )}
+
           <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             {!sourceImage ? (
               <div style={{ width: '100%', maxWidth: '700px' }}>
@@ -179,11 +199,15 @@ export const Home: React.FC = () => {
                    </div>
                 </div>
                 
-                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%', maxWidth: '500px' }}>
-                  <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ width: '100%', textDecoration: 'none', padding: '1.25rem', fontSize: '1.2rem', borderRadius: '16px', boxShadow: '0 8px 24px rgba(37,99,235,0.35)' }}>
+                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%', maxWidth: '600px', flexWrap: 'wrap' }}>
+                  <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ flex: 1, minWidth: '200px', textDecoration: 'none', padding: '1.25rem', fontSize: '1.2rem', borderRadius: '16px', boxShadow: '0 8px 24px rgba(37,99,235,0.35)' }}>
                     <DownloadCloud size={28} />
                     Download Image
                   </a>
+                  <button onClick={clearImage} className="btn-secondary" style={{ flex: 1, minWidth: '200px', padding: '1.25rem', fontSize: '1.2rem', borderRadius: '16px', background: 'var(--surface-solid)', border: '1px solid var(--border-color)' }}>
+                    <Trash2 size={28} />
+                    Start Over
+                  </button>
                 </div>
               </div>
             ) : (
@@ -203,26 +227,8 @@ export const Home: React.FC = () => {
           </div>
         </div>
 
-        <div className="info-grid">
-          {category === 'custom' && (
-            <div className="card">
-              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Output Specifications (Manual)</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                  Width (px) 
-                  <input type="number" value={customWidth} onChange={e => setCustomWidth(Number(e.target.value) || 1)} style={{ width: '120px', padding: '0 0.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }} />
-                </label>
-                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                  Height (px) 
-                  <input type="number" value={customHeight} onChange={e => setCustomHeight(Number(e.target.value) || 1)} style={{ width: '120px', padding: '0 0.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }} />
-                </label>
-                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                  Max Size (KB) 
-                  <input type="number" value={customMaxKB} onChange={e => setCustomMaxKB(Number(e.target.value) || 1)} style={{ width: '120px', padding: '0 0.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }} />
-                </label>
-              </div>
-            </div>
-          )}
+        {!downloadObjectURL && (
+          <div className="info-grid">
 
           {!sourceImage && userRequirements.length > 0 && (
             <div className="card">
