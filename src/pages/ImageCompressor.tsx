@@ -137,7 +137,7 @@ export const ImageCompressor: React.FC = () => {
   const isOutputOverTarget = outputSizeKB > targetMaxKB;
 
   return (
-    <div className="container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
+    <div className="container" style={{ maxWidth: '1000px', margin: '0 auto 4rem' }}>
       <div className="card">
         <h2 style={{ textAlign: 'center', marginBottom: '2rem', fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>
           Image Compressor (Reduce KB Size)
