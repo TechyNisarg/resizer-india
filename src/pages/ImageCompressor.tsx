@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Upload, DownloadCloud, Check, AlertCircle, X } from 'lucide-react';
+import { Upload, DownloadCloud, Check, AlertCircle, X, Loader2 } from 'lucide-react';
 import ImageWorker from '../utils/worker?worker';
 
 const getErrorMessage = (error: unknown) => (
@@ -78,50 +78,62 @@ export const ImageCompressor: React.FC = () => {
     setError('');
     setDownloadUrl('');
     
-    try {
-      const bitmap = await createImageBitmap(sourceImage);
-      const presetForWorker = {
-        width: sourceImage.naturalWidth,
-        height: sourceImage.naturalHeight,
-        rect: {
-          sx: 0,
-          sy: 0,
-          sw: sourceImage.naturalWidth,
-          sh: sourceImage.naturalHeight
-        },
-        maxKB: targetMaxKB,
-        minKB: 0
-      };
+    let currentScale = 1.0;
 
-      if (workerRef.current) workerRef.current.terminate();
-      workerRef.current = new ImageWorker();
-      
-      workerRef.current.onmessage = (e) => {
-        const data = e.data;
-        if (!data.success || !data.blob) {
-          setError(data.error || "Failed to compress image.");
+    const attemptCompression = async () => {
+      try {
+        const bitmap = await createImageBitmap(sourceImage);
+        const presetForWorker = {
+          width: Math.max(10, Math.floor(sourceImage.naturalWidth * currentScale)),
+          height: Math.max(10, Math.floor(sourceImage.naturalHeight * currentScale)),
+          rect: {
+            sx: 0,
+            sy: 0,
+            sw: sourceImage.naturalWidth,
+            sh: sourceImage.naturalHeight
+          },
+          maxKB: targetMaxKB,
+          minKB: 0
+        };
+
+        if (workerRef.current) workerRef.current.terminate();
+        workerRef.current = new ImageWorker();
+        
+        workerRef.current.onmessage = (e) => {
+          const data = e.data;
+          if (!data.success || !data.blob) {
+            if (currentScale > 0.1) {
+              // Try again with smaller dimensions
+              currentScale -= 0.15;
+              attemptCompression();
+              return;
+            }
+            setError(data.error || "Failed to compress image.");
+            setIsProcessing(false);
+            return;
+          }
+
+          if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+          const url = URL.createObjectURL(data.blob);
+          setDownloadUrl(url);
+          setOutputSizeKB(data.blob.size / 1024);
           setIsProcessing(false);
-          return;
-        }
+        };
 
-        if (downloadUrl) URL.revokeObjectURL(downloadUrl);
-        const url = URL.createObjectURL(data.blob);
-        setDownloadUrl(url);
-        setOutputSizeKB(data.blob.size / 1024);
+        workerRef.current.onerror = () => {
+          setError("Error processing image in worker.");
+          setIsProcessing(false);
+        };
+
+        workerRef.current.postMessage({ imageBitmap: bitmap, preset: presetForWorker }, [bitmap]);
+      } catch (e: unknown) {
+        console.error(e);
+        setError(`Compression error: ${getErrorMessage(e)}`);
         setIsProcessing(false);
-      };
+      }
+    };
 
-      workerRef.current.onerror = () => {
-        setError("Error processing image in worker.");
-        setIsProcessing(false);
-      };
-
-      workerRef.current.postMessage({ imageBitmap: bitmap, preset: presetForWorker }, [bitmap]);
-    } catch (e: unknown) {
-      console.error(e);
-      setError(`Compression error: ${getErrorMessage(e)}`);
-      setIsProcessing(false);
-    }
+    attemptCompression();
   };
 
   const clearImage = () => {
@@ -254,7 +266,7 @@ export const ImageCompressor: React.FC = () => {
                   style={{ width: '100%', padding: '1rem', marginTop: 'auto' }}
                 >
                   {isProcessing ? (
-                    <div className="spinner" style={{ width: '20px', height: '20px', borderTopColor: 'white' }}></div>
+                    <Loader2 size={20} style={{ animation: 'rotation 1s linear infinite' }} />
                   ) : (
                     <DownloadCloud size={20} />
                   )}
