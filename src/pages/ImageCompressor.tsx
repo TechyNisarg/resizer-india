@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Upload, DownloadCloud, Trash2, Check, AlertCircle } from 'lucide-react';
+import { Upload, DownloadCloud, Check, AlertCircle, X } from 'lucide-react';
+import ImageWorker from '../utils/worker?worker';
 
 const getErrorMessage = (error: unknown) => (
   error instanceof Error ? error.message : 'Unknown error'
@@ -14,6 +15,8 @@ export const ImageCompressor: React.FC = () => {
   const [downloadUrl, setDownloadUrl] = useState('');
   const [outputSizeKB, setOutputSizeKB] = useState(0);
   const [hasDownloaded, setHasDownloaded] = useState(false);
+  const resultRef = useRef<HTMLDivElement>(null);
+  const workerRef = useRef<Worker | null>(null);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -21,8 +24,15 @@ export const ImageCompressor: React.FC = () => {
     return () => {
       if (downloadUrl) URL.revokeObjectURL(downloadUrl);
       if (sourceImage) URL.revokeObjectURL(sourceImage.src);
+      if (workerRef.current) workerRef.current.terminate();
     };
   }, [downloadUrl, sourceImage]);
+
+  useEffect(() => {
+    if (downloadUrl && resultRef.current) {
+      resultRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [downloadUrl]);
 
   const handleFiles = (files: FileList) => {
     setIsProcessing(true);
@@ -61,69 +71,55 @@ export const ImageCompressor: React.FC = () => {
     }
   };
 
-  const compressToTargetSize = async (canvas: HTMLCanvasElement, targetKB: number): Promise<{ dataUrl: string, sizeKB: number }> => {
-    let minQ = 0.01;
-    let maxQ = 1.0;
-    let quality = 0.75;
-    let bestDataUrl = '';
-    let bestSizeKB = 0;
-    
-    for (let i = 0; i < 8; i++) {
-      const dataUrl = canvas.toDataURL('image/jpeg', quality);
-      // Rough estimation of base64 size to actual bytes
-      const sizeKB = (dataUrl.length * 3 / 4) / 1024;
-      
-      if (sizeKB <= targetKB) {
-        bestDataUrl = dataUrl;
-        bestSizeKB = sizeKB;
-        minQ = quality;
-      } else {
-        maxQ = quality;
-      }
-      quality = (minQ + maxQ) / 2;
-    }
-    
-    if (!bestDataUrl) {
-      bestDataUrl = canvas.toDataURL('image/jpeg', 0.01);
-      bestSizeKB = (bestDataUrl.length * 3 / 4) / 1024;
-    }
-    
-    return { dataUrl: bestDataUrl, sizeKB: bestSizeKB };
-  };
-
   const handleCompress = async () => {
     if (!sourceImage) return;
     
     setIsProcessing(true);
     setError('');
+    setDownloadUrl('');
     
     try {
-      const canvas = document.createElement('canvas');
-      canvas.width = sourceImage.naturalWidth;
-      canvas.height = sourceImage.naturalHeight;
-      const ctx = canvas.getContext('2d');
-      
-      if (!ctx) throw new Error('Canvas context not available');
-      
-      // Fill white background for transparency (e.g. PNGs)
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(sourceImage, 0, 0);
+      const bitmap = await createImageBitmap(sourceImage);
+      const presetForWorker = {
+        width: sourceImage.naturalWidth,
+        height: sourceImage.naturalHeight,
+        rect: {
+          sx: 0,
+          sy: 0,
+          sw: sourceImage.naturalWidth,
+          sh: sourceImage.naturalHeight
+        },
+        maxKB: targetMaxKB,
+        minKB: 0
+      };
 
-      const { dataUrl, sizeKB } = await compressToTargetSize(canvas, targetMaxKB);
+      if (workerRef.current) workerRef.current.terminate();
+      workerRef.current = new ImageWorker();
+      
+      workerRef.current.onmessage = (e) => {
+        const data = e.data;
+        if (!data.success || !data.blob) {
+          setError(data.error || "Failed to compress image.");
+          setIsProcessing(false);
+          return;
+        }
 
-      // Convert data URL to Blob for proper download URL
-      const response = await fetch(dataUrl);
-      const blob = await response.blob();
-      
-      if (downloadUrl) URL.revokeObjectURL(downloadUrl);
-      
-      setDownloadUrl(URL.createObjectURL(blob));
-      setOutputSizeKB(sizeKB);
+        if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+        const url = URL.createObjectURL(data.blob);
+        setDownloadUrl(url);
+        setOutputSizeKB(data.blob.size / 1024);
+        setIsProcessing(false);
+      };
+
+      workerRef.current.onerror = () => {
+        setError("Error processing image in worker.");
+        setIsProcessing(false);
+      };
+
+      workerRef.current.postMessage({ imageBitmap: bitmap, preset: presetForWorker }, [bitmap]);
     } catch (e: unknown) {
       console.error(e);
       setError(`Compression error: ${getErrorMessage(e)}`);
-    } finally {
       setIsProcessing(false);
     }
   };
@@ -183,27 +179,26 @@ export const ImageCompressor: React.FC = () => {
             
             <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
               <div style={{ flex: '1 1 300px', backgroundColor: 'var(--surface-solid)', borderRadius: '12px', padding: '1.5rem', border: '1px solid var(--border-color)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: 600 }}>Original Image</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: 600, alignSelf: 'flex-start' }}>Original Image</h3>
+                  <img 
+                    src={sourceImage.src} 
+                    alt="Original" 
+                    style={{ width: '100%', maxHeight: '300px', objectFit: 'contain', borderRadius: '8px', border: '1px solid var(--border-color)' }} 
+                  />
+                  <p style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
+                    {sourceFile?.name} <br/>
+                    Original Size: {sourceFile ? (sourceFile.size / 1024).toFixed(2) : 0} KB
+                  </p>
                   <button 
                     onClick={clearImage}
                     className="btn-danger"
                     style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', width: 'auto' }}
                   >
-                    <Trash2 size={16} />
-                    Change Image
+                    <X size={16} />
+                    Clear Image
                   </button>
                 </div>
-                
-                <img 
-                  src={sourceImage.src} 
-                  alt="Original" 
-                  style={{ width: '100%', maxHeight: '300px', objectFit: 'contain', borderRadius: '8px', border: '1px solid var(--border-color)', marginBottom: '1rem' }} 
-                />
-                <p style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                  {sourceFile?.name} <br/>
-                  Original Size: {sourceFile ? (sourceFile.size / 1024).toFixed(2) : 0} KB
-                </p>
               </div>
 
               <div style={{ flex: '1 1 300px', backgroundColor: 'var(--surface-solid)', borderRadius: '12px', padding: '1.5rem', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column' }}>
@@ -234,15 +229,13 @@ export const ImageCompressor: React.FC = () => {
                   </p>
                 </div>
 
-                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem', marginBottom: '2rem' }}>
                   {[20, 50, 100, 200, 500].map(size => (
                     <button
                       key={size}
                       className="btn-secondary"
                       style={{ 
-                        width: 'auto', 
-                        flex: '1 1 80px',
-                        padding: '0.5rem 1rem', 
+                        padding: '0.5rem', 
                         fontSize: '0.9rem', 
                         backgroundColor: targetMaxKB === size ? 'var(--primary)' : undefined, 
                         color: targetMaxKB === size ? 'white' : undefined 
@@ -278,7 +271,7 @@ export const ImageCompressor: React.FC = () => {
             )}
 
             {downloadUrl && (
-              <div className="result-card" style={{ padding: '2rem', backgroundColor: 'var(--surface-solid)', borderRadius: '12px', textAlign: 'center', border: '1px solid var(--border-color)', boxShadow: '0 8px 32px rgba(0,0,0,0.05)' }}>
+              <div ref={resultRef} className="result-card" style={{ padding: '2rem', backgroundColor: 'var(--surface-solid)', borderRadius: '12px', textAlign: 'center', border: '1px solid var(--border-color)', boxShadow: '0 8px 32px rgba(0,0,0,0.05)' }}>
                 <h4 style={{ color: isOutputOverTarget ? 'var(--danger)' : 'var(--success)', fontSize: '1.5rem', marginBottom: '1rem' }}>
                   {isOutputOverTarget ? 'Compressed, but still above target' : 'Compressed Successfully! 🎉'}
                 </h4>
