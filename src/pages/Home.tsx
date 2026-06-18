@@ -8,7 +8,7 @@ import { useImageProcessor } from '../hooks/useImageProcessor';
 import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
 import { getPresetByRoute, getPresetRoute, getPresetsByCategory } from '../utils/presetData';
 import { SEO_CONTENT } from '../utils/seoContent';
-import { Trash2, DownloadCloud } from 'lucide-react';
+import { Trash2, DownloadCloud, Check } from 'lucide-react';
 
 export const Home: React.FC = () => {
   const location = useLocation();
@@ -18,6 +18,7 @@ export const Home: React.FC = () => {
   const [customHeight, setCustomHeight] = useState(525);
   const [customMaxKB, setCustomMaxKB] = useState(20);
 
+  const [hasDownloaded, setHasDownloaded] = useState(false);
   const [overlayName, setOverlayName] = useState('');
   const [overlayDate, setOverlayDate] = useState('');
 
@@ -143,14 +144,32 @@ export const Home: React.FC = () => {
                    </div>
                    <div>
                      <p style={{ color: 'var(--text-secondary)' }}>Compressed Size</p>
-                     <p style={{ fontSize: '1.25rem', fontWeight: 600, color: '#10b981' }}>{finalSizeKB.toFixed(2)} KB</p>
+                     <p style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--success)' }}>{finalSizeKB.toFixed(2)} KB</p>
                    </div>
                 </div>
                 
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%', maxWidth: '500px' }}>
-                  <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ width: '100%', textDecoration: 'none', padding: '1.25rem', fontSize: '1.2rem', borderRadius: '16px', boxShadow: '0 8px 24px rgba(37,99,235,0.35)' }}>
-                    <DownloadCloud size={28} />
-                    Download Image
+                  <a 
+                    href={downloadObjectURL} 
+                    download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} 
+                    className="btn-primary" 
+                    onClick={() => {
+                      setHasDownloaded(true);
+                      setTimeout(() => setHasDownloaded(false), 2500);
+                    }}
+                    style={{ 
+                      width: '100%', 
+                      textDecoration: 'none', 
+                      padding: '1.25rem', 
+                      fontSize: '1.2rem', 
+                      borderRadius: '16px', 
+                      boxShadow: hasDownloaded ? '0 8px 24px rgba(16, 185, 129, 0.35)' : '0 8px 24px rgba(37,99,235,0.35)',
+                      backgroundColor: hasDownloaded ? 'var(--success)' : 'var(--primary)',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                  >
+                    {hasDownloaded ? <Check size={28} /> : <DownloadCloud size={28} />}
+                    {hasDownloaded ? 'Downloaded!' : 'Download Image'}
                   </a>
                 </div>
               </div>
@@ -254,7 +273,11 @@ export const Home: React.FC = () => {
                   disabled={isProcessing}
                   style={{ marginTop: '1rem' }}
                 >
-                  <DownloadCloud size={24} />
+                  {isProcessing ? (
+                    <div className="spinner" style={{ width: '24px', height: '24px', borderTopColor: 'white' }}></div>
+                  ) : (
+                    <DownloadCloud size={24} />
+                  )}
                   <span>{isProcessing ? 'Processing...' : activePreset?.buttonText || 'Resize'}</span>
                 </button>
               )}

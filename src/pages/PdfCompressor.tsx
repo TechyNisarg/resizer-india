@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Upload, FileText, DownloadCloud, Trash2, ArrowLeft, ArrowRight, X, AlertCircle } from 'lucide-react';
+import { Upload, FileText, DownloadCloud, Trash2, ArrowLeft, ArrowRight, X, AlertCircle, Check } from 'lucide-react';
 
 type PageEntry = {
   id: string;
@@ -20,6 +20,7 @@ export const PdfCompressor: React.FC = () => {
   const [error, setError] = useState('');
   const [downloadUrl, setDownloadUrl] = useState('');
   const [outputSizeKB, setOutputSizeKB] = useState(0);
+  const [hasDownloaded, setHasDownloaded] = useState(false);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -538,7 +539,11 @@ export const PdfCompressor: React.FC = () => {
               className={`btn-primary ${isProcessing ? 'processing' : ''}`}
               style={{ width: '100%', padding: '1rem' }}
             >
-              <DownloadCloud size={20} />
+              {isProcessing ? (
+                <div className="spinner" style={{ width: '20px', height: '20px', borderTopColor: 'white' }}></div>
+              ) : (
+                <DownloadCloud size={20} />
+              )}
               <span>{isProcessing ? progress || 'Processing...' : 'Compress & Merge into PDF'}</span>
             </button>
 
@@ -554,22 +559,27 @@ export const PdfCompressor: React.FC = () => {
                   href={downloadUrl}
                   download="document.pdf"
                   className="btn-success"
+                  onClick={() => {
+                    setHasDownloaded(true);
+                    setTimeout(() => setHasDownloaded(false), 2500);
+                  }}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '0.5rem',
-                    backgroundColor: 'var(--success)',
+                    backgroundColor: hasDownloaded ? 'var(--success)' : 'var(--primary)',
                     color: 'white',
                     padding: '1rem 2rem',
                     borderRadius: '12px',
                     fontWeight: 600,
                     textDecoration: 'none',
-                    boxShadow: '0 8px 24px rgba(16, 185, 129, 0.35)'
+                    boxShadow: hasDownloaded ? '0 8px 24px rgba(16, 185, 129, 0.35)' : '0 8px 24px rgba(37,99,235,0.35)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                   }}
                 >
-                  <DownloadCloud size={20} />
-                  Download document.pdf
+                  {hasDownloaded ? <Check size={20} /> : <DownloadCloud size={20} />}
+                  {hasDownloaded ? 'Downloaded!' : 'Download document.pdf'}
                 </a>
               </div>
             )}
