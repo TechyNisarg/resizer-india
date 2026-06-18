@@ -22,6 +22,7 @@ self.onmessage = async (e) => {
       preset.rect.sx, preset.rect.sy, preset.rect.sw, preset.rect.sh,
       0, 0, preset.width, imgDrawHeight
     );
+    imageBitmap.close();
 
     // Draw Overlay Text (Name & Date)
     if (preset.overlayName || preset.overlayDate) {
@@ -92,7 +93,8 @@ self.onmessage = async (e) => {
       // Bottomed out - could not satisfy min/max constraints
       self.postMessage({ success: false, error: "This image has too much detail to make the file this small. Try an image with a simpler background!" });
     }
-  } catch (err: any) {
-    self.postMessage({ success: false, error: err.message });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Image processing failed';
+    self.postMessage({ success: false, error: message });
   }
 };

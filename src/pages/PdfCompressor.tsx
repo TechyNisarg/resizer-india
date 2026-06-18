@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Upload, FileText, DownloadCloud, Trash2, ArrowLeft, ArrowRight, X, AlertCircle } from 'lucide-react';
 
 type PageEntry = {
@@ -7,6 +7,10 @@ type PageEntry = {
   thumbUrl: string;
   sourceCanvas: HTMLCanvasElement;
 };
+
+const getErrorMessage = (error: unknown) => (
+  error instanceof Error ? error.message : 'Unknown error'
+);
 
 export const PdfCompressor: React.FC = () => {
   const [pages, setPages] = useState<PageEntry[]>([]);
@@ -18,6 +22,12 @@ export const PdfCompressor: React.FC = () => {
   const [outputSizeKB, setOutputSizeKB] = useState(0);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    return () => {
+      if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+    };
+  }, [downloadUrl]);
 
   const generateThumb = (canvas: HTMLCanvasElement): string => {
     const thumbCanvas = document.createElement('canvas');
@@ -78,32 +88,37 @@ export const PdfCompressor: React.FC = () => {
       import.meta.url
     ).toString();
 
-    const pdfDoc = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+    const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+    const pdfDoc = await loadingTask.promise;
     const pageEntries: PageEntry[] = [];
 
-    for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
-      onProgress(`Rendering page ${pageNum} of ${pdfDoc.numPages}...`);
-      const page = await pdfDoc.getPage(pageNum);
-      const viewport = page.getViewport({ scale: 1.5 });
-      
-      const canvas = document.createElement('canvas');
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      
-      const canvasContext = canvas.getContext('2d');
-      if (!canvasContext) {
-        throw new Error('Canvas 2D context not available');
+    try {
+      for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+        onProgress(`Rendering page ${pageNum} of ${pdfDoc.numPages}...`);
+        const page = await pdfDoc.getPage(pageNum);
+        const viewport = page.getViewport({ scale: 1.5 });
+
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        const canvasContext = canvas.getContext('2d');
+        if (!canvasContext) {
+          throw new Error('Canvas 2D context not available');
+        }
+
+        await page.render({ canvas, canvasContext, viewport }).promise;
+        const thumbUrl = generateThumb(canvas);
+
+        pageEntries.push({
+          id: crypto.randomUUID(),
+          name: `${file.name} (Page ${pageNum})`,
+          thumbUrl,
+          sourceCanvas: canvas
+        });
       }
-      
-      await page.render({ canvasContext, viewport } as any).promise;
-      const thumbUrl = generateThumb(canvas);
-      
-      pageEntries.push({
-        id: crypto.randomUUID(),
-        name: `${file.name} (Page ${pageNum})`,
-        thumbUrl,
-        sourceCanvas: canvas
-      });
+    } finally {
+      await loadingTask.destroy();
     }
 
     return pageEntries;
@@ -132,9 +147,9 @@ export const PdfCompressor: React.FC = () => {
       }
       
       setPages(prev => [...prev, ...newPageEntries]);
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
-      setError(`Error importing files: ${e.message || 'Unknown error'}`);
+      setError(`Error importing files: ${getErrorMessage(e)}`);
     } finally {
       setIsProcessing(false);
       setProgress('');
@@ -193,17 +208,7 @@ export const PdfCompressor: React.FC = () => {
     return bestDataUrl;
   };
 
-  const handleCompress = async () => {
-    if (pages.length === 0) return;
-    setIsProcessing(true);
-    setError('');
-    setDownloadUrl('');
-
-    try {
-      const OVERHEAD_FLAT_KB = 12;
-      const usableKB = Math.max(targetMaxKB - OVERHEAD_FLAT_KB, targetMaxKB * 0.7);
-      const perPageKB = (usableKB / pages.length) * 0.95;
-
+  const createPdfBlob = async (perPageKB: number): Promise<Blob> => {
       const { jsPDF } = await import('jspdf');
       
       const firstCanvas = pages[0].sourceCanvas;
@@ -235,18 +240,47 @@ export const PdfCompressor: React.FC = () => {
         doc.addImage(imgData, 'JPEG', 0, 0, pageWidth, pageHeight);
       }
 
+      return doc.output('blob');
+  };
+
+  const handleCompress = async () => {
+    if (pages.length === 0) return;
+    setIsProcessing(true);
+    setError('');
+    setDownloadUrl('');
+
+    try {
+      const overheadKB = 12;
+      const usableKB = Math.max(targetMaxKB - overheadKB, targetMaxKB * 0.7);
+      let perPageKB = (usableKB / pages.length) * 0.95;
+
       setProgress('Generating PDF...');
-      const blob = doc.output('blob');
+      let blob = await createPdfBlob(perPageKB);
+
+      for (let attempt = 0; attempt < 4 && blob.size / 1024 > targetMaxKB; attempt++) {
+        const outputKB = blob.size / 1024;
+        const reductionRatio = Math.max(0.25, (targetMaxKB / outputKB) * 0.85);
+        perPageKB *= reductionRatio;
+        setProgress(`Optimizing PDF size (${attempt + 1}/4)...`);
+        blob = await createPdfBlob(perPageKB);
+      }
+
       setOutputSizeKB(blob.size / 1024);
       setDownloadUrl(URL.createObjectURL(blob));
-    } catch (e: any) {
+
+      if (blob.size / 1024 > targetMaxKB) {
+        setError(`Best effort output is ${(blob.size / 1024).toFixed(1)} KB, which is still above the ${targetMaxKB} KB target. Try fewer pages or a higher limit.`);
+      }
+    } catch (e: unknown) {
       console.error(e);
-      setError(`Failed to compress PDF: ${e.message || 'Unknown error'}`);
+      setError(`Failed to compress PDF: ${getErrorMessage(e)}`);
     } finally {
       setIsProcessing(false);
       setProgress('');
     }
   };
+
+  const isOutputOverTarget = outputSizeKB > targetMaxKB;
 
   return (
     <div className="home-container" style={{ maxWidth: '960px', margin: '0 auto', padding: '2rem 1rem' }}>
@@ -510,9 +544,11 @@ export const PdfCompressor: React.FC = () => {
 
             {downloadUrl && (
               <div className="result-card" style={{ marginTop: '2rem', padding: '1.5rem', backgroundColor: 'var(--surface-solid)', borderRadius: '12px', textAlign: 'center' }}>
-                <h4 style={{ color: '#10b981', fontSize: '1.25rem', marginBottom: '0.5rem' }}>PDF Compressed Successfully! 🎉</h4>
+                <h4 style={{ color: isOutputOverTarget ? 'var(--danger)' : '#10b981', fontSize: '1.25rem', marginBottom: '0.5rem' }}>
+                  {isOutputOverTarget ? 'PDF Generated, Still Above Target' : 'PDF Compressed Successfully! 🎉'}
+                </h4>
                 <p style={{ color: 'var(--text-secondary)', marginBottom: '1rem' }}>
-                  Target: Under {targetMaxKB} KB | Output Size: <strong style={{ color: '#10b981' }}>{outputSizeKB.toFixed(1)} KB</strong>
+                  Target: Under {targetMaxKB} KB | Output Size: <strong style={{ color: isOutputOverTarget ? 'var(--danger)' : '#10b981' }}>{outputSizeKB.toFixed(1)} KB</strong>
                 </p>
                 <a
                   href={downloadUrl}

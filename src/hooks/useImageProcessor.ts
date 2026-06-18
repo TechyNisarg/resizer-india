@@ -2,6 +2,12 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import type { Preset } from '../utils/presetData';
 import ImageWorker from '../utils/worker?worker';
 import heic2any from 'heic2any';
+import type { Area } from 'react-easy-crop';
+
+type ImageDimensions = {
+  width: number;
+  height: number;
+};
 
 export function useImageProcessor() {
   const [sourceImage, setSourceImage] = useState<HTMLImageElement | null>(null);
@@ -15,7 +21,7 @@ export function useImageProcessor() {
   // react-easy-crop states
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<{x: number, y: number, width: number, height: number} | null>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
   const workerRef = useRef<Worker | null>(null);
 
@@ -31,7 +37,7 @@ export function useImageProcessor() {
     };
   }, [cleanupUrls]);
 
-  const loadImage = async (file: File) => {
+  const loadImage = async (file: File, onLoaded?: (dimensions: ImageDimensions) => void) => {
     setError('');
     setIsProcessing(true);
     let finalBlob: Blob = file;
@@ -78,6 +84,10 @@ export function useImageProcessor() {
 
       const img = new Image();
       img.onload = () => {
+        onLoaded?.({
+          width: img.naturalWidth || img.width,
+          height: img.naturalHeight || img.height
+        });
         setSourceImage(img);
         setCrop({ x: 0, y: 0 });
         setZoom(1);
@@ -91,7 +101,7 @@ export function useImageProcessor() {
       };
       img.src = url;
 
-    } catch (err: any) {
+    } catch {
       setError("Failed to load and convert image. Ensure it is a valid format.");
       setIsProcessing(false);
     }
@@ -111,7 +121,7 @@ export function useImageProcessor() {
     setDownloadObjectURL('');
   };
 
-  const onCropComplete = useCallback((_croppedArea: any, croppedAreaPixels: any) => {
+  const onCropComplete = useCallback((_croppedArea: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
@@ -160,7 +170,7 @@ export function useImageProcessor() {
       };
 
       workerRef.current.postMessage({ imageBitmap: bitmap, preset: presetForWorker }, [bitmap]);
-    } catch (e) {
+    } catch {
       setError("Failed to start processing.");
       setIsProcessing(false);
     }

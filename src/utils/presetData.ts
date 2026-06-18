@@ -463,3 +463,16 @@ export const PRESETS: Preset[] = [
 export const getPresetsByCategory = (cat: PresetCategory) => {
   return PRESETS.filter(p => p.category === cat);
 };
+
+export const getPresetRoute = (category: PresetCategory, type: PresetType) => {
+  if (category === 'custom') return '/custom-resizer';
+  if (category === 'passport') return '/passport-photo-resizer';
+  if (category === 'pan') return `/pan-card-${type}-resizer`;
+  if (category === 'ibps' && type === 'handwritten') return '/ibps-declaration-resizer';
+  return `/${category}-${type}-resizer`;
+};
+
+export const getPresetByRoute = (pathname: string) => {
+  const normalizedPath = pathname.replace(/\/+$/, '') || '/';
+  return PRESETS.find(preset => getPresetRoute(preset.category, preset.type) === normalizedPath);
+};

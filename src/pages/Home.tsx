@@ -6,7 +6,7 @@ import { PresetSelector } from '../components/PresetSelector';
 import { LandingPage } from '../components/LandingPage';
 import { useImageProcessor } from '../hooks/useImageProcessor';
 import type { PresetCategory, PresetType, Preset } from '../utils/presetData';
-import { getPresetsByCategory } from '../utils/presetData';
+import { getPresetByRoute, getPresetRoute, getPresetsByCategory } from '../utils/presetData';
 import { SEO_CONTENT } from '../utils/seoContent';
 import { Trash2, DownloadCloud } from 'lucide-react';
 
@@ -21,59 +21,25 @@ export const Home: React.FC = () => {
   const [overlayName, setOverlayName] = useState('');
   const [overlayDate, setOverlayDate] = useState('');
 
-  const getInitialState = (): { cat: PresetCategory, type: PresetType } => {
-    const path = location.pathname;
-    if (path.includes('pan')) return { cat: 'pan', type: path.includes('signature') ? 'signature' : 'photo' };
-    if (path.includes('ssc')) return { cat: 'ssc', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : 'photo') };
-    if (path.includes('upsc')) return { cat: 'upsc', type: path.includes('signature') ? 'signature' : 'photo' };
-    if (path.includes('passport')) return { cat: 'passport', type: 'photo' };
-    if (path.includes('ibps')) return { cat: 'ibps', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : (path.includes('handwritten') ? 'handwritten' : 'photo')) };
-    if (path.includes('rrb')) return { cat: 'rrb', type: path.includes('signature') ? 'signature' : 'photo' };
-    if (path.includes('neet')) return { cat: 'neet', type: path.includes('signature') ? 'signature' : (path.includes('thumb') ? 'thumb' : (path.includes('postcard') ? 'postcard' : 'photo')) };
-    if (path.includes('acpc')) return { cat: 'acpc', type: path.includes('signature') ? 'signature' : 'photo' };
-    if (path.includes('state-psc')) return { cat: 'state-psc', type: path.includes('signature') ? 'signature' : 'photo' };
-    if (path.includes('defence')) return { cat: 'defence', type: path.includes('signature') ? 'signature' : 'photo' };
-    if (path.includes('custom')) return { cat: 'custom', type: 'custom' };
-    return { cat: 'rto', type: path.includes('signature') ? 'signature' : 'photo' };
-  };
-
-  const [category, setCategory] = useState<PresetCategory>(getInitialState().cat);
-  const [type, setType] = useState<PresetType>(getInitialState().type);
+  const routePreset = getPresetByRoute(location.pathname);
+  const category = routePreset?.category || 'rto';
+  const type = routePreset?.type || 'photo';
 
   useEffect(() => {
-    const st = getInitialState();
-    setCategory(st.cat);
-    setType(st.type);
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
   const handleCategorySelect = (cat: PresetCategory) => {
-    setCategory(cat);
     const newType = cat === 'custom' ? 'custom' : 'photo';
-    setType(newType);
     updateUrl(cat, newType);
   };
 
   const handleTypeSelect = (t: PresetType) => {
-    setType(t);
     updateUrl(category, t);
   };
 
   const updateUrl = (cat: PresetCategory, t: PresetType) => {
-    if (cat === 'custom') navigate('/custom-resizer');
-    else if (cat === 'rto') navigate(`/rto-${t}-resizer`);
-    else if (cat === 'pan') navigate(`/pan-card-${t}-resizer`);
-    else if (cat === 'ssc') navigate(`/ssc-${t}-resizer`);
-    else if (cat === 'upsc') navigate(`/upsc-${t}-resizer`);
-    else if (cat === 'passport') navigate(`/passport-photo-resizer`);
-    else if (cat === 'ibps') {
-      if (t === 'handwritten') navigate(`/ibps-declaration-resizer`);
-      else navigate(`/ibps-${t}-resizer`);
-    }
-    else if (cat === 'rrb') navigate(`/rrb-${t}-resizer`);
-    else if (cat === 'neet') navigate(`/neet-${t}-resizer`);
-    else if (cat === 'acpc') navigate(`/acpc-${t}-resizer`);
-    else navigate('/');
+    navigate(getPresetRoute(cat, t));
   };
 
   const availablePresets = getPresetsByCategory(category);
@@ -93,6 +59,15 @@ export const Home: React.FC = () => {
     isProcessing, error, crop, setCrop, zoom, setZoom, onCropComplete,
     downloadObjectURL, sourceSizeKB, finalSizeKB
   } = useImageProcessor();
+
+  const handleImageLoad = (file: File) => {
+    loadImage(file, ({ width, height }) => {
+      if (category === 'custom') {
+        setCustomWidth(width);
+        setCustomHeight(height);
+      }
+    });
+  };
 
   const processImage = () => {
     _processImage(activePreset, overlayName, overlayDate);
@@ -129,13 +104,6 @@ export const Home: React.FC = () => {
       ]
     : instructions.filter(inst => isOutputSpec(inst));
 
-  useEffect(() => {
-    if (sourceImage && category === 'custom') {
-      setCustomWidth(sourceImage.naturalWidth || sourceImage.width);
-      setCustomHeight(sourceImage.naturalHeight || sourceImage.height);
-    }
-  }, [sourceImage, category]);
-
   if (location.pathname === '/') {
     return <LandingPage />;
   }
@@ -158,30 +126,10 @@ export const Home: React.FC = () => {
             availableTypes={availableTypes}
           />
 
-          {category === 'custom' && !downloadObjectURL && (
-            <div className="card" style={{ width: '100%', maxWidth: '700px', marginBottom: '1rem' }}>
-              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Output Specifications (Manual)</h2>
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1, fontWeight: 600, color: 'var(--text-secondary)' }}>
-                  Width (px) 
-                  <input type="number" value={customWidth} onChange={e => setCustomWidth(Number(e.target.value) || 1)} style={{ padding: '0.75rem', borderRadius: '12px', border: '1px solid var(--border-color)', fontSize: '1rem' }} />
-                </label>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1, fontWeight: 600, color: 'var(--text-secondary)' }}>
-                  Height (px) 
-                  <input type="number" value={customHeight} onChange={e => setCustomHeight(Number(e.target.value) || 1)} style={{ padding: '0.75rem', borderRadius: '12px', border: '1px solid var(--border-color)', fontSize: '1rem' }} />
-                </label>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1, fontWeight: 600, color: 'var(--text-secondary)' }}>
-                  Max Size (KB) 
-                  <input type="number" value={customMaxKB} onChange={e => setCustomMaxKB(Number(e.target.value) || 1)} style={{ padding: '0.75rem', borderRadius: '12px', border: '1px solid var(--border-color)', fontSize: '1rem' }} />
-                </label>
-              </div>
-            </div>
-          )}
-
           <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             {!sourceImage ? (
               <div style={{ width: '100%', maxWidth: '700px' }}>
-                <Dropzone onImageLoad={loadImage} isProcessing={isProcessing} />
+                <Dropzone onImageLoad={handleImageLoad} isProcessing={isProcessing} />
               </div>
             ) : downloadObjectURL ? (
               <div className="card result-view" style={{ width: '100%', maxWidth: '800px', textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
@@ -199,15 +147,11 @@ export const Home: React.FC = () => {
                    </div>
                 </div>
                 
-                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%', maxWidth: '600px', flexWrap: 'wrap' }}>
-                  <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ flex: 1, minWidth: '200px', textDecoration: 'none', padding: '1.25rem', fontSize: '1.2rem', borderRadius: '16px', boxShadow: '0 8px 24px rgba(37,99,235,0.35)' }}>
+                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%', maxWidth: '500px' }}>
+                  <a href={downloadObjectURL} download={`${activePreset?.filename || 'resized'}-${finalSizeKB.toFixed(2)}KB.jpg`} className="btn-primary" style={{ width: '100%', textDecoration: 'none', padding: '1.25rem', fontSize: '1.2rem', borderRadius: '16px', boxShadow: '0 8px 24px rgba(37,99,235,0.35)' }}>
                     <DownloadCloud size={28} />
                     Download Image
                   </a>
-                  <button onClick={clearImage} className="btn-secondary" style={{ flex: 1, minWidth: '200px', padding: '1.25rem', fontSize: '1.2rem', borderRadius: '16px', background: 'var(--surface-solid)', border: '1px solid var(--border-color)' }}>
-                    <Trash2 size={28} />
-                    Start Over
-                  </button>
                 </div>
               </div>
             ) : (
@@ -227,8 +171,26 @@ export const Home: React.FC = () => {
           </div>
         </div>
 
-        {!downloadObjectURL && (
-          <div className="info-grid">
+        <div className="info-grid">
+          {category === 'custom' && (
+            <div className="card">
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Output Specifications (Manual)</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  Width (px)
+                  <input type="number" value={customWidth} onChange={e => setCustomWidth(Number(e.target.value) || 1)} style={{ width: '120px', padding: '0 0.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }} />
+                </label>
+                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  Height (px)
+                  <input type="number" value={customHeight} onChange={e => setCustomHeight(Number(e.target.value) || 1)} style={{ width: '120px', padding: '0 0.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }} />
+                </label>
+                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  Max Size (KB)
+                  <input type="number" value={customMaxKB} onChange={e => setCustomMaxKB(Number(e.target.value) || 1)} style={{ width: '120px', padding: '0 0.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }} />
+                </label>
+              </div>
+            </div>
+          )}
 
           {!sourceImage && userRequirements.length > 0 && (
             <div className="card">

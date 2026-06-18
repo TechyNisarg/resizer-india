@@ -28,7 +28,12 @@ export const Contact: React.FC = () => (
   <div className="card" style={{ maxWidth: '800px', margin: '2rem auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
     <h1 style={{ color: 'var(--text-primary)' }}>Contact Us</h1>
     <p>If you encounter any issues or have feature requests (like adding a new government form preset), please let us know!</p>
-    <p>Email: <strong>support@resizerindia.example.com</strong></p>
+    <p>
+      Open an issue on GitHub:{' '}
+      <a href="https://github.com/TechyNisarg/resizer-india/issues" target="_blank" rel="noreferrer">
+        TechyNisarg/resizer-india
+      </a>
+    </p>
   </div>
 );
 

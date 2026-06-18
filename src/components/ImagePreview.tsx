@@ -1,5 +1,6 @@
 import React from 'react';
 import Cropper from 'react-easy-crop';
+import type { Area } from 'react-easy-crop';
 
 interface ImagePreviewProps {
   imageSrc: string;
@@ -8,7 +9,7 @@ interface ImagePreviewProps {
   aspect: number;
   hasFaceGuide?: boolean;
   onCropChange: (crop: { x: number; y: number }) => void;
-  onCropComplete: (croppedArea: any, croppedAreaPixels: any) => void;
+  onCropComplete: (croppedArea: Area, croppedAreaPixels: Area) => void;
   onZoomChange: (zoom: number) => void;
 }
 
