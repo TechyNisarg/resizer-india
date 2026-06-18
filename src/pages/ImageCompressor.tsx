@@ -141,7 +141,7 @@ export const ImageCompressor: React.FC = () => {
   const isOutputOverTarget = outputSizeKB > targetMaxKB;
 
   return (
-    <div className="container">
+    <div className="container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
       <div className="card">
         <h2 style={{ textAlign: 'center', marginBottom: '2rem', fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>
           Image Compressor (Reduce KB Size)
@@ -188,7 +188,7 @@ export const ImageCompressor: React.FC = () => {
                   <button 
                     onClick={clearImage}
                     className="btn-danger"
-                    style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                    style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', width: 'auto' }}
                   >
                     <Trash2 size={16} />
                     Change Image
@@ -217,7 +217,17 @@ export const ImageCompressor: React.FC = () => {
                     onChange={(e) => setTargetMaxKB(Number(e.target.value))}
                     min={1} 
                     max={10000}
-                    style={{ fontSize: '1.2rem', padding: '1rem' }}
+                    style={{ 
+                      width: '100%', 
+                      padding: '0.75rem 1rem', 
+                      fontSize: '1.2rem', 
+                      borderRadius: '12px', 
+                      border: '1px solid var(--border-color)', 
+                      outline: 'none', 
+                      backgroundColor: 'var(--bg-color)', 
+                      fontFamily: 'inherit',
+                      color: 'var(--text-primary)'
+                    }}
                   />
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginTop: '0.5rem' }}>
                     We will compress the image to be as close to this size as possible without exceeding it.
@@ -229,7 +239,14 @@ export const ImageCompressor: React.FC = () => {
                     <button
                       key={size}
                       className="btn-secondary"
-                      style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', backgroundColor: targetMaxKB === size ? 'var(--primary)' : undefined, color: targetMaxKB === size ? 'white' : undefined }}
+                      style={{ 
+                        width: 'auto', 
+                        flex: '1 1 80px',
+                        padding: '0.5rem 1rem', 
+                        fontSize: '0.9rem', 
+                        backgroundColor: targetMaxKB === size ? 'var(--primary)' : undefined, 
+                        color: targetMaxKB === size ? 'white' : undefined 
+                      }}
                       onClick={() => { setTargetMaxKB(size); setDownloadUrl(''); }}
                     >
                       {size} KB
