@@ -4,9 +4,9 @@ import { ShieldCheck, FileText, CheckCircle2, User, Menu } from 'lucide-react';
 export const LandingPage: React.FC = () => {
   return (
     <div className="landing-page" style={{ maxWidth: '1200px', margin: '0 auto', paddingBottom: '4rem' }}>
-      <div style={{ textAlign: 'center', marginBottom: '4rem', padding: '3rem 1rem 1rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '2rem', padding: '2rem 1rem 1rem' }}>
         <h1 style={{ fontSize: '3.2rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1.5rem', letterSpacing: '-0.025em', lineHeight: 1.15 }}>
-          Resize Images Perfectly for <br className="hide-on-mobile" /><span style={{ color: 'var(--primary)' }}>Indian Exams & Portals</span>
+          Secure Image Resizer for <br className="hide-on-mobile" /><span style={{ color: 'var(--primary)' }}>Indian Exams & Portals</span>
         </h1>
         <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', maxWidth: '650px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
           100% Secure, fast, and works offline in your browser. Hit the exact 20KB/50KB limits easily without losing image quality.
@@ -38,7 +38,7 @@ export const LandingPage: React.FC = () => {
             <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', flexShrink: 0 }}>2</div>
             <div>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FileText size={18} /> Upload File</h3>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.5 }}>Upload your photo, signature, thumb impression, or document. Don't worry, your files never leave your device. Everything runs securely inside your web browser.</p>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.5 }}>Upload your file. Don't worry, your files never leave your device. Everything runs securely inside your web browser.</p>
             </div>
           </div>
 
