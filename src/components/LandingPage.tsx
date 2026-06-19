@@ -68,9 +68,10 @@ export const LandingPage: React.FC = () => {
             I was going to apply for my driving licence and at the bottom of the application it said the document should be strictly between 10 to 20 KB. I searched on the web and there are many tools available but I came to know that they save our personal data and images on their servers.
             <br /><br />
             I decided to build my own personal tool to protect my privacy. I built a photo and signature resizer for an RTO. But then more ideas came, I kept building, and today I am here with a very useful website for everyone, absolutely free and 100% secure. Your images never leave your device!
-            <br /><br />
-            <strong style={{ color: 'var(--text-primary)' }}>— TechyNisarg</strong>
           </p>
+          <div style={{ textAlign: 'right', marginTop: '1rem', position: 'relative', zIndex: 1 }}>
+            <strong style={{ color: 'var(--text-primary)' }}>~ TechyNisarg</strong>
+          </div>
         </div>
       </div>
 
