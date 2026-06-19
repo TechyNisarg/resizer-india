@@ -147,6 +147,10 @@ function App() {
               </Link>
             </div>
             <nav className="nav-menu" style={{ alignItems: 'center', display: 'flex', gap: '1.25rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
+                <ShieldCheck size={18} />
+                <span className="hide-on-mobile">100% Client-Side. No Server Uploads.</span>
+              </div>
               <button 
                 onClick={toggleTheme} 
                 style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0.25rem' }} 
@@ -154,10 +158,6 @@ function App() {
               >
                 {isDark ? <Sun size={20} /> : <Moon size={20} />}
               </button>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
-                <ShieldCheck size={18} />
-                <span className="hide-on-mobile">100% Client-Side. No Server Uploads.</span>
-              </div>
             </nav>
           </div>
         </header>
