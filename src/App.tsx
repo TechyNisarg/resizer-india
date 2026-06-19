@@ -141,26 +141,25 @@ function App() {
               >
                 <Menu size={24} />
               </button>
-              
-              <div className="nav-menu" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                <button 
-                  onClick={toggleTheme} 
-                  style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0.25rem' }} 
-                  aria-label="Toggle theme"
-                >
-                  {isDark ? <Sun size={18} /> : <Moon size={18} />}
-                </button>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
-                  <ShieldCheck size={18} />
-                  <span className="hide-on-mobile">100% Client-Side. No Server Uploads.</span>
-                </div>
-              </div>
+              <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Scissors size={24} />
+                <div><span className="logo-text">Resizer</span> India</div>
+              </Link>
             </div>
 
-            <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Scissors size={24} />
-              <div><span className="logo-text">Resizer</span> India</div>
-            </Link>
+            <nav className="nav-menu" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
+                <ShieldCheck size={18} />
+                <span className="hide-on-mobile">100% Client-Side. No Server Uploads.</span>
+              </div>
+              <button 
+                onClick={toggleTheme} 
+                style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0.25rem' }} 
+                aria-label="Toggle theme"
+              >
+                {isDark ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
+            </nav>
           </div>
         </header>
 
