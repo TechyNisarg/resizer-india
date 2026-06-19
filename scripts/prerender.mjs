@@ -143,7 +143,7 @@ const routes = {
   },
   '/faq': {
     title: 'Frequently Asked Questions - Resizer India',
-    description: 'Find answers to common questions about Resizer India, the 100% free and secure browser-based image resizing tool.',
+    description: "Got questions about Resizer India? Find answers about privacy, security, how client-side processing works, and why it's free.",
   }
 };
 
@@ -159,8 +159,8 @@ const baseHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
 
 const fullRoutesMap = {
   '/': {
-    title: 'Secure Image Resizer for Indian Exams & Portals - Resizer India',
-    description: '100% Secure, fast, and works offline in your browser. Hit the exact 20KB/50KB limits easily without losing image quality.'
+    title: 'Resizer India - Free Photo & Signature Resizer for SSC, UPSC, IBPS, NEET, RRB',
+    description: 'Free browser-based photo & signature resizer for SSC, UPSC, IBPS, NEET, RRB & PAN. 100% client-side — your images never leave your device.'
   },
   ...routes
 };
