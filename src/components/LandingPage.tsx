@@ -3,10 +3,10 @@ import { ShieldCheck, FileText, CheckCircle2, User, Menu } from 'lucide-react';
 
 export const LandingPage: React.FC = () => {
   return (
-    <div className="landing-page" style={{ maxWidth: '800px', margin: '0 auto', paddingBottom: '4rem' }}>
+    <div className="landing-page" style={{ maxWidth: '1200px', margin: '0 auto', paddingBottom: '4rem' }}>
       <div style={{ textAlign: 'center', marginBottom: '4rem', padding: '3rem 1rem 1rem' }}>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1rem', letterSpacing: '-0.025em', lineHeight: 1.2 }}>
-          Perfect Image Resizer for <span style={{ color: 'var(--primary)' }}>Exams & Portals</span>
+        <h1 style={{ fontSize: '3.2rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1.5rem', letterSpacing: '-0.025em', lineHeight: 1.15 }}>
+          Resize Images Perfectly for <br className="hide-on-mobile" /><span style={{ color: 'var(--primary)' }}>Indian Exams & Portals</span>
         </h1>
         <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', maxWidth: '650px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
           100% Secure, fast, and works offline in your browser. Hit the exact 20KB/50KB limits easily without losing image quality.
@@ -24,7 +24,7 @@ export const LandingPage: React.FC = () => {
       {/* How it works */}
       <div style={{ marginBottom: '4rem', padding: '0 1rem' }}>
         <h2 style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2rem', textAlign: 'center' }}>How It Works</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
           
           <div style={{ display: 'flex', gap: '1.5rem', background: 'var(--card-bg)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
             <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', flexShrink: 0 }}>1</div>
@@ -37,8 +37,8 @@ export const LandingPage: React.FC = () => {
           <div style={{ display: 'flex', gap: '1.5rem', background: 'var(--card-bg)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
             <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', flexShrink: 0 }}>2</div>
             <div>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FileText size={18} /> Upload Image</h3>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.5 }}>Upload your photo or signature. Don't worry, your image never leaves your device. Everything runs securely inside your web browser.</p>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FileText size={18} /> Upload File</h3>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.5 }}>Upload your photo, signature, thumb impression, or document. Don't worry, your files never leave your device. Everything runs securely inside your web browser.</p>
             </div>
           </div>
 
@@ -55,15 +55,15 @@ export const LandingPage: React.FC = () => {
 
       {/* Why We Built This */}
       <div style={{ padding: '0 1rem' }}>
-        <h2 style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2rem', textAlign: 'center' }}>Our Story: Why We Built This</h2>
+        <h2 style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2rem', textAlign: 'center' }}>My Story</h2>
         <div style={{ background: 'var(--card-bg)', padding: '2rem', borderRadius: '16px', border: '1px solid var(--border-color)', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: '-10px', right: '-10px', opacity: 0.05, transform: 'rotate(15deg)' }}>
             <User size={150} />
           </div>
           <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '1.05rem', position: 'relative', zIndex: 1 }}>
-            "I was going to apply for my driving license and at the very bottom of the application it said the document should be strictly between 10 to 20 KB. I searched online and found many tools available, but I realized that they save our personal data and images on their servers.
+            "I was going to apply for my driving licence and at the bottom of the application it said the document should be strictly between 10 to 20 KB. I searched on the web and there are many tools available but I came to know that they save our personal data and images on their servers.
             <br /><br />
-            I decided to make my own personal tool to protect my privacy. I originally built just an RTO photo and signature resizer. But then more ideas came, I kept building, and now I am here providing this highly useful website for everyone—completely free of cost and 100% secure. Your images never leave your device!"
+            I decided to build my own personal tool to protect my privacy. I built a photo and signature resizer for an RTO. But then more ideas came, I kept building, and today I am here with a very useful website for everyone, absolutely free and 100% secure. Your images never leave your device!"
           </p>
         </div>
       </div>
