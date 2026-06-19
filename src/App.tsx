@@ -70,8 +70,17 @@ function App() {
     });
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsSidebarOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       window.removeEventListener('openSidebar', handleOpenSidebar);
+      window.removeEventListener('keydown', handleKeyDown);
       observer.disconnect();
     };
   }, []);
@@ -127,6 +136,7 @@ function App() {
                 className="mobile-menu-btn" 
                 onClick={() => setIsSidebarOpen(true)}
                 style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: '0.25rem', display: 'flex', alignItems: 'center' }}
+                title="Open Menu (Ctrl+K)"
                 aria-label="Open Menu"
               >
                 <Menu size={24} />

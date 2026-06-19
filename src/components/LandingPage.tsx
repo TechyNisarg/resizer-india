@@ -29,7 +29,7 @@ export const LandingPage: React.FC = () => {
           <div 
             style={{ display: 'flex', gap: '1.5rem', background: 'var(--card-bg)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color)', cursor: 'pointer' }}
             onClick={() => window.dispatchEvent(new CustomEvent('openSidebar'))}
-            title="Open Tools Sidebar"
+            title="Open Tools Sidebar (Ctrl+K)"
           >
             <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', flexShrink: 0 }}>1</div>
             <div>
