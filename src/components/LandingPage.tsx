@@ -70,7 +70,7 @@ export const LandingPage: React.FC = () => {
             I decided to build my own personal tool to protect my privacy. I built a photo and signature resizer for an RTO. But then more ideas came, I kept building, and today I am here with a very useful website for everyone, absolutely free and 100% secure. Your images never leave your device!
           </p>
           <div style={{ textAlign: 'right', marginTop: '1rem', position: 'relative', zIndex: 1 }}>
-            <strong style={{ color: 'var(--text-primary)' }}>~ TechyNisarg</strong>
+            <strong style={{ color: 'var(--text-primary)' }}>~ Developer</strong>
           </div>
         </div>
       </div>
