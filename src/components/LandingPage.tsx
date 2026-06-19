@@ -8,15 +8,18 @@ export const LandingPage: React.FC = () => {
         <h1 style={{ fontSize: '3.2rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1.5rem', letterSpacing: '-0.025em', lineHeight: 1.15 }}>
           Secure Image Resizer for <br className="hide-on-mobile" /><span style={{ color: 'var(--primary)' }}>Indian Exams & Portals</span>
         </h1>
-        <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', maxWidth: '650px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
-          100% Secure, fast, and works offline in your browser. Hit the exact 20KB/50KB limits easily without losing image quality.
+        <p style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--text-primary)', maxWidth: '650px', margin: '0 auto 0.5rem', lineHeight: 1.6 }}>
+          No Uploads. No Servers. Just Perfect Sizes.
+        </p>
+        <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', maxWidth: '650px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
+          Works offline. No account. No watermarks. Just download and go.
         </p>
         <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 500 }}>
-             <ShieldCheck size={20} style={{ color: 'var(--success)' }} /> No Server Uploads
+             <ShieldCheck size={18} style={{ color: 'var(--success)' }} /> <span>No Server Uploads</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 500 }}>
-             <FileText size={20} style={{ color: 'var(--primary)' }} /> Accurate File Sizes
+             <FileText size={18} style={{ color: 'var(--primary)' }} /> <span>Accurate File Sizes</span>
           </div>
         </div>
       </div>

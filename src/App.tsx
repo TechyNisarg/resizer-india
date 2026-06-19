@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Scissors, ShieldCheck, Menu, X, ArrowLeft, HelpCircle, Info, FileText, Shield, Mail, Moon, Sun } from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
 import { CATEGORIES, PDF_TOOL } from './config/tools';
@@ -126,12 +126,12 @@ function App() {
   };
 
   return (
-    <Router>
+    <>
       <Analytics />
       <div className="app-wrapper">
         <header className="header">
-          <div className="header-container">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: '1rem 1.5rem', maxWidth: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
               <button 
                 className="mobile-menu-btn" 
                 onClick={() => setIsSidebarOpen(true)}
@@ -141,24 +141,26 @@ function App() {
               >
                 <Menu size={24} />
               </button>
-              <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Scissors size={24} />
-                <div style={{ position: 'relative', top: '-1px' }}><span className="logo-text">Resizer</span> India</div>
-              </Link>
-            </div>
-            <nav className="nav-menu" style={{ alignItems: 'center', display: 'flex', gap: '1.25rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
-                <ShieldCheck size={18} />
-                <span className="hide-on-mobile">100% Client-Side. No Server Uploads.</span>
+              
+              <div className="nav-menu" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+                <button 
+                  onClick={toggleTheme} 
+                  style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0.25rem' }} 
+                  aria-label="Toggle theme"
+                >
+                  {isDark ? <Sun size={18} /> : <Moon size={18} />}
+                </button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
+                  <ShieldCheck size={18} />
+                  <span className="hide-on-mobile">100% Client-Side. No Server Uploads.</span>
+                </div>
               </div>
-              <button 
-                onClick={toggleTheme} 
-                style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0.25rem' }} 
-                aria-label="Toggle theme"
-              >
-                {isDark ? <Sun size={20} /> : <Moon size={20} />}
-              </button>
-            </nav>
+            </div>
+
+            <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Scissors size={24} />
+              <div><span className="logo-text">Resizer</span> India</div>
+            </Link>
           </div>
         </header>
 
@@ -206,16 +208,16 @@ function App() {
               <strong>Disclaimer:</strong> Resizer India is an independent, free utility tool designed to help users format their images. We are not affiliated with, endorsed by, or connected to any government agency, examination body, or private organization.
             </div>
             <div className="footer-links">
-              <Link to="/about" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Info size={16} /> <span style={{ position: 'relative', top: '-1px' }}>About Us</span></Link>
-              <Link to="/terms" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FileText size={16} /> <span style={{ position: 'relative', top: '-1px' }}>Terms of Service</span></Link>
-              <Link to="/privacy" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Shield size={16} /> <span style={{ position: 'relative', top: '-1px' }}>Privacy Policy</span></Link>
-              <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Mail size={16} /> <span style={{ position: 'relative', top: '-1px' }}>Contact</span></Link>
+              <Link to="/about" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Info size={16} /> <span>About Us</span></Link>
+              <Link to="/terms" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FileText size={16} /> <span>Terms of Service</span></Link>
+              <Link to="/privacy" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Shield size={16} /> <span>Privacy Policy</span></Link>
+              <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Mail size={16} /> <span>Contact</span></Link>
               <Link to="/faq" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><HelpCircle size={16} /> <span>FAQs</span></Link>
             </div>
           </div>
         </footer>
       </div>
-    </Router>
+    </>
   );
 }
 

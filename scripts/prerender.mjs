@@ -5,6 +5,9 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Import the SSR rendering function
+const { render } = await import('../dist/server/entry-server.js');
+
 const routes = {
   '/rto-photo-resizer': {
     title: 'RTO & Parivahan Photo Resizer - Resizer India',
@@ -154,14 +157,18 @@ if (!fs.existsSync(indexHtmlPath)) {
 
 const baseHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
 
-Object.entries(routes).forEach(([route, meta]) => {
-  const routeDir = path.join(distDir, route);
-  
-  if (!fs.existsSync(routeDir)) {
-    fs.mkdirSync(routeDir, { recursive: true });
-  }
+const fullRoutesMap = {
+  '/': {
+    title: 'Secure Image Resizer for Indian Exams & Portals - Resizer India',
+    description: '100% Secure, fast, and works offline in your browser. Hit the exact 20KB/50KB limits easily without losing image quality.'
+  },
+  ...routes
+};
 
-  const canonicalUrl = `https://resizer-india.vercel.app${route}`;
+for (const [route, meta] of Object.entries(fullRoutesMap)) {
+  const canonicalUrl = `https://resizer-india.vercel.app${route === '/' ? '' : route}`;
+  
+  const appHtml = render(route);
 
   let modifiedHtml = baseHtml
     .replace(/<title>.*?<\/title>/, `<title>${meta.title}</title>`)
@@ -171,11 +178,21 @@ Object.entries(routes).forEach(([route, meta]) => {
     .replace(/<meta property="og:description" content=".*?"\s*\/>/, `<meta property="og:description" content="${meta.description}" />`)
     .replace(/<meta property="og:url" content=".*?"\s*\/>/, `<meta property="og:url" content="${canonicalUrl}" />`)
     .replace(/<meta name="twitter:title" content=".*?"\s*\/>/, `<meta name="twitter:title" content="${meta.title}" />`)
-    .replace(/<meta name="twitter:description" content=".*?"\s*\/>/, `<meta name="twitter:description" content="${meta.description}" />`);
+    .replace(/<meta name="twitter:description" content=".*?"\s*\/>/, `<meta name="twitter:description" content="${meta.description}" />`)
+    .replace(/<div id="root"><\/div>/, `<div id="root">${appHtml}</div>`);
 
-  fs.writeFileSync(path.join(routeDir, 'index.html'), modifiedHtml);
-  console.log(`Generated ${route}/index.html`);
-});
+  if (route === '/') {
+    fs.writeFileSync(path.join(distDir, 'index.html'), modifiedHtml);
+    console.log(`Generated index.html (Root)`);
+  } else {
+    const routeDir = path.join(distDir, route);
+    if (!fs.existsSync(routeDir)) {
+      fs.mkdirSync(routeDir, { recursive: true });
+    }
+    fs.writeFileSync(path.join(routeDir, 'index.html'), modifiedHtml);
+    console.log(`Generated ${route}/index.html`);
+  }
+}
 
 const sitemapRoutes = ['/', ...Object.keys(routes)];
 const staticRoutes = new Set(['/about', '/privacy', '/terms', '/contact', '/faq']);

@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import type { Preset } from '../utils/presetData';
 import ImageWorker from '../utils/worker?worker';
-import heic2any from 'heic2any';
 import type { Area } from 'react-easy-crop';
 
 type ImageDimensions = {
@@ -44,6 +43,8 @@ export function useImageProcessor() {
 
     try {
       if (file.type === 'image/heic' || file.type === 'image/heif' || file.name.toLowerCase().endsWith('.heic')) {
+        const heic2anyModule = await import('heic2any');
+        const heic2any = heic2anyModule.default || heic2anyModule;
         const converted = await heic2any({ blob: file, toType: 'image/jpeg' });
         finalBlob = Array.isArray(converted) ? converted[0] : converted;
       } else if (file.type === 'image/png' || file.type === 'image/webp') {

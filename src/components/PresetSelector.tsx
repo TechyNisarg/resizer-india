@@ -54,7 +54,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
               }}
             >
               {TypeIcon && <TypeIcon size={16} />}
-              <span style={{ position: 'relative', top: '-1px' }}>{t.label}</span>
+              <span>{t.label}</span>
             </button>
           );
         })}
