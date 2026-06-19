@@ -34,6 +34,25 @@
       "description": "Free browser-based photo and signature resizer for Indian government forms (PAN, SSC, IBPS, NEET, RRB). Instantly crop and compress images to 10KB, 20KB, 50KB limits securely on your device."
     }
     </script>
+    <script>
+      function updateTheme() {
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }
+      updateTheme();
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!('theme' in localStorage)) {
+          if (e.matches) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        }
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

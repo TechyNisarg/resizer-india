@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Scissors, ShieldCheck, Menu, X, ArrowLeft, HelpCircle, Info, FileText, Shield, Mail } from 'lucide-react';
+import { Scissors, ShieldCheck, Menu, X, ArrowLeft, HelpCircle, Info, FileText, Shield, Mail, Moon, Sun } from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
 import { CATEGORIES, PDF_TOOL } from './config/tools';
 
@@ -54,12 +54,39 @@ const AppRoutes = () => {
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return document.documentElement.classList.contains('dark');
+    }
+    return false;
+  });
 
   useEffect(() => {
     const handleOpenSidebar = () => setIsSidebarOpen(true);
     window.addEventListener('openSidebar', handleOpenSidebar);
-    return () => window.removeEventListener('openSidebar', handleOpenSidebar);
+    
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    return () => {
+      window.removeEventListener('openSidebar', handleOpenSidebar);
+      observer.disconnect();
+    };
   }, []);
+
+  const toggleTheme = () => {
+    const newDark = !isDark;
+    setIsDark(newDark);
+    if (newDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.theme = 'dark';
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.theme = 'light';
+    }
+  };
 
   // Close sidebar when location changes
   const NavLinks = () => {
@@ -110,6 +137,13 @@ function App() {
               </Link>
             </div>
             <nav className="nav-menu" style={{ alignItems: 'center', display: 'flex', gap: '1.25rem' }}>
+              <button 
+                onClick={toggleTheme} 
+                style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0.25rem' }} 
+                aria-label="Toggle theme"
+              >
+                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
                 <ShieldCheck size={18} />
                 <span className="hide-on-mobile">100% Client-Side. No Server Uploads.</span>
