@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Scissors, Info, FileText, Shield, Mail, ShieldCheck, ArrowLeft, HelpCircle, Menu, X, Home as HomeIcon } from 'lucide-react';
+import { Scissors, ShieldCheck, Menu, X, ArrowLeft, HelpCircle, Info, FileText, Shield, Mail } from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
 import { CATEGORIES, PDF_TOOL } from './config/tools';
 
@@ -78,26 +78,6 @@ function App() {
           <button onClick={() => handleNav(PDF_TOOL.path)} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
             <PDF_TOOL.icon size={18} style={{ color: PDF_TOOL.color }} /> {PDF_TOOL.label}
           </button>
-
-          <div style={{ padding: '1.5rem 1.5rem 0.5rem', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid var(--border-color)', marginTop: '1rem' }}>Information</div>
-          <button onClick={() => handleNav('/')} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
-            <HomeIcon size={18} /> Home
-          </button>
-          <button onClick={() => handleNav('/faq')} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
-            <HelpCircle size={18} /> FAQs
-          </button>
-          <button onClick={() => handleNav('/about')} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
-            <Info size={18} /> About Us
-          </button>
-          <button onClick={() => handleNav('/terms')} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
-            <FileText size={18} /> Terms of Service
-          </button>
-          <button onClick={() => handleNav('/privacy')} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
-            <Shield size={18} /> Privacy Policy
-          </button>
-          <button onClick={() => handleNav('/contact')} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
-            <Mail size={18} /> Contact
-          </button>
         </div>
       </>
     );
@@ -111,7 +91,7 @@ function App() {
           <div className="header-container">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <button 
-                className="mobile-menu-btn hide-on-desktop" 
+                className="mobile-menu-btn" 
                 onClick={() => setIsSidebarOpen(true)}
                 style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: '0.25rem', display: 'flex', alignItems: 'center' }}
                 aria-label="Open Menu"
@@ -128,10 +108,6 @@ function App() {
                 <ShieldCheck size={18} />
                 <span className="hide-on-mobile">100% Client-Side. No Server Uploads.</span>
               </div>
-              <Link to="/faq" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}>
-                <HelpCircle size={18} />
-                <span className="hide-on-mobile">FAQs</span>
-              </Link>
             </nav>
           </div>
         </header>
