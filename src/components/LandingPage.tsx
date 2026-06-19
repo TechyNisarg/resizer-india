@@ -4,7 +4,7 @@ import { ShieldCheck, FileText, CheckCircle2, User, Menu } from 'lucide-react';
 export const LandingPage: React.FC = () => {
   return (
     <div className="landing-page" style={{ maxWidth: '1200px', margin: '0 auto', paddingBottom: '4rem' }}>
-      <div style={{ textAlign: 'center', marginBottom: '2rem', padding: '2rem 1rem 1rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '0', padding: '2rem 1rem 1rem' }}>
         <h1 style={{ fontSize: '3.2rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1.5rem', letterSpacing: '-0.025em', lineHeight: 1.15 }}>
           Secure Image Resizer for <br className="hide-on-mobile" /><span style={{ color: 'var(--primary)' }}>Indian Exams & Portals</span>
         </h1>
@@ -61,9 +61,11 @@ export const LandingPage: React.FC = () => {
             <User size={150} />
           </div>
           <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '1.05rem', position: 'relative', zIndex: 1 }}>
-            "I was going to apply for my driving licence and at the bottom of the application it said the document should be strictly between 10 to 20 KB. I searched on the web and there are many tools available but I came to know that they save our personal data and images on their servers.
+            I was going to apply for my driving licence and at the bottom of the application it said the document should be strictly between 10 to 20 KB. I searched on the web and there are many tools available but I came to know that they save our personal data and images on their servers.
             <br /><br />
-            I decided to build my own personal tool to protect my privacy. I built a photo and signature resizer for an RTO. But then more ideas came, I kept building, and today I am here with a very useful website for everyone, absolutely free and 100% secure. Your images never leave your device!"
+            I decided to build my own personal tool to protect my privacy. I built a photo and signature resizer for an RTO. But then more ideas came, I kept building, and today I am here with a very useful website for everyone, absolutely free and 100% secure. Your images never leave your device!
+            <br /><br />
+            <strong style={{ color: 'var(--text-primary)' }}>— TechyNisarg</strong>
           </p>
         </div>
       </div>
