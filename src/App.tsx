@@ -148,10 +148,10 @@ function App() {
             </div>
 
             <nav className="nav-menu" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
-                <ShieldCheck size={18} />
-                <span className="hide-on-mobile">100% Client-Side. No Server Uploads.</span>
-              </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500, lineHeight: 1 }}>
+                  <ShieldCheck size={18} />
+                  <span className="hide-on-mobile" style={{ paddingTop: '1px' }}>100% Client Side. No Server Uploads.</span>
+                </div>
               <button 
                 onClick={toggleTheme} 
                 style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0.25rem' }} 
@@ -207,11 +207,11 @@ function App() {
               <strong>Disclaimer:</strong> Resizer India is an independent, free utility tool designed to help users format their images. We are not affiliated with, endorsed by, or connected to any government agency, examination body, or private organization.
             </div>
             <div className="footer-links">
-              <Link to="/about" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Info size={16} /> <span>About Us</span></Link>
-              <Link to="/terms" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FileText size={16} /> <span>Terms of Service</span></Link>
-              <Link to="/privacy" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Shield size={16} /> <span>Privacy Policy</span></Link>
-              <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Mail size={16} /> <span>Contact</span></Link>
-              <Link to="/faq" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><HelpCircle size={16} /> <span>FAQs</span></Link>
+              <Link to="/about" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', lineHeight: 1 }}><Info size={18} /> <span style={{ paddingTop: '1px' }}>About Us</span></Link>
+              <Link to="/terms" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', lineHeight: 1 }}><FileText size={18} /> <span style={{ paddingTop: '1px' }}>Terms of Service</span></Link>
+              <Link to="/privacy" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', lineHeight: 1 }}><Shield size={18} /> <span style={{ paddingTop: '1px' }}>Privacy Policy</span></Link>
+              <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', lineHeight: 1 }}><Mail size={18} /> <span style={{ paddingTop: '1px' }}>Contact</span></Link>
+              <Link to="/faq" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', lineHeight: 1 }}><HelpCircle size={18} /> <span style={{ paddingTop: '1px' }}>FAQs</span></Link>
             </div>
           </div>
         </footer>

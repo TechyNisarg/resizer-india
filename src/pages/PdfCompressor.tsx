@@ -604,7 +604,7 @@ export const PdfCompressor: React.FC = () => {
             <div className="card">
               <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Output Specifications (By Tool)</h2>
               <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <li>100% Client-side processing (Secure)</li>
+                <li>100% Client side processing (Secure)</li>
                 <li>Single merged & optimized PDF document</li>
                 <li>High-quality smart compression algorithm</li>
               </ul>

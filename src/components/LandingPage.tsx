@@ -12,11 +12,11 @@ export const LandingPage: React.FC = () => {
           Works offline. No account. No watermarks. Just download and go.
         </p>
         <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 500 }}>
-             <ShieldCheck size={18} style={{ color: 'var(--success)' }} /> <span>No Server Uploads</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 500, lineHeight: 1 }}>
+             <ShieldCheck size={18} style={{ color: 'var(--success)' }} /> <span style={{ paddingTop: '1px' }}>No Server Uploads</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 500 }}>
-             <FileText size={18} style={{ color: 'var(--primary)' }} /> <span>Accurate File Sizes</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 500, lineHeight: 1 }}>
+             <FileText size={18} style={{ color: 'var(--primary)' }} /> <span style={{ paddingTop: '1px' }}>Accurate File Sizes</span>
           </div>
         </div>
       </div>

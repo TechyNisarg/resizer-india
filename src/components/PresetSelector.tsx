@@ -50,11 +50,12 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
                 border: 'none',
                 background: currentType === t.type ? 'var(--primary)' : 'transparent',
                 color: currentType === t.type ? 'white' : 'var(--text-secondary)',
-                boxShadow: currentType === t.type ? '0 4px 14px rgba(59, 130, 246, 0.3)' : 'none'
+                boxShadow: currentType === t.type ? '0 4px 14px rgba(59, 130, 246, 0.3)' : 'none',
+                lineHeight: 1
               }}
             >
-              {TypeIcon && <TypeIcon size={16} />}
-              <span>{t.label}</span>
+              {TypeIcon && <TypeIcon size={18} />}
+              <span style={{ paddingTop: '1px' }}>{t.label}</span>
             </button>
           );
         })}

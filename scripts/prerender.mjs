@@ -143,7 +143,7 @@ const routes = {
   },
   '/faq': {
     title: 'Frequently Asked Questions - Resizer India',
-    description: "Got questions about Resizer India? Find answers about privacy, security, how client-side processing works, and why it's free.",
+    description: "Got questions about Resizer India? Find answers about privacy, security, how client side processing works, and why it's free.",
   }
 };
 
@@ -160,7 +160,7 @@ const baseHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
 const fullRoutesMap = {
   '/': {
     title: 'Resizer India - Free Photo & Signature Resizer for SSC, UPSC, IBPS, NEET, RRB',
-    description: 'Free browser-based photo & signature resizer for SSC, UPSC, IBPS, NEET, RRB & PAN. 100% client-side — your images never leave your device.'
+    description: 'Free browser based photo & signature resizer for SSC, UPSC, IBPS, NEET, RRB & PAN. 100% client side — your images never leave your device.'
   },
   ...routes
 };

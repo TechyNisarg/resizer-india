@@ -3,7 +3,7 @@ import React from 'react';
 export const About: React.FC = () => (
   <div className="card" style={{ maxWidth: '800px', width: 'calc(100% - 2rem)', margin: '2rem auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
     <h1 style={{ color: 'var(--text-primary)' }}>About Resizer India</h1>
-    <p>Resizer India is a privacy-first, client-side utility built specifically to help citizens quickly resize and compress images for government portals (like RTO, Parivahan, PAN, SSC, and UPSC).</p>
+    <p>Resizer India is a privacy first, client side utility built specifically to help citizens quickly resize and compress images for government portals (like RTO, Parivahan, PAN, SSC, and UPSC).</p>
     <p>Resizer India is free because it costs almost nothing to run — all processing happens on your device, so we have no servers, no storage, and no infrastructure to pay for. No ads, no data collection, no catch.</p>
     <p>We know how frustrating it is to deal with strict aspect ratios and maximum KB limits. This tool uses smart algorithms to ensure your image exactly matches the required specifications.</p>
   </div>
@@ -12,7 +12,7 @@ export const About: React.FC = () => (
 export const Privacy: React.FC = () => (
   <div className="card" style={{ maxWidth: '800px', width: 'calc(100% - 2rem)', margin: '2rem auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
     <h1 style={{ color: 'var(--text-primary)' }}>Privacy Policy</h1>
-    <p><strong>100% Client-Side Processing</strong></p>
+    <p><strong>100% Client Side Processing</strong></p>
     <p>Your privacy is our utmost priority. All image cropping, resizing, and compression happens entirely within your web browser. <strong>Your images never leave your device.</strong></p>
     <p>We do not run servers that store or process your image data. To help us understand website traffic and improve the tool, we use privacy-friendly Vercel Web Analytics. This service gathers anonymous visitor statistics (such as page views and browser types) without using any cookies, storing personal data, or tracking you across different websites.</p>
   </div>
@@ -44,17 +44,12 @@ export const FAQ: React.FC = () => (
     
     <div>
       <h3 style={{ color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Are my images secure?</h3>
-      <p style={{ color: 'var(--text-secondary)' }}>Yes. Resizer India is a 100% client-side tool. This means all processing happens directly in your browser. Your images are never uploaded to any server or stored anywhere.</p>
+      <p style={{ color: 'var(--text-secondary)' }}>Yes. Resizer India is a 100% client side tool. This means all processing happens directly in your browser. Your images are never uploaded to any server or stored anywhere.</p>
     </div>
 
     <div>
       <h3 style={{ color: 'var(--text-primary)', marginBottom: '0.5rem' }}>When something is free, you're the product. What's the catch here?</h3>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-        <p style={{ color: 'var(--text-secondary)' }}>There's genuinely no catch — and here's the full explanation of why.</p>
-        <p style={{ color: 'var(--text-secondary)' }}>Most "free" tools have to monetize users because they run expensive server infrastructure: storing your uploaded files, processing them on their machines, maintaining databases of accounts. That's where the "you're the product" dynamic kicks in — they need to recover those costs somehow.</p>
-        <p style={{ color: 'var(--text-secondary)' }}>Resizer India has none of that. Every resize, crop, and compression happens entirely inside your own browser using JavaScript. Our servers never receive your images. That means zero storage costs, zero image-processing bandwidth, and no infrastructure to maintain or pay for. The only thing we host is a small set of static files (HTML, CSS, JS) on Vercel's free tier — which costs us nothing.</p>
-        <p style={{ color: 'var(--text-secondary)' }}>We don't run ads. We don't sell or collect data. We don't even have a database or user accounts. There's no business model because this isn't a business — it's an open-source side project. If you're skeptical (and you should be with any free tool), you're welcome to read every line of the source code on GitHub and verify these claims yourself.</p>
-      </div>
+      <p style={{ color: 'var(--text-secondary)' }}>There is no catch. Unlike other tools that need to pay for servers to store and process your files, Resizer India runs entirely inside your browser. Since we have zero server costs, zero storage costs, and no business model, we don't need to run ads or collect your data. It is just a free, open source side project.</p>
     </div>
 
     <div>
