@@ -568,8 +568,16 @@ html.dark .toggle-switch.checked { background: var(--primary); }
   transform: translateY(-2px);
 }
 
-@media (max-width: 640px) {
+@media (min-width: 768px) {
+  .hide-on-desktop {
+    display: none !important;
+  }
+}
+@media (max-width: 767px) {
   .hide-on-mobile {
-    display: none;
+    display: none !important;
+  }
+  .hide-on-mobile-if-sidebar {
+    /* If we want to hide footer when sidebar is present, maybe not necessary, but kept for logic */
   }
 }

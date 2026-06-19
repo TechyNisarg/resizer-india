@@ -1,5 +1,6 @@
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Scissors, Info, FileText, Shield, Mail, ShieldCheck, ArrowLeft, HelpCircle } from 'lucide-react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Scissors, Info, FileText, Shield, Mail, ShieldCheck, ArrowLeft, HelpCircle, Menu, X, Home as HomeIcon } from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
 
 const GlobalBackButton = () => {
@@ -42,7 +43,7 @@ const AppRoutes = () => {
         <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
         <Route path="/faq" element={<PageWrapper><FAQ /></PageWrapper>} />
-        <Route path="/pdf" element={<PageWrapper><PdfCompressor /></PageWrapper>} />
+        <Route path="/pdf-compressor" element={<PageWrapper><PdfCompressor /></PageWrapper>} />
         <Route path="/image-compressor" element={<PageWrapper><ImageCompressor /></PageWrapper>} />
         <Route path="/*" element={<PageWrapper><Home /></PageWrapper>} />
       </Routes>
@@ -51,35 +52,114 @@ const AppRoutes = () => {
 };
 
 function App() {
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+
+  // Close sidebar when location changes
+  const NavLinks = () => {
+    const navigate = useNavigate();
+    const handleNav = (path: string) => {
+      navigate(path);
+      setIsSidebarOpen(false);
+    };
+
+    return (
+      <>
+        <button onClick={() => handleNav('/')} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '1rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
+          <HomeIcon size={20} /> All Tools
+        </button>
+        <button onClick={() => handleNav('/faq')} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '1rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
+          <HelpCircle size={20} /> FAQs
+        </button>
+        <button onClick={() => handleNav('/about')} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '1rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
+          <Info size={20} /> About Us
+        </button>
+        <button onClick={() => handleNav('/terms')} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '1rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
+          <FileText size={20} /> Terms of Service
+        </button>
+        <button onClick={() => handleNav('/privacy')} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '1rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
+          <Shield size={20} /> Privacy Policy
+        </button>
+        <button onClick={() => handleNav('/contact')} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '1rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
+          <Mail size={20} /> Contact
+        </button>
+      </>
+    );
+  };
+
   return (
     <Router>
       <Analytics />
       <div className="app-wrapper">
         <header className="header">
-          <div className="header-container">
-            <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Scissors size={24} />
-              <div style={{ position: 'relative', top: '-1px' }}><span className="logo-text">Resizer</span> India</div>
-            </Link>
+          <div className="header-container" style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <button 
+                className="mobile-menu-btn hide-on-desktop" 
+                onClick={() => setIsSidebarOpen(true)}
+                style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: '0.25rem' }}
+                aria-label="Open Menu"
+              >
+                <Menu size={24} />
+              </button>
+              <Link to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Scissors size={24} />
+                <div style={{ position: 'relative', top: '-1px' }}><span className="logo-text">Resizer</span> India</div>
+              </Link>
+            </div>
             <nav className="nav-menu" style={{ alignItems: 'center', display: 'flex', gap: '1.25rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#059669', fontSize: '0.9rem', fontWeight: 500 }}>
                 <ShieldCheck size={18} />
                 <span className="hide-on-mobile">100% Client-Side. No Server Uploads.</span>
               </div>
-              <Link to="/faq" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}>
+              <Link className="hide-on-mobile" to="/faq" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}>
                 <HelpCircle size={18} />
-                <span className="hide-on-mobile">FAQs</span>
+                <span>FAQs</span>
               </Link>
             </nav>
           </div>
         </header>
+
+        {/* Mobile Sidebar Overlay */}
+        <AnimatePresence>
+          {isSidebarOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsSidebarOpen(false)}
+                style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 999 }}
+              />
+              <motion.div
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                style={{ position: 'fixed', top: 0, left: 0, bottom: 0, width: '280px', backgroundColor: 'var(--bg-color)', zIndex: 1000, boxShadow: '4px 0 24px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}
+              >
+                <div style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)' }}>
+                  <Link to="/" onClick={() => setIsSidebarOpen(false)} className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+                    <Scissors size={24} style={{ color: 'var(--primary)' }} />
+                    <span style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '1.2rem' }}>Resizer India</span>
+                  </Link>
+                  <button onClick={() => setIsSidebarOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                    <X size={24} />
+                  </button>
+                </div>
+                <div style={{ padding: '1rem 0', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                  <NavLinks />
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
 
         <main className="main-container">
           <GlobalBackButton />
           <AppRoutes />
         </main>
 
-        <footer className="footer">
+        <footer className="footer hide-on-mobile-if-sidebar">
           <div className="footer-content" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.8rem', opacity: 0.8, maxWidth: '800px', margin: '0 auto', lineHeight: '1.5' }}>
               <strong>Disclaimer:</strong> Resizer India is an independent, free utility tool designed to help users format their images. We are not affiliated with, endorsed by, or connected to any government agency, examination body, or private organization.

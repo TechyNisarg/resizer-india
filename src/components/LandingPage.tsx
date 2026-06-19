@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Car, CreditCard, Plane, BookOpen, Sliders, Landmark, Train, Stethoscope, GraduationCap, Medal, FileText, Minimize2 } from 'lucide-react';
+import { Car, CreditCard, Plane, BookOpen, Sliders, Landmark, Train, Stethoscope, GraduationCap, Medal, FileText, Minimize2, ShieldCheck } from 'lucide-react';
 
 const CATEGORIES = [
   { id: 'rto', label: 'RTO / Parivahan', icon: Car, color: '#eab308', bg: 'rgba(234, 179, 8, 0.1)', desc: '• Photo: 3.5x4.5 cm\n• Sign: 256x64 px\n• Size: 10KB - 20KB\n• Portals: Vahan, Sarathi', path: '/rto-photo-resizer' },
@@ -36,8 +36,26 @@ export const LandingPage: React.FC = () => {
 
   return (
     <div className="landing-page">
+      <div style={{ textAlign: 'center', marginBottom: '4rem', padding: '3rem 1rem 1rem' }}>
+        <h1 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1rem', letterSpacing: '-0.025em', lineHeight: 1.2 }}>
+          Resize & Compress for <span style={{ color: 'var(--primary)' }}>Indian Govt Portals</span>
+        </h1>
+        <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', maxWidth: '650px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
+          100% Secure, fast, and works offline in your browser. Perfect for SSC, UPSC, PAN, RTO, IBPS, and more. Hit the exact 20KB/50KB limits easily without losing image quality.
+        </p>
+        <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 500 }}>
+             <ShieldCheck size={20} style={{ color: 'var(--success)' }} /> No Server Uploads
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 500 }}>
+             <FileText size={20} style={{ color: 'var(--primary)' }} /> Accurate File Sizes
+          </div>
+        </div>
+      </div>
 
-
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>Explore Tools</h2>
+      </div>
       <motion.div 
         className="category-grid"
         initial={hasVisited ? false : "hidden"}
@@ -91,7 +109,7 @@ export const LandingPage: React.FC = () => {
         <div className="category-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
           <motion.button 
             className="category-card" 
-            onClick={() => navigate('/pdf')}
+            onClick={() => navigate('/pdf-compressor')}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             whileTap={{ scale: 0.98 }}
           >

@@ -114,7 +114,7 @@ const routes = {
     title: 'Defence & Army Signature Resizer - Resizer India',
     description: 'Compress defence exam signatures to very small KB limits while keeping them readable for portal uploads.',
   },
-  '/pdf': {
+  '/pdf-compressor': {
     title: 'PDF Compressor & Merger - Resizer India',
     description: 'Combine images and PDFs into a single optimized PDF file under exact KB limits. Secure, fast, and works 100% in your browser.',
   },
@@ -191,7 +191,7 @@ const sitemap = [
         ? '0.6'
         : staticRoutes.has(route)
           ? '0.5'
-          : route === '/pdf'
+          : route === '/pdf-compressor'
             ? '0.7'
             : route.includes('photo')
               ? '0.8'
@@ -200,6 +200,7 @@ const sitemap = [
     return [
       '  <url>',
       `    <loc>${loc}</loc>`,
+      `    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>`,
       `    <changefreq>${changefreq}</changefreq>`,
       `    <priority>${priority}</priority>`,
       '  </url>'
