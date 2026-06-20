@@ -9,7 +9,7 @@ export const LandingPage: React.FC = () => {
           No Uploads. No Servers. <br className="hide-on-mobile" /><span style={{ color: 'var(--primary)' }}>Just Perfect Sizes.</span>
         </h1>
         <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', maxWidth: '650px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
-          Works offline. No account. No watermarks. Just download and go.
+          Works in your browser. No account. No watermarks. Just download and go.
         </p>
         <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 500 }}>
