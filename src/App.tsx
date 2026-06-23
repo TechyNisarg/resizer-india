@@ -80,6 +80,8 @@ function App() {
       if (e.altKey && e.key.toLowerCase() === 'm') {
         e.preventDefault();
         setIsSidebarOpen(prev => !prev);
+      } else if (e.key === 'Escape') {
+        setIsSidebarOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
