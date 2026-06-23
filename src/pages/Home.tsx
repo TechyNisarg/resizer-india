@@ -57,7 +57,7 @@ export const Home: React.FC = () => {
 
   const {
     sourceImage, sourceObjectURL, loadImage, clearImage, processImage: _processImage,
-    isProcessing, error, crop, setCrop, zoom, setZoom, onCropComplete,
+    isProcessing, processingMessage, error, crop, setCrop, zoom, setZoom, onCropComplete,
     downloadObjectURL, sourceSizeKB, finalSizeKB
   } = useImageProcessor();
 
@@ -130,7 +130,7 @@ export const Home: React.FC = () => {
           <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             {!sourceImage ? (
               <div style={{ width: '100%', maxWidth: '700px' }}>
-                <Dropzone onImageLoad={handleImageLoad} isProcessing={isProcessing} />
+                <Dropzone onImageLoad={handleImageLoad} isProcessing={isProcessing} processingMessage={processingMessage} />
               </div>
             ) : downloadObjectURL ? (
               <div className="card result-view" style={{ width: '100%', maxWidth: '800px', textAlign: 'center', padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>

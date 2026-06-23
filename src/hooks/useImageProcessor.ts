@@ -15,6 +15,7 @@ export function useImageProcessor() {
   const [sourceSizeKB, setSourceSizeKB] = useState(0);
   const [finalSizeKB, setFinalSizeKB] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [processingMessage, setProcessingMessage] = useState<string>('');
   const [error, setError] = useState<string>('');
 
   // react-easy-crop states
@@ -43,6 +44,10 @@ export function useImageProcessor() {
 
     try {
       if (file.type === 'image/heic' || file.type === 'image/heif' || file.name.toLowerCase().endsWith('.heic')) {
+        setProcessingMessage('Converting iPhone format...');
+        // Yield to event loop so the UI updates and paints the spinner before heavy WASM execution
+        await new Promise(resolve => setTimeout(resolve, 50));
+        
         const heic2anyModule = await import('heic2any');
         const heic2any = heic2anyModule.default || heic2anyModule;
         const converted = await heic2any({ blob: file, toType: 'image/jpeg' });
@@ -94,10 +99,12 @@ export function useImageProcessor() {
         setZoom(1);
         setDownloadObjectURL('');
         setIsProcessing(false);
+        setProcessingMessage('');
       };
       img.onerror = () => {
         setError("Could not read this image.");
         setIsProcessing(false);
+        setProcessingMessage('');
         URL.revokeObjectURL(url);
       };
       img.src = url;
@@ -105,6 +112,7 @@ export function useImageProcessor() {
     } catch {
       setError("Failed to load and convert image. Ensure it is a valid format.");
       setIsProcessing(false);
+      setProcessingMessage('');
     }
   };
 
@@ -155,6 +163,7 @@ export function useImageProcessor() {
         if (!data.success || !data.blob) {
           setError(data.error || "Failed to compress image.");
           setIsProcessing(false);
+          setProcessingMessage('');
           return;
         }
 
@@ -163,17 +172,22 @@ export function useImageProcessor() {
         setDownloadObjectURL(url);
         setFinalSizeKB(data.blob.size / 1024);
         setIsProcessing(false);
+        setProcessingMessage('');
       };
 
       workerRef.current.onerror = () => {
         setError("Error processing image in worker.");
         setIsProcessing(false);
+        setProcessingMessage('');
       };
 
+      setProcessingMessage('Processing image...');
+      await new Promise(resolve => setTimeout(resolve, 50));
       workerRef.current.postMessage({ imageBitmap: bitmap, preset: presetForWorker }, [bitmap]);
     } catch {
       setError("Failed to start processing.");
       setIsProcessing(false);
+      setProcessingMessage('');
     }
   };
 
@@ -184,6 +198,7 @@ export function useImageProcessor() {
     clearImage,
     processImage,
     isProcessing,
+    processingMessage,
     error,
     crop, setCrop,
     zoom, setZoom,

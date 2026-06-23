@@ -133,6 +133,10 @@ const routes = {
     title: 'Custom Image Resizer & Compressor - Resizer India',
     description: 'Need a specific pixel width, height, or KB size? Use the custom tool to manually set your own form requirements.',
   },
+  '/heic-to-jpg': {
+    title: 'HEIC to JPG Converter - Convert iPhone Photos - Resizer India',
+    description: 'Convert your iPhone HEIC photos to JPG format securely in your browser without uploading any files to a server.',
+  },
   '/about': {
     title: 'About Us - Resizer India',
     description: 'Learn more about Resizer India, the 100% free and secure browser-based tool for Indian government forms.',

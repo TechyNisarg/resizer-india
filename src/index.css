@@ -609,3 +609,4 @@ html.dark .toggle-switch.checked { background: var(--primary); }
     /* If we want to hide footer when sidebar is present, maybe not necessary, but kept for logic */
   }
 }
+

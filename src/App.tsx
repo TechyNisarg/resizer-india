@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Scissors, ShieldCheck, Menu, X, ArrowLeft, HelpCircle, Info, FileText, Shield, Mail, Moon, Sun } from 'lucide-react';
+import { Scissors, ShieldCheck, Menu, X, ArrowLeft, HelpCircle, Info, FileText, Shield, Mail, Moon, Sun, ChevronDown, ChevronRight } from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
-import { CATEGORIES, PDF_TOOLS } from './config/tools';
+import { CATEGORIES, PDF_TOOLS, IMAGE_TOOLS } from './config/tools';
 
 const GlobalBackButton = () => {
   const location = useLocation();
@@ -23,6 +23,7 @@ import { PdfCompressor } from './pages/PdfCompressor';
 import { PdfMerger } from './pages/PdfMerger';
 import { PdfSecurity } from './pages/PdfSecurity';
 import { ImageCompressor } from './pages/ImageCompressor';
+import { HeicToJpg } from './pages/HeicToJpg';
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => (
   <motion.div
@@ -50,6 +51,7 @@ const AppRoutes = () => {
         <Route path="/pdf-merger" element={<PageWrapper><PdfMerger /></PageWrapper>} />
         <Route path="/pdf-security" element={<PageWrapper><PdfSecurity /></PageWrapper>} />
         <Route path="/image-compressor" element={<PageWrapper><ImageCompressor /></PageWrapper>} />
+        <Route path="/heic-to-jpg" element={<PageWrapper><HeicToJpg /></PageWrapper>} />
         <Route path="/*" element={<PageWrapper><Home /></PageWrapper>} />
       </Routes>
     </AnimatePresence>
@@ -101,34 +103,74 @@ function App() {
     }
   };
 
-  // Close sidebar when location changes
   const NavLinks = () => {
     const navigate = useNavigate();
+    const [expandedSection, setExpandedSection] = useState<string | null>('resizers');
+    
     const handleNav = (path: string) => {
       navigate(path);
       setIsSidebarOpen(false);
     };
 
+    const toggleSection = (section: string) => {
+      setExpandedSection(prev => prev === section ? null : section);
+    };
+
+    const SectionHeader = ({ id, title }: { id: string, title: string }) => (
+      <button 
+        onClick={() => toggleSection(id)}
+        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 1.5rem 0.5rem', background: 'none', border: 'none', cursor: 'pointer' }}
+      >
+        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{title}</span>
+        {expandedSection === id ? <ChevronDown size={14} style={{ color: 'var(--text-secondary)' }} /> : <ChevronRight size={14} style={{ color: 'var(--text-secondary)' }} />}
+      </button>
+    );
+
     return (
-      <>
-        <div style={{ overflowY: 'auto', flexGrow: 1, paddingBottom: '2rem' }}>
-          <div style={{ padding: '1rem 1.5rem 0.5rem', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Tools</div>
-          {CATEGORIES.map(cat => {
-            const Icon = cat.icon;
-            return (
-              <button key={cat.id} onClick={() => handleNav(cat.path)} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
-                <Icon size={18} style={{ color: cat.color }} /> {cat.label}
-              </button>
-            )
-          })}
-          <h3 style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '1.5rem 1.5rem 0.5rem' }}>PDF Tools</h3>
-          {PDF_TOOLS.map(tool => (
-            <button key={tool.id} onClick={() => handleNav(tool.path)} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: location.pathname === tool.path ? 'var(--surface-solid)' : 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: location.pathname === tool.path ? 'var(--primary)' : 'var(--text-primary)', cursor: 'pointer', transition: 'all 0.2s', fontWeight: location.pathname === tool.path ? 600 : 400 }}>
-              <tool.icon size={18} style={{ color: tool.color }} /> {tool.label}
-            </button>
-          ))}
-        </div>
-      </>
+      <div style={{ overflowY: 'auto', flexGrow: 1, paddingBottom: '2rem' }}>
+        
+        <SectionHeader id="resizers" title="Photo Resizers" />
+        <AnimatePresence initial={false}>
+          {expandedSection === 'resizers' && (
+            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} style={{ overflow: 'hidden' }}>
+              {CATEGORIES.map(cat => {
+                const Icon = cat.icon;
+                return (
+                  <button key={cat.id} onClick={() => handleNav(cat.path)} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: location.pathname === cat.path ? 'var(--surface-solid)' : 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: location.pathname === cat.path ? 'var(--primary)' : 'var(--text-primary)', cursor: 'pointer', transition: 'all 0.2s', fontWeight: location.pathname === cat.path ? 600 : 400 }}>
+                    <Icon size={18} style={{ color: cat.color }} /> {cat.label}
+                  </button>
+                )
+              })}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <SectionHeader id="pdf" title="PDF Tools" />
+        <AnimatePresence initial={false}>
+          {expandedSection === 'pdf' && (
+            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} style={{ overflow: 'hidden' }}>
+              {PDF_TOOLS.map(tool => (
+                <button key={tool.id} onClick={() => handleNav(tool.path)} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: location.pathname === tool.path ? 'var(--surface-solid)' : 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: location.pathname === tool.path ? 'var(--primary)' : 'var(--text-primary)', cursor: 'pointer', transition: 'all 0.2s', fontWeight: location.pathname === tool.path ? 600 : 400 }}>
+                  <tool.icon size={18} style={{ color: tool.color }} /> {tool.label}
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <SectionHeader id="image" title="Image Tools" />
+        <AnimatePresence initial={false}>
+          {expandedSection === 'image' && (
+            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} style={{ overflow: 'hidden' }}>
+              {IMAGE_TOOLS.map(tool => (
+                <button key={tool.id} onClick={() => handleNav(tool.path)} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: location.pathname === tool.path ? 'var(--surface-solid)' : 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: location.pathname === tool.path ? 'var(--primary)' : 'var(--text-primary)', cursor: 'pointer', transition: 'all 0.2s', fontWeight: location.pathname === tool.path ? 600 : 400 }}>
+                  <tool.icon size={18} style={{ color: tool.color }} /> {tool.label}
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     );
   };
 

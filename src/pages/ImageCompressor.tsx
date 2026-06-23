@@ -11,6 +11,7 @@ export const ImageCompressor: React.FC = () => {
   const [sourceFile, setSourceFile] = useState<File | null>(null);
   const [targetMaxKB, setTargetMaxKB] = useState(50);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [processingMessage, setProcessingMessage] = useState<string>('');
   const [error, setError] = useState('');
   const [downloadUrl, setDownloadUrl] = useState('');
   const [outputSizeKB, setOutputSizeKB] = useState(0);
@@ -50,18 +51,42 @@ export const ImageCompressor: React.FC = () => {
 
     setSourceFile(file);
 
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      setSourceImage(img);
-      setIsProcessing(false);
+    const processFile = async () => {
+      let finalBlob: Blob = file;
+
+      try {
+        if (file.type === 'image/heic' || file.type === 'image/heif' || file.name.toLowerCase().endsWith('.heic')) {
+          setProcessingMessage('Converting iPhone format...');
+          await new Promise(resolve => setTimeout(resolve, 50));
+          
+          const heic2anyModule = await import('heic2any');
+          const heic2any = heic2anyModule.default || heic2anyModule;
+          const converted = await heic2any({ blob: file, toType: 'image/jpeg' });
+          finalBlob = Array.isArray(converted) ? converted[0] : converted;
+        }
+
+        const img = new Image();
+        const url = URL.createObjectURL(finalBlob);
+        img.onload = () => {
+          setSourceImage(img);
+          setIsProcessing(false);
+          setProcessingMessage('');
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          setError('Failed to load image');
+          setIsProcessing(false);
+          setProcessingMessage('');
+        };
+        img.src = url;
+      } catch (e) {
+        setError('Failed to load or convert image.');
+        setIsProcessing(false);
+        setProcessingMessage('');
+      }
     };
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      setError('Failed to load image');
-      setIsProcessing(false);
-    };
-    img.src = url;
+    processFile();
+
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -123,8 +148,11 @@ export const ImageCompressor: React.FC = () => {
         workerRef.current.onerror = () => {
           setError("Error processing image in worker.");
           setIsProcessing(false);
+          setProcessingMessage('');
         };
 
+        setProcessingMessage('Compressing...');
+        await new Promise(resolve => setTimeout(resolve, 50));
         workerRef.current.postMessage({ imageBitmap: bitmap, preset: presetForWorker }, [bitmap]);
       } catch (e: unknown) {
         console.error(e);
@@ -150,6 +178,12 @@ export const ImageCompressor: React.FC = () => {
 
   return (
     <div className="container" style={{ maxWidth: '1000px', margin: '0 auto 4rem' }}>
+      {isProcessing && (
+        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+          <Loader2 size={48} className="spinner" style={{ marginBottom: '1rem', borderTopColor: 'white' }} />
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 600 }}>{processingMessage || 'Processing...'}</h2>
+        </div>
+      )}
       <div className="card">
         <h2 style={{ textAlign: 'center', marginBottom: '2rem', fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>
           Image Compressor (Reduce KB Size)
@@ -287,7 +321,6 @@ export const ImageCompressor: React.FC = () => {
                 <h4 style={{ color: isOutputOverTarget ? 'var(--danger)' : 'var(--success)', fontSize: '1.5rem', marginBottom: '1rem' }}>
                   {isOutputOverTarget ? 'Compressed, but still above target' : 'Compressed Successfully! 🎉'}
                 </h4>
-                
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginBottom: '2rem' }}>
                   <div style={{ textAlign: 'center' }}>
                     <p style={{ color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>Target Size</p>

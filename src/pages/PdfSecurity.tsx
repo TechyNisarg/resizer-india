@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Upload, Lock, Unlock, DownloadCloud, AlertCircle, Check } from 'lucide-react';
+import { isEncrypted } from '@pdfsmaller/pdf-decrypt';
 
 type Mode = 'unlock' | 'protect';
 
@@ -44,18 +45,35 @@ export const PdfSecurity: React.FC = () => {
     };
   }, [downloadUrl]);
 
-  const handleFiles = (files: FileList) => {
+  const handleFiles = async (files: FileList) => {
     const selectedFile = files[0];
     if (selectedFile && (selectedFile.type === 'application/pdf' || selectedFile.name.toLowerCase().endsWith('.pdf'))) {
-      setFile(selectedFile);
-      setError('');
-      setDownloadUrl('');
-      setPassword('');
-      setOutputName(
-        mode === 'unlock' 
-          ? selectedFile.name.replace('.pdf', '_unlocked.pdf') 
-          : selectedFile.name.replace('.pdf', '_protected.pdf')
-      );
+      try {
+        const arrayBuffer = await selectedFile.arrayBuffer();
+        const { encrypted } = await isEncrypted(new Uint8Array(arrayBuffer));
+        
+        if (mode === 'unlock' && !encrypted) {
+          setError('This PDF is not password protected. You can view it normally.');
+          return;
+        }
+        
+        if (mode === 'protect' && encrypted) {
+          setError('This PDF is already password protected. Please unlock it first before protecting it again.');
+          return;
+        }
+
+        setFile(selectedFile);
+        setError('');
+        setDownloadUrl('');
+        setPassword('');
+        setOutputName(
+          mode === 'unlock' 
+            ? selectedFile.name.replace('.pdf', '_unlocked.pdf') 
+            : selectedFile.name.replace('.pdf', '_protected.pdf')
+        );
+      } catch (e) {
+        setError('Failed to read the PDF file. It might be corrupted.');
+      }
     } else {
       setError('Please select a valid PDF file.');
     }

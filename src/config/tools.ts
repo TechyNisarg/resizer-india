@@ -1,4 +1,4 @@
-import { Car, CreditCard, Plane, BookOpen, Sliders, Landmark, Train, Stethoscope, GraduationCap, Medal, FileText, Minimize2 } from 'lucide-react';
+import { Car, CreditCard, Plane, BookOpen, Landmark, Train, Stethoscope, GraduationCap, Medal, FileText, Minimize2 } from 'lucide-react';
 
 export const CATEGORIES = [
   { id: 'rto', label: 'RTO / Parivahan', icon: Car, color: '#eab308', bg: 'rgba(234, 179, 8, 0.1)', desc: '• Photo: 3.5x4.5 cm\n• Sign: 256x64 px\n• Size: 10KB - 20KB\n• Portals: Vahan, Sarathi', path: '/rto-photo-resizer' },
@@ -12,11 +12,30 @@ export const CATEGORIES = [
   { id: 'acpc', label: 'ACPC Admission', icon: GraduationCap, color: '#ec4899', bg: 'rgba(236, 72, 153, 0.1)', desc: '• Photo: 10-50KB\n• Sign: 10-50KB\n• Format: JPG/JPEG\n• Uses: GUJCET, Engineering', path: '/acpc-photo-resizer' },
   { id: 'state-psc', label: 'State PSCs', icon: Landmark, color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.1)', desc: '• Photo: 3.5x4.5 cm (20-50KB)\n• Sign: 10-20KB\n• Portals: MPSC, WBCS, KPSC, etc.', path: '/state-psc-photo-resizer' },
   { id: 'defence', label: 'Defence / Army', icon: Medal, color: '#16a34a', bg: 'rgba(22, 163, 74, 0.1)', desc: '• Photo: 10-40KB\n• Sign: 5-10KB\n• Uses: Agniveer, NDA, CDS', path: '/defence-photo-resizer' },
-  { id: 'custom', label: 'Custom Tool', icon: Sliders, color: '#64748b', bg: 'rgba(100, 116, 139, 0.1)', desc: '• Custom Width & Height\n• Exact KB Compression\n• Ratio Preserving\n• Manual Cropping', path: '/custom-resizer' },
-  { id: 'compressor', label: 'Image Compressor', icon: Minimize2, color: '#0ea5e9', bg: 'rgba(14, 165, 233, 0.1)', desc: '• Just reduce file size (KB)\n• Keeps original dimensions\n• No cropping needed\n• Extremely simple', path: '/image-compressor' },
 ];
 
-import { Lock, Copy } from 'lucide-react';
+import { Lock, Copy, ImageIcon } from 'lucide-react';
+
+export const IMAGE_TOOLS = [
+  {
+    id: 'compressor',
+    label: 'Image Compressor',
+    icon: Minimize2,
+    color: '#0ea5e9',
+    bg: 'rgba(14, 165, 233, 0.1)',
+    desc: '• Just reduce file size (KB)\n• Keeps original dimensions\n• No cropping needed\n• Extremely simple',
+    path: '/image-compressor'
+  },
+  {
+    id: 'heic-to-jpg',
+    label: 'HEIC to JPG',
+    icon: ImageIcon,
+    color: '#10b981',
+    bg: 'rgba(16, 185, 129, 0.1)',
+    desc: '• Convert iPhone .heic to .jpg\n• Fully client-side\n• Fast and private',
+    path: '/heic-to-jpg'
+  }
+];
 
 export const PDF_TOOLS = [
   {
