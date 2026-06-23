@@ -75,7 +75,7 @@ function App() {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      if (e.altKey && e.key.toLowerCase() === 'm') {
         e.preventDefault();
         setIsSidebarOpen(prev => !prev);
       }
@@ -143,7 +143,7 @@ function App() {
                 className="mobile-menu-btn" 
                 onClick={() => setIsSidebarOpen(true)}
                 style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: '0.25rem', display: 'flex', alignItems: 'center' }}
-                title="Open Menu (Ctrl+K)"
+                title="Open Menu (Alt+M / Option+M)"
                 aria-label="Open Menu"
               >
                 <Menu size={24} />
