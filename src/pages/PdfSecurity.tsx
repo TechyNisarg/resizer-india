@@ -184,6 +184,11 @@ export const PdfSecurity: React.FC = () => {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && password && !isProcessing) {
+                        handleProcess();
+                      }
+                    }}
                     placeholder={mode === 'unlock' ? "Enter the PDF password" : "Enter a strong password"}
                     style={{
                       width: '100%',
@@ -245,11 +250,14 @@ export const PdfSecurity: React.FC = () => {
                       textDecoration: 'none',
                       boxShadow: hasDownloaded ? '0 8px 24px rgba(16, 185, 129, 0.35)' : '0 8px 24px rgba(37,99,235,0.35)',
                       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      marginTop: '1rem'
+                      marginTop: '1rem',
+                      maxWidth: '100%'
                     }}
                   >
-                    {hasDownloaded ? <Check size={20} /> : <DownloadCloud size={20} />}
-                    {hasDownloaded ? 'Downloaded!' : `Download ${outputName}`}
+                    {hasDownloaded ? <Check size={20} style={{ flexShrink: 0 }} /> : <DownloadCloud size={20} style={{ flexShrink: 0 }} />}
+                    <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {hasDownloaded ? 'Downloaded!' : `Download ${outputName}`}
+                    </span>
                   </a>
                 </div>
               )}
