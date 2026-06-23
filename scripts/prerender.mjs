@@ -118,8 +118,16 @@ const routes = {
     description: 'Compress defence exam signatures to very small KB limits while keeping them readable for portal uploads.',
   },
   '/pdf-compressor': {
-    title: 'PDF Compressor & Merger - Resizer India',
-    description: 'Combine images and PDFs into a single optimized PDF file under exact KB limits. Secure, fast, and works 100% in your browser.',
+    title: 'PDF Compressor - Resizer India',
+    description: 'Compress a single PDF file securely on your device. Works 100% in your browser.',
+  },
+  '/pdf-merger': {
+    title: 'PDF Merger - Combine Multiple PDFs - Resizer India',
+    description: 'Combine multiple images and PDFs into a single optimized PDF file. Reorder pages and merge securely.',
+  },
+  '/pdf-security': {
+    title: 'PDF Lock & Unlock - Remove PDF Passwords - Resizer India',
+    description: 'Remove passwords from Aadhaar or Bank PDFs, or password-protect your private documents locally on your device.',
   },
   '/custom-resizer': {
     title: 'Custom Image Resizer & Compressor - Resizer India',

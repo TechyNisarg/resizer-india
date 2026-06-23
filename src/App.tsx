@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Scissors, ShieldCheck, Menu, X, ArrowLeft, HelpCircle, Info, FileText, Shield, Mail, Moon, Sun } from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
-import { CATEGORIES, PDF_TOOL } from './config/tools';
+import { CATEGORIES, PDF_TOOLS } from './config/tools';
 
 const GlobalBackButton = () => {
   const location = useLocation();
@@ -20,6 +20,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Home } from './pages/Home';
 import { About, Privacy, Terms, Contact, FAQ } from './pages/StaticPages';
 import { PdfCompressor } from './pages/PdfCompressor';
+import { PdfMerger } from './pages/PdfMerger';
+import { PdfSecurity } from './pages/PdfSecurity';
 import { ImageCompressor } from './pages/ImageCompressor';
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -45,6 +47,8 @@ const AppRoutes = () => {
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
         <Route path="/faq" element={<PageWrapper><FAQ /></PageWrapper>} />
         <Route path="/pdf-compressor" element={<PageWrapper><PdfCompressor /></PageWrapper>} />
+        <Route path="/pdf-merger" element={<PageWrapper><PdfMerger /></PageWrapper>} />
+        <Route path="/pdf-security" element={<PageWrapper><PdfSecurity /></PageWrapper>} />
         <Route path="/image-compressor" element={<PageWrapper><ImageCompressor /></PageWrapper>} />
         <Route path="/*" element={<PageWrapper><Home /></PageWrapper>} />
       </Routes>
@@ -117,9 +121,12 @@ function App() {
               </button>
             )
           })}
-          <button onClick={() => handleNav(PDF_TOOL.path)} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
-            <PDF_TOOL.icon size={18} style={{ color: PDF_TOOL.color }} /> {PDF_TOOL.label}
-          </button>
+          <h3 style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '1.5rem 1.5rem 0.5rem' }}>PDF Tools</h3>
+          {PDF_TOOLS.map(tool => (
+            <button key={tool.id} onClick={() => handleNav(tool.path)} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: location.pathname === tool.path ? 'var(--surface-solid)' : 'none', border: 'none', width: '100%', textAlign: 'left', fontSize: '0.95rem', color: location.pathname === tool.path ? 'var(--primary)' : 'var(--text-primary)', cursor: 'pointer', transition: 'all 0.2s', fontWeight: location.pathname === tool.path ? 600 : 400 }}>
+              <tool.icon size={18} style={{ color: tool.color }} /> {tool.label}
+            </button>
+          ))}
         </div>
       </>
     );

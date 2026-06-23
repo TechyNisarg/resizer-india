@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@pdfsmaller/pdf-decrypt": "^1.0.1",
+    "@pdfsmaller/pdf-encrypt-lite": "^1.0.2",
     "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.40.0",
     "heic2any": "^0.0.4",

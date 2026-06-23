@@ -16,12 +16,34 @@ export const CATEGORIES = [
   { id: 'compressor', label: 'Image Compressor', icon: Minimize2, color: '#0ea5e9', bg: 'rgba(14, 165, 233, 0.1)', desc: '• Just reduce file size (KB)\n• Keeps original dimensions\n• No cropping needed\n• Extremely simple', path: '/image-compressor' },
 ];
 
-export const PDF_TOOL = {
-  id: 'pdf-compressor',
-  label: 'PDF Compressor & Merger',
-  icon: FileText,
-  color: '#ef4444',
-  bg: 'rgba(239, 68, 68, 0.1)',
-  desc: '• Combine images and PDFs into one optimized file.\n• Compress to strict KB limits.\n• Reorder and delete pages.\n• 100% secure client-side.',
-  path: '/pdf-compressor'
-};
+import { Lock, Copy } from 'lucide-react';
+
+export const PDF_TOOLS = [
+  {
+    id: 'pdf-compressor',
+    label: 'PDF Compressor',
+    icon: FileText,
+    color: '#ef4444',
+    bg: 'rgba(239, 68, 68, 0.1)',
+    desc: '• Compress PDF file size to strict KB limits.\n• 100% secure client-side processing.',
+    path: '/pdf-compressor'
+  },
+  {
+    id: 'pdf-merger',
+    label: 'PDF Merger',
+    icon: Copy,
+    color: '#8b5cf6',
+    bg: 'rgba(139, 92, 246, 0.1)',
+    desc: '• Combine multiple images and PDFs.\n• Reorder and delete pages.\n• Single optimized output.',
+    path: '/pdf-merger'
+  },
+  {
+    id: 'pdf-security',
+    label: 'PDF Lock & Unlock',
+    icon: Lock,
+    color: '#f59e0b',
+    bg: 'rgba(245, 158, 11, 0.1)',
+    desc: '• Remove passwords from Aadhaar or Bank PDFs.\n• Password-protect your private documents.',
+    path: '/pdf-security'
+  }
+];

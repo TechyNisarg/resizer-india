@@ -12,7 +12,7 @@ const getErrorMessage = (error: unknown) => (
   error instanceof Error ? error.message : 'Unknown error'
 );
 
-export const PdfCompressor: React.FC = () => {
+export const PdfMerger: React.FC = () => {
   const [pages, setPages] = useState<PageEntry[]>([]);
   const [targetMaxKB, setTargetMaxKB] = useState(300);
   const [progress, setProgress] = useState('');
@@ -44,6 +44,40 @@ export const PdfCompressor: React.FC = () => {
     return thumbCanvas.toDataURL('image/jpeg', 0.7);
   };
 
+  const processImageFile = (file: File): Promise<PageEntry> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0);
+          
+          const thumbUrl = generateThumb(canvas);
+          URL.revokeObjectURL(url);
+          resolve({
+            id: crypto.randomUUID(),
+            name: file.name,
+            thumbUrl,
+            sourceCanvas: canvas
+          });
+        } else {
+          URL.revokeObjectURL(url);
+          reject(new Error('Canvas 2D context not available'));
+        }
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error('Failed to load image'));
+      };
+      img.src = url;
+    });
+  };
 
   const processPdfFile = async (file: File, onProgress: (msg: string) => void): Promise<PageEntry[]> => {
     const arrayBuffer = await file.arrayBuffer();
@@ -101,12 +135,15 @@ export const PdfCompressor: React.FC = () => {
     try {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        if (i > 0) continue; // Only process first file
         if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
           const entries = await processPdfFile(file, setProgress);
           newPageEntries.push(...entries);
+        } else if (file.type.startsWith('image/')) {
+          setProgress(`Loading ${file.name}...`);
+          const entry = await processImageFile(file);
+          newPageEntries.push(entry);
         } else {
-          setError(`Unsupported file type: ${file.name}`);
+          setError(`Skipped unsupported file: ${file.name}`);
         }
       }
       
@@ -251,9 +288,9 @@ export const PdfCompressor: React.FC = () => {
       {pages.length === 0 && (
         <header className="hero-section" style={{ marginBottom: '2rem', textAlign: 'center' }}>
           <h1 style={{ color: 'var(--text-primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-            <FileText size={32} /> PDF Compressor
+            <FileText size={32} /> PDF Merger
           </h1>
-          <p style={{ color: 'var(--text-secondary)' }}>Compress a single PDF file securely on your device.</p>
+          <p style={{ color: 'var(--text-secondary)' }}>Combine multiple images and PDFs into a single optimized PDF file.</p>
         </header>
       )}
 
@@ -279,13 +316,14 @@ export const PdfCompressor: React.FC = () => {
             type="file"
             ref={fileInputRef}
             className="hidden"
-            accept="application/pdf"
+            multiple
+            accept="image/jpeg, image/png, image/webp, application/pdf"
             onChange={(e) => e.target.files && handleFiles(e.target.files)}
             style={{ display: 'none' }}
           />
           <Upload size={48} className="upload-icon" />
-          <h3>Tap to Upload or Drop PDF Here</h3>
-          <p>Supports single PDF files</p>
+          <h3>Tap to Upload or Drop Files Here</h3>
+          <p>Supports PDFs and images (JPG, PNG, WebP)</p>
         </div>
             </div>
           </div>
@@ -308,8 +346,24 @@ export const PdfCompressor: React.FC = () => {
                   disabled={isProcessing}
                   style={{ width: 'auto', padding: '0.5rem 1rem' }}
                 >
-                  <Trash2 size={16} /> Clear File
+                  <Trash2 size={16} /> Clear All
                 </button>
+                <button 
+                  className="btn-secondary"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isProcessing}
+                  style={{ width: 'auto', padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                >
+                  <Upload size={16} /> Add Files
+                </button>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  multiple
+                  accept="image/jpeg, image/png, image/webp, application/pdf"
+                  onChange={(e) => e.target.files && handleFiles(e.target.files)}
+                  style={{ display: 'none' }}
+                />
               </div>
             </div>
 
@@ -490,7 +544,7 @@ export const PdfCompressor: React.FC = () => {
               ) : (
                 <DownloadCloud size={20} />
               )}
-              <span>{isProcessing ? progress || 'Processing...' : 'Compress PDF'}</span>
+              <span>{isProcessing ? progress || 'Processing...' : 'Compress & Merge into PDF'}</span>
             </button>
 
             {downloadUrl && (
@@ -542,15 +596,16 @@ export const PdfCompressor: React.FC = () => {
             <div className="card">
               <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Requirements (From You)</h2>
               <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <li>Upload a single PDF</li>
+                <li>Upload single or multiple PDFs/Images</li>
                 <li>Set your desired maximum output file size</li>
+                <li>Drag & drop to seamlessly reorder pages</li>
               </ul>
             </div>
             <div className="card">
               <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Output Specifications (By Tool)</h2>
               <ul style={{ listStylePosition: 'inside', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <li>100% Client side processing (Secure)</li>
-                <li>Single optimized PDF document</li>
+                <li>Single merged & optimized PDF document</li>
                 <li>High-quality smart compression algorithm</li>
               </ul>
             </div>
@@ -561,4 +616,4 @@ export const PdfCompressor: React.FC = () => {
   );
 };
 
-export default PdfCompressor;
+export default PdfMerger;
