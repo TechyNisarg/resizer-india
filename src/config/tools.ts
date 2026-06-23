@@ -1,4 +1,4 @@
-import { Car, CreditCard, Plane, BookOpen, Landmark, Train, Stethoscope, GraduationCap, Medal, FileText, Minimize2 } from 'lucide-react';
+import { Car, CreditCard, Plane, BookOpen, Landmark, Train, Stethoscope, GraduationCap, Medal, FileText, Minimize2, Sliders } from 'lucide-react';
 
 export const CATEGORIES = [
   { id: 'rto', label: 'RTO / Parivahan', icon: Car, color: '#eab308', bg: 'rgba(234, 179, 8, 0.1)', desc: '• Photo: 3.5x4.5 cm\n• Sign: 256x64 px\n• Size: 10KB - 20KB\n• Portals: Vahan, Sarathi', path: '/rto-photo-resizer' },
@@ -17,6 +17,15 @@ export const CATEGORIES = [
 import { Lock, Copy, ImageIcon } from 'lucide-react';
 
 export const IMAGE_TOOLS = [
+  {
+    id: 'custom',
+    label: 'Custom Tool',
+    icon: Sliders,
+    color: '#64748b',
+    bg: 'rgba(100, 116, 139, 0.1)',
+    desc: '• Custom Width & Height\n• Exact KB Compression\n• Ratio Preserving\n• Manual Cropping',
+    path: '/custom-resizer'
+  },
   {
     id: 'compressor',
     label: 'Image Compressor',
