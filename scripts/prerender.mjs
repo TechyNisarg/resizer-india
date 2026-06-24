@@ -133,6 +133,14 @@ const routes = {
     title: 'Custom Image Resizer & Compressor - Resizer India',
     description: 'Need a specific pixel width, height, or KB size? Use the custom tool to manually set your own form requirements.',
   },
+  '/image-to-pdf': {
+    title: 'Image to PDF Converter - Resizer India',
+    description: 'Convert multiple JPG or PNG images into a single PDF document perfectly sized for government portal uploads.',
+  },
+  '/remove-background': {
+    title: 'Remove Background from Passport Photos - Resizer India',
+    description: 'Use client-side AI to automatically remove messy backgrounds from your selfies and replace them with a professional white or blue background.',
+  },
   '/heic-to-jpg': {
     title: 'HEIC to JPG Converter - Convert iPhone Photos - Resizer India',
     description: 'Convert your iPhone HEIC photos to JPG format securely in your browser without uploading any files to a server.',

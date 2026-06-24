@@ -1,4 +1,4 @@
-import { Car, CreditCard, Plane, BookOpen, Landmark, Train, Stethoscope, GraduationCap, Medal, FileText, Minimize2, Sliders } from 'lucide-react';
+import { Car, CreditCard, Plane, BookOpen, Landmark, Train, Stethoscope, GraduationCap, Medal, FileText, Minimize2, Sliders, Eraser, Images } from 'lucide-react';
 
 export const CATEGORIES = [
   { id: 'rto', label: 'RTO / Parivahan', icon: Car, color: '#eab308', bg: 'rgba(234, 179, 8, 0.1)', desc: '• Photo: 3.5x4.5 cm\n• Sign: 256x64 px\n• Size: 10KB - 20KB\n• Portals: Vahan, Sarathi', path: '/rto-photo-resizer' },
@@ -43,18 +43,36 @@ export const IMAGE_TOOLS = [
     bg: 'rgba(16, 185, 129, 0.1)',
     desc: '• Convert iPhone .heic to .jpg\n• Fully client-side\n• Fast and private',
     path: '/heic-to-jpg'
+  },
+  {
+    id: 'remove-background',
+    label: 'Background Removal',
+    icon: Eraser,
+    color: '#8b5cf6',
+    bg: 'rgba(139, 92, 246, 0.1)',
+    desc: '• Auto-remove backgrounds\n• Change to White/Blue\n• 100% Offline AI Model\n• Best for Passports',
+    path: '/remove-background'
   }
 ];
 
 export const PDF_TOOLS = [
   {
     id: 'pdf-compressor',
-    label: 'PDF Compressor',
+    label: 'Compress PDF',
     icon: FileText,
-    color: '#ef4444',
-    bg: 'rgba(239, 68, 68, 0.1)',
-    desc: '• Compress PDF file size to strict KB limits.\n• 100% secure client-side processing.',
+    color: '#f43f5e',
+    bg: 'rgba(244, 63, 94, 0.1)',
+    desc: '• Reduce PDF file size\n• Maintain readability\n• Fast & secure',
     path: '/pdf-compressor'
+  },
+  {
+    id: 'image-to-pdf',
+    label: 'Image to PDF',
+    icon: Images,
+    color: '#f97316',
+    bg: 'rgba(249, 115, 22, 0.1)',
+    desc: '• Convert JPG/PNG to PDF\n• Merge multiple images\n• A4 layout support',
+    path: '/image-to-pdf'
   },
   {
     id: 'pdf-merger',

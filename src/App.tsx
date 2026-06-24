@@ -24,6 +24,8 @@ import { PdfMerger } from './pages/PdfMerger';
 import { PdfSecurity } from './pages/PdfSecurity';
 import { ImageCompressor } from './pages/ImageCompressor';
 import { HeicToJpg } from './pages/HeicToJpg';
+import { ImageToPdf } from './pages/ImageToPdf';
+import { BackgroundRemoval } from './pages/BackgroundRemoval';
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => (
   <motion.div
@@ -50,8 +52,10 @@ const AppRoutes = () => {
         <Route path="/pdf-compressor" element={<PageWrapper><PdfCompressor /></PageWrapper>} />
         <Route path="/pdf-merger" element={<PageWrapper><PdfMerger /></PageWrapper>} />
         <Route path="/pdf-security" element={<PageWrapper><PdfSecurity /></PageWrapper>} />
+        <Route path="/image-to-pdf" element={<PageWrapper><ImageToPdf /></PageWrapper>} />
         <Route path="/image-compressor" element={<PageWrapper><ImageCompressor /></PageWrapper>} />
         <Route path="/heic-to-jpg" element={<PageWrapper><HeicToJpg /></PageWrapper>} />
+        <Route path="/remove-background" element={<PageWrapper><BackgroundRemoval /></PageWrapper>} />
         <Route path="/*" element={<PageWrapper><Home /></PageWrapper>} />
       </Routes>
     </AnimatePresence>
