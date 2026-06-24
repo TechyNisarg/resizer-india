@@ -97,13 +97,13 @@ export function ImageToPdf() {
   };
 
   return (
-    <div className="container">
-      <div className="header-section text-center">
+    <div className="container" style={{ padding: '2rem 1rem' }}>
+      <div className="hero-section" style={{ marginBottom: '2rem' }}>
         <h1>Image to PDF Converter</h1>
-        <p className="subtitle">Combine multiple images into a single PDF document. 100% offline & secure.</p>
+        <p className="subtitle" style={{ maxWidth: '600px', margin: '0 auto' }}>Combine multiple images into a single PDF document. 100% offline & secure.</p>
       </div>
 
-      <div className="content-container" style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <div className="content-container" style={{ maxWidth: '600px', margin: '0 auto' }}>
         <div 
           className={`dropzone ${isDragging ? 'dragging' : ''}`}
           onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}

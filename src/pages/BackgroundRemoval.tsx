@@ -75,7 +75,7 @@ export function BackgroundRemoval() {
 
     try {
       const config: Config = {
-        publicPath: '/models/bg-removal/',
+        publicPath: window.location.origin + '/models/bg-removal/',
         progress: (key, current, total) => {
           const actionText = key.includes('wasm') ? 'Downloading Engine' : 'Downloading AI Model';
           setProgress({
@@ -89,9 +89,9 @@ export function BackgroundRemoval() {
       const blob = await imglyRemoveBackground(sourceImage, config);
       setProcessedBlob(blob);
       setBgColor('transparent');
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('Failed to remove background. Please try again.');
+      alert('Failed to remove background: ' + (err.message || JSON.stringify(err)));
     } finally {
       setIsProcessing(false);
       setProgress({ action: '', percent: 0 });
@@ -99,13 +99,13 @@ export function BackgroundRemoval() {
   };
 
   return (
-    <div className="container">
-      <div className="header-section text-center">
+    <div className="container" style={{ padding: '2rem 1rem' }}>
+      <div className="hero-section" style={{ marginBottom: '2rem' }}>
         <h1>AI Background Removal</h1>
-        <p className="subtitle">Perfect for Passport & Exam Photos. Runs 100% locally in your browser.</p>
+        <p className="subtitle" style={{ maxWidth: '600px', margin: '0 auto' }}>Perfect for Passport & Exam Photos. Runs 100% locally in your browser.</p>
       </div>
 
-      <div className="content-container" style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <div className="content-container" style={{ maxWidth: '600px', margin: '0 auto' }}>
         
         {!sourceImage ? (
           <div 
