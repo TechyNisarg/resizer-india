@@ -74,8 +74,12 @@ export function BackgroundRemoval() {
     setProgress({ action: 'Initializing Model', percent: 0 });
 
     try {
+      // Allow React to paint the loading UI before intensive WASM initialization
+      await new Promise(resolve => setTimeout(resolve, 100));
+
       const config: Config = {
         publicPath: window.location.origin + '/models/bg-removal/',
+        proxyToWorker: true,
         progress: (key, current, total) => {
           const actionText = key.includes('wasm') ? 'Downloading Engine' : 'Downloading AI Model';
           setProgress({
